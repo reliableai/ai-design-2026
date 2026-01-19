@@ -1,6 +1,6 @@
-# Components, Services, Tools and AI
+# From Service to Agent-Oriented Architectures
 
-*Abstractions and Middleware for Agentic AI*
+*Components, Services, Tools and AI*
 
 
 ## Learning Objectives
