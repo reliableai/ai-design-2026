@@ -612,7 +612,8 @@
         <p><strong>What we have now</strong>:</p>
         <ul>
             <li>Unit tests and integration tests (for deterministic code)</li>
-            <li>Logging and tracing (OpenTelemetry)</li>
+            <li>General-purpose logging and tracing frameworks (OpenTelemetry)</li>
+            <li>MCP's built-in logging primitive — structured log messages with severity levels, progress notifications, and resource change events (see <a href="mcp-logging-observability.html">MCP Logging and Observability</a> for details)</li>
             <li>Vibes-based evaluation ("seems to work")</li>
         </ul>
 
@@ -622,6 +623,8 @@
             <li>Definition of "correct" when many paths lead to valid outcomes</li>
             <li>Causal traces connecting goals → reasoning → actions → outcomes</li>
             <li>Ability to tag executions as "good" or "bad" and learn from them</li>
+            <li><strong>Distributed tracing across the agent stack</strong>: MCP's logging is local to each server; there is no built-in support for OpenTelemetry trace context propagation, metrics, or span correlation across MCP calls, LLM invocations, and external services. An <a href="https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269">active proposal</a> exists to add this.</li>
+            <li><strong>Declarative trace properties</strong>: The ability to state — even in natural language — what makes an execution "good" or "bad," so that traces can be evaluated against these criteria automatically. For example: <em>"A good execution never calls <code>delete_file</code> without prior <code>confirm_action</code>"</em> or <em>"I expect between 20% and 40% of executions to invoke <code>confirm_action</code>."</em> This would enable property-based evaluation of agent behavior, where properties can be expressed declaratively rather than encoded in test code.</li>
         </ul>
 
         <p><strong>What we need</strong>:</p>
@@ -635,9 +638,11 @@
                 <tr><td>Best Practice</td><td>Structured logging that captures decision points</td></tr>
                 <tr><td>Best Practice</td><td>Evaluation rubrics: what makes an execution "good"?</td></tr>
                 <tr><td>Specification</td><td>Trace format that includes reasoning, not just tool calls</td></tr>
+                <tr><td>Specification</td><td>Declarative language for trace properties (constraints, statistical expectations)</td></tr>
                 <tr><td>Research</td><td>Property-based testing for agents</td></tr>
                 <tr><td>Research</td><td>Trajectory evaluation — comparing paths, not just endpoints</td></tr>
                 <tr><td>Research</td><td>Feedback loops from observed failures</td></tr>
+                <tr><td>Research</td><td>Can LLMs evaluate traces against natural-language property specifications?</td></tr>
             </tbody>
         </table>
 
@@ -740,7 +745,7 @@
                 <tr><td><strong>Basic Description & Interaction</strong></td><td>Covers</td><td>Tools, resources, prompts, transport. But agents could work without it using HTML+HTTP.</td></tr>
                 <tr><td><strong>Aggregate Service Description</strong></td><td>Not covered</td><td>No standard for describing tool sets holistically</td></tr>
                 <tr><td><strong>Autonomy</strong></td><td>Not covered</td><td>No mechanism for autonomy policies</td></tr>
-                <tr><td><strong>Testing & Observability</strong></td><td>Not covered</td><td>No trace format or evaluation standards</td></tr>
+                <tr><td><strong>Testing & Observability</strong></td><td>Partial</td><td>Basic logging primitive exists; no distributed tracing (OpenTelemetry), no trace evaluation standards</td></tr>
                 <tr><td><strong>Tool-Calling Loop</strong></td><td>Not covered</td><td>Orchestration is left to implementations</td></tr>
                 <tr><td><strong>Security & Safety</strong></td><td>Not covered</td><td>No trust model or isolation mechanisms</td></tr>
             </tbody>
@@ -778,9 +783,9 @@
                 </tr>
                 <tr>
                     <td><strong>Testing & Observability</strong></td>
-                    <td>Trace format</td>
+                    <td>Trace format, declarative property language</td>
                     <td>Outcome testing, logging, rubrics</td>
-                    <td>Property testing, trajectory evaluation</td>
+                    <td>Property testing, trajectory evaluation, LLM-based trace evaluation</td>
                 </tr>
                 <tr>
                     <td><strong>Tool-Calling Loop</strong></td>

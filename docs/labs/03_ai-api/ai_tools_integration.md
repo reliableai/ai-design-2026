@@ -547,7 +547,8 @@ We identify six key dimensions of AI tool integration. For each, we assess what 
 
 **What we have now**:
 - Unit tests and integration tests (for deterministic code)
-- Logging and tracing (OpenTelemetry)
+- General-purpose logging and tracing frameworks (OpenTelemetry)
+- MCP's built-in logging primitive — structured log messages with severity levels, progress notifications, and resource change events (see [MCP Logging and Observability](mcp-logging-observability.md) for details)
 - Vibes-based evaluation ("seems to work")
 
 **What's missing**:
@@ -555,6 +556,8 @@ We identify six key dimensions of AI tool integration. For each, we assess what 
 - Definition of "correct" when many paths lead to valid outcomes
 - Causal traces connecting goals → reasoning → actions → outcomes
 - Ability to tag executions as "good" or "bad" and learn from them
+- **Distributed tracing across the agent stack**: MCP's logging is local to each server; there is no built-in support for OpenTelemetry trace context propagation, metrics, or span correlation across MCP calls, LLM invocations, and external services. An [active proposal](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269) exists to add this.
+- **Declarative trace properties**: The ability to state — even in natural language — what makes an execution "good" or "bad," so that traces can be evaluated against these criteria automatically. For example: *"A good execution never calls `delete_file` without prior `confirm_action`"* or *"I expect between 20% and 40% of executions to invoke `confirm_action`."* This would enable property-based evaluation of agent behavior, where properties can be expressed declaratively rather than encoded in test code.
 
 **What we need**:
 
@@ -564,9 +567,11 @@ We identify six key dimensions of AI tool integration. For each, we assess what 
 | Best Practice | Structured logging that captures decision points |
 | Best Practice | Evaluation rubrics: what makes an execution "good"? |
 | Specification | Trace format that includes reasoning, not just tool calls |
+| Specification | Declarative language for trace properties (constraints, statistical expectations) |
 | Research | Property-based testing for agents |
 | Research | Trajectory evaluation — comparing paths, not just endpoints |
 | Research | Feedback loops from observed failures |
+| Research | Can LLMs evaluate traces against natural-language property specifications? |
 
 **The core question**: Same input → same output works for traditional software. Same goal → many valid paths for agents. What does "correct" mean?
 
@@ -640,7 +645,7 @@ We identify six key dimensions of AI tool integration. For each, we assess what 
 | **Basic Description & Interaction** | Covers | Tools, resources, prompts, transport. But agents could work without it using HTML+HTTP. |
 | **Aggregate Service Description** | Not covered | No standard for describing tool sets holistically |
 | **Autonomy** | Not covered | No mechanism for autonomy policies |
-| **Testing & Observability** | Not covered | No trace format or evaluation standards |
+| **Testing & Observability** | Partial | Basic logging primitive exists; no distributed tracing (OpenTelemetry), no trace evaluation standards |
 | **Tool-Calling Loop** | Not covered | Orchestration is left to implementations |
 | **Security & Safety** | Not covered | No trust model or isolation mechanisms |
 
@@ -655,7 +660,7 @@ MCP addresses the **syntax** of tool integration. The **semantics** — how tool
 | **Basic Description & Interaction** | MCP (optional) | Exposure decisions, granularity, naming, versioning, error messages | — |
 | **Aggregate Service Description** | Tool set manifest | System-level docs, workflow patterns, examples | Learning from observation |
 | **Autonomy** | — | Allow-lists, graduated autonomy, provider hints | Policy languages, context-dependence |
-| **Testing & Observability** | Trace format | Outcome testing, logging, rubrics | Property testing, trajectory evaluation |
+| **Testing & Observability** | Trace format, declarative property language | Outcome testing, logging, rubrics | Property testing, trajectory evaluation, LLM-based trace evaluation |
 | **Tool-Calling Loop** | Safety metadata | Budgets, stopping, retries, compensation | Architecture, error accumulation |
 | **Security & Safety** | — | Least privilege, data minimization, distrust outputs | Trust models, isolation, injection defense |
 
