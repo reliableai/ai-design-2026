@@ -31,16 +31,17 @@ The layer of "standardization" was mostly defined by the programming language: a
 With the internet it becomes possible to offer functionality over the net (internally, as an intranet - but also externally).
 People started building more and more complex "stuff" - and by stuff here I mean also databases and all sorts of resources - and providing access to them on the fly, without the need of packaging and releasing software.
 
+Initially the ability to access resources created massive confusion. Teams built point-to-point integrations, shared databases directly, and created tight coupling that made systems brittle and change expensive.
+
+
 ![Integration wild west - many protocols, no standards](figs/integration_wild_west.png)
 *Fig: Before standardization: every integration required custom protocols and middleware.*
 
-![Web services enabling B2B integration across organizational boundaries](figs/5.5.1_web_services.png)
-*Fig: Web services standardize protocols, eliminating the need for many different middleware infrastructures. Internal functionality becomes available as a service.*
+In other words, everybody was offering and using "services", also - and mainly - internally, often without knowing they were doing so. Something was accessible and therefore it became accessed.
+When you have code by team A accessing code or data from team B, you do need coordination, just like you need it when you are consuming a class built by another team.
+This is even more so id you are exposing data as well as structural or implementation detail that you as a dev team need to be able to modify without breaking other services.
 
-Initially the ability to access resources created massive confusion. Teams built point-to-point integrations, shared databases directly, and created tight coupling that made systems brittle and change expensive.
 
-![B2B integration with message brokers and adapters](figs/5.5.2_manual.png)
-*Fig: While B2B integration via message brokers is conceptually possible, it rarely happens in practice due to lack of trust, autonomy, and confidentiality.*
 
 ### The Bezos API Mandate (circa 2002)
 
@@ -59,32 +60,72 @@ The key insight was not technical — it was organizational: **treat every consu
 
 At this time we also have the birth and rise of SaaS applications and vendors — which appeared like magic to many customers. Simple things, such as the ability to rename a column on an ITSM application, felt incredible to customers used to packaged software upgrade cycles.
 
+### Service-oriented Architectures
+
 While components were managed by the same org, now services are priovided both internally and externally.
 This proliferation of service gave rise to the notion of Service-Oriented Architectures. The core idea here was to deliver functions via some sort of "stable" interface (people used horrible terms such as "well-defined").
 The opportunity was for service providers to offer access to their services over the web and for consumer to use such services.
+
+Some of the concepts around SOA are described in the book below - now old, but with many concepts still applicable because it was built to survive trends (but not AI and LLMs...)
+
+![A true masterpiece on Web services](figs/best_sellers.png)
+*Fig: No words can describe such an awesome work of art and science.*
+
+Back then, it was still legal to use Comics Sans as a font, and so many pictures used it. 
+
+
+![Web services enabling B2B integration across organizational boundaries](figs/5.5.1_web_services.png)
+*Fig: Web services standardize protocols, eliminating the need for many different middleware infrastructures. Internal functionality becomes available as a service.*
+
+
+![B2B integration with message brokers and adapters](figs/5.5.2_manual.png)
+*Fig: While B2B integration via message brokers is conceptually possible, it rarely happens in practice due to lack of trust, autonomy, and confidentiality.*
+
+
+The *kind* of questions we needed to ask - and answer - back then are similar to the ones we need to ask now:
+
+- what do we need for services to be able to interact?
+- how can we do so reliably and in a manner that is robust to change, errors, and to the vagaries of the average, distracted developer?
+- what opportunites should we capture? how to maximize the potential?
+- **which kind of specifications, agreement ("standard"), abstractions, middleware and "best" practices do we need?**
+
+
 Correspondingly, this opportunity gave rise to the question: how do we facilitate exposing services? how do we facilitate consuming services?
 
+#### Description, Discovery, Interaction
+At first, developers started tackling service description, discovery and interaction.
 As we move across the net, and away from the notion of one compiler bundling code together, the question becomes
 1. how do we describe services so that other people can use them,
 2. how does the communication take place
 3. how do we even become aware of the existance of services
 
 ![Service description and discovery stack](figs/5.5.8.png)
-*Fig: The layers needed for service interoperability: common base language, interfaces, business protocols, properties and semantics — plus directories for discovery.*
+*Fig (ca year 2004): The layers needed for service interoperability: common base language, interfaces, business protocols, properties and semantics — plus directories for discovery.*
 
-the problems applies both to machines and humans. First, it was "solved" for humans.
+The problems applies both to machines and humans. First, it was "solved" for humans.
+**And this is interesting, as humans are more or less intelligent agents! So there may be lessons we can take.**
+
 Humans can access services via html sent over http. They become aware of the service via ads or web search. And they consume it based on their own intelligence, or lack thereof.
 The HTML page desrcibes to a human how to use the service.
 A new version simply meant a new web pages, which is served via reload of the page.
 Because the consumer is a human, changes are ok as long as they are not too confusing for humans. A/B testing was also used to understand which human interface was more condusive of higher usage, hence the orange-colored buttons we now see.
 
-The question is - what if we want to offer a service to be consumed by a program, or, what if we want to consume such a service.
+
+
+
+![The World Wide Web as some early version of tool calling](figs/www.png)
+*The World Wide Web as some early version of tool calling*
+
+Back then the direction towards automation did not include AI. Most interactions were human to service and service to database, with the occasional information aggregator.
+Infornation aggregation happened via either humans (you are the aggregator) or APIs/SOA.
+
+For SOAs, the question is - what if we want to offer a service to be consumed by a program, or, what if we want to consume such a service.
 With programmatic access we have both opportunities and problems. A problem is that our client sofwtware may not be able to understand the HTML and how to use the service. An opportunity is that in theory we could, as a client, scan for services automatically (eg airline reservation services), identify at run time the one that best fits our need, and call it. At scale.
 To solve the problems and capture the opportunities companies came up with "standards", or, specifications that they hoped would become standards.
 Prime examples of such specifications were SOAP, WSDL, and UDDI and it is very informative to think and study what they were trying to specify, why, and why they failed.
 
 
-### SOAP, WSDL, and UDDI: The First Attempt at Machine-to-Machine Services
+### SOAP, WSDL, and UDDI: The First Odd Attempt at Machine-to-Machine Services
 
 ![The SOAP/WSDL/UDDI triangle](figs/uddi.webp)
 *Fig: The classic web services triangle — Service Registry (UDDI) for discovery, WSDL for description, SOAP for communication.*
@@ -96,11 +137,10 @@ Prime examples of such specifications were SOAP, WSDL, and UDDI and it is very i
 **[UDDI](https://www.oasis-open.org/committees/uddi-spec/doc/spec/v3/uddi-v3.0.2-20041019.htm)** (Universal Description, Discovery, and Integration) addressed the discovery problem: how do you find services in the first place? UDDI was meant to be a global registry - a kind of yellow pages for web services. Companies would publish their services to UDDI, and clients would query UDDI to find services that matched their needs. ([see example](https://www.tutorialspoint.com/uddi/uddi_usage_example.htm))
 
 ![External architecture of Web services](figs/5.13.external_arch.png)
-*Fig: The external architecture of web services — providers publish descriptions to a registry, requesters find and then interact with providers.*
+*Fig (2004): The external architecture of web services — providers publish descriptions to a registry, requesters find and then interact with providers.*
 
 The vision was compelling: a world where software could automatically discover services, understand how to call them, and integrate on the fly. Dynamic, loosely coupled, language-agnostic integration.
 
-For a comprehensive treatment of these technologies and the era they defined, see the timeless masterpiece that defines the standards even Dante aspires to: [Web Services: Concepts, Architectures and Applications](https://link.springer.com/book/10.1007/978-3-662-10876-5) (Alonso, Casati et al - Springer, 2004).
 
 
 These specifications did not fail technically - they failed practically.
@@ -133,386 +173,127 @@ So what we have instead of WSDL is web pages that describe APIs. Yes, there are 
 
 
 
-## 3. How Gen AI changes things
+## 3. How Gen AI changes things: From Human to AI agents, from web services to "tools"
 
 The above remained true also during the first wave of AI, where services exposed ML models such as classification or regression. Things start to change when we bring to the mix AI that is capable of understanding text — and more.
 
-**What's different with intelligent clients?**
+Consider that we have now three kinds of entities that want to use services on "the Web":
 
-- AI can read imperfect, informal descriptions and figure out intent
-- AI can handle variations in API formats without brittle parsing
-- AI can reason about *when* to use a tool, not just *how*
-- We can move from procedural (script every step) to declarative (describe goals, let AI figure out the steps)
+1. **Humans, we had those for a while
+2. **Web services, since early 2000s and to this date
+3. **AI agents capable of understanding and reasoning (no debating on "can AI agents think" - please)
 
-This is a significant shift. The SOAP/WSDL/UDDI dream of automatic integration might actually be achievable — not because we finally wrote the perfect spec, but because the client got smarter.
+
+The questions we ask are the same as for SOA:
+
+- which opportunities arise and how we can leverage them?
+- which abstractions and middleware do we need?
+- what do we need to agree on as a minumum to enable interoperation?
+- how do we create systems that are robust, reliable, and somewhat foolproof? 
+
+And - as a developer and as a user - how do we make use of this.
+
+
+
+**What's different with AI agents?**
+
+AI agents kind of combine the benefits of humans and services.
+
+Like humans, they can read APi descriptions and learn how to interact with them.
+This means that, in theory, they can figure out the intent of an API, gracefully handle variations in versions as the API evolve, reason when and if to use a tool, not just how.
+Like services, they can do so at scale.
+
+The AI agent is not us, however. so the above only works if the AI is 
+- powerful enough to understand the services
+- understands my goal and constraints
+- has a very clear notion of what it does not know, and how much autonomy it has.
+
+A good way to think about an AI agent is as a teammate that works with us.
+
+
+
+With respect to Web Services, this is a significant shift. The SOAP/WSDL/UDDI dream of automatic integration might actually be achievable — not because we finally wrote the perfect spec, but because the client got smarter.
+With respect to humans, however, there is somewhat less of a shift. in a way the new AI agents world, in a first approximation, is not different from the web and in fact if an agent can operate our computer and browser, it can function in the same way as we do.
 
 But this also introduces new challenges:
 
-- **Ambiguity**: when interfaces are "forgiving," there's room for misinterpretation
-- **Autonomy**: who decides what the AI can do?
-- **Non-determinism**: the same input might produce different outputs
-- **New attack surfaces**: prompt injection, data exfiltration via tools
+- **Ambiguity**: when interfaces are "forgiving," there's room for misinterpretation.
+- **Autonomy**: who decides what the AI can do? In our world, we do, in many cases. 
+- **Non-determinism**: the same input might produce different outputs. This is not new to humans. We are very non deterministic.... 
+- **New attack surfaces**: prompt injection, data exfiltration via tools, etc. This is not new per se: we did have attacks in the past as well, in the form of, for example, phishing. 
 
-We still have the same *kind* of questions from the services era — how do we describe, discover, invoke, manage access — but now we have new potential usages, so it all becomes richer, more flexible, and also trickier.
+### The Service Provider perspective
+In the above discussion we need to keep in mind our goals: we can be a provider of a service or a consumer.
+If we provide a service we want our "web page" to be easy to understand, and secure.
+We want that even if clients are AI agents. There may be less emphasis on "lets make the button orange so they click more", and maybe the wording can be reduced and same for boilerplate or CSS.
+Just like we used to test if humans could interact with a page, we may have the same need here.
 
+If we are instead AI agents, what we want is the ability to reliably understand what services do and how to invoke them. In addition, since agents operate somewhat on behalf of a person or as a teammate of a person, we also need to understand the **intention of the person, and how much **autonomy we are given.
 
-## 4. What do we need to standardize?
 
-Before looking at what exists, let's ask: **if we were designing the infrastructure for AI+tools from scratch, what abstractions would we need?**
+Lets consider the provider perspective: what's our goal?
+We want to maximize the "proper" use of our services and make sure our services are used efficiently, not just effectively.
+Which problems do we need to solve? Which opporunities can we capture?
 
-This is the design space. Some of these problems are well-addressed today; others are wide open.
+- Transport: Fist, we need transport. We need a basic form for clients to communicate. And we have that: HTTP, and, streamable http
+- Then we need a way to describe our services. and we have that. in fact, we have many. we can use MCP specs, or we can use HTML. Notice that here the advantage is not so much provided by MCP and its specs since, if the client is intelligent, it can cope with html too. the benefit comes more from implementations such as FastMCP that make it easy for lazy axx programmers to document functions and parameters. This is indeed important: we need to be very clear on what parameter mean and be fool proof in their usage (eg make abundant use of assertions and constraints).
+- Discovery is not really handled, or it is, but within a "server", so we can see the services it exposes. This is not much different from the above concept of description, only at a broader level. 
+- As in the Web, we need to be intentional in what we expose, and where we require authentication. This is not a matter of standard but of good architectural design. There is a small difference in that, especially in auth, we are not mediated by the browser.
+- Interactions can be bidirectional, but this was true before too (we had SSE and in general many ways for servers to update clients/browsers).
 
+Notice that here **we kind of miss some notion of glue among the services**, that is, we need to be able not just to describe the invidual services but the set of services as a whole and give a sense for when to use what. This is very different from describing the services one by one. This part is missing in current "standards". 
 
-### 4.1 Describing tools
 
-The AI needs to know what tools exist and how to use them. This requires:
 
-**What the tool does** — a clear description of functionality, when to use it, when *not* to use it.
+![Agents](figs/agents_www.png)
+*Agents are kind of analogous to the World Wide Web and tool calling*
 
-**Input schema** — what parameters does it take? What types? What constraints? What are valid values?
 
-**Output schema** — what does it return? How should the AI interpret the result?
+The above is not very different than what we have with humans. There are however a few important differences:
 
-**Error conditions** — what can go wrong? How should the AI respond?
+- "Testing" is very different: with humans we do UX tests, maybe A/B testing but humans are more nuanced, maybe more gullible than AI clients? either way, we need to find a way to "test" that the average AI client written by the average, distracted, lazy developer can work well with our services. As a provider you need to conceive a way to test your services as AI agent.
+- "Autonomy" is a different and new concept. In the Web it was clear that the human was always in the loop. In SOA there was no human but no autononmy as well - all workflows were scripted. Here, as a service provider, first we ask ourself if "is this our problem"? We could just offer the services and let the client's agent figure out how autononous it should be. In practice we can do that but, as service provider, we are likely to have collected wisdom over time on when human supervision is appropriate. In this case we can add to descriptions of services to encourage clients to ask for human supervision
+- Server-side telemetry: as service providers we do not see the client's reasoning process for why they invoke what. However, we can log sessions and identify paths (sequences of operations) that tend to be common, and we may want to provide operations that implement such workflow. This is the same as to what we see with humans: if we see humans having to click 10 times the same sequence, we can offer the analogous of buttons such as "buy with one click".
+- Last but not least, we - as provider - may decide to provide an additional "API" or service which is on top of what we offer and that provides a natural language interaction.
+This has the benefit of 1. facilitating usage, if we believe that a NL interface may be for example more effective for flight search than an API, and 2. can help restrict usage and put in place all the checks so that autonomy is respected and ambiguity is resolved by asking humans to clarify.
 
-This is analogous to the WSDL problem, but with a twist: the consumer is an AI that can tolerate imperfect descriptions. We don't need perfect machine-readable specs — we need *good enough* descriptions that an LLM can understand.
+Providing a NL interface is also an useful way to "test" our descriptions and resolve ambiguity.
 
-**What exists:** JSON Schema for input/output. Docstrings and natural language descriptions. Tools like [FastMCP](https://github.com/jlowin/fastmcp) that auto-generate schemas from Python function signatures.
 
-**What's missing:** Standards for "when to use" vs "when not to use." Semantic versioning for tool behavior. Ways to express preconditions and side effects.
 
-**Example — minimal vs better descriptions:**
+An important point that providers tend to forget is that AI agents have the ability to read and understand A LOT of info on our services - so we should make sure to describe it to them, pointing them to a "page" where we provide a coherent picture of what we offer.
+We don't just describe the services separately but how they are supposed to work and fit together. 
+Since AI agents are smart, can digest even complex info and examples.
 
-Minimal (works, but LLM may guess wrong):
-```python
-@mcp.tool()
-def search_tickets(status: str, date: str) -> list[dict]:
-    """Search support tickets."""
-    ...
-```
 
-Better (explicit about formats, constraints, and intent):
-```python
-@mcp.tool()
-def search_tickets(
-    status: Literal["open", "closed", "pending"],
-    created_after: str,
-    assignee: str | None = None,
-    limit: int = 50
-) -> list[dict]:
-    """Search support tickets in the helpdesk system.
 
-    Use this tool when the user asks about support tickets, customer issues,
-    or wants to find cases matching certain criteria. Do NOT use this for
-    searching knowledge base articles (use search_kb instead).
+### The Consumer perspective
 
-    Args:
-        status: Filter by ticket status. Use "open" for active issues,
-                "closed" for resolved ones, "pending" for awaiting response.
-        created_after: ISO 8601 date (e.g., "2024-01-15"). Only returns
-                       tickets created on or after this date.
-        assignee: Email of the assigned agent. If None, returns tickets
-                  assigned to anyone. Use "unassigned" for tickets with
-                  no assignee.
-        limit: Maximum number of tickets to return (1-200). Default 50.
+Here we think what abstractions and middleware we need to make it easy for AI agents to use services. Our role now is as implementor of a client agent.
+We have already addressed transport, description and authentication - not much difference there. 
+The key is that now we can have an entity that gets a declarative goal from humans (or other agents, for that matter - here we consider humans to be in essence limited versions of agents).
 
-    Returns:
-        List of ticket objects with id, subject, status, created_at, assignee.
-        Empty list if no matches found (not an error).
-    """
-    ...
-```
+So our agent can read specs and understand how to interact. The challenge as agent developer is:
+1. how to identify and limit the set of tools: our agent is capable but may not know which tool is "the best" if we give similar ones, or may get confused if it sees too many tools. This is the same as humans. As humans, we search on google and more or less trust what is on top of the non-sponsor list (basically, page rank and collaborative filtering do their thing). With agent we could do the exact same thing or we can be focused in what tools - and from what providers - we allow an agent to see. 
+2. Autonomy, verification and Leash- this is the big item. How much autonomy should our agent have? How do we control that? how do we go in loops of work and check/verification/feedback?
+I do not have any good answer here so far except that we should be explicit for what our agent can do and what it cannot do (probably more as allow-list rather than block-list). This means we also need to bake into the agent the ability to precisely represent a situation to human and asks the right questions to get useful feedback.
+3. Telemetry here can help see when our agents go down the wrong path. Telemetry needs to expose workflows and help us identify (and indeed allow us to tag - declaratively or by example  - which workflows are "good" va "bad".
+4. once we have telemetry we can also perform test runs for our agent, especially if the provider offers us a test playground.
+5. Superhuman interactions. A key benefit is relaized when our agents start to interact with services in ways that is data dependent and that we did not anticipate. For example, it can decide to book hotels on Amex rather than booking because it autononously decide it is more conveninent or considers that the points we earn via Amex are valuable - based on our lifestyle.
 
-The key improvements:
-- **Type hints with Literal**: The LLM sees exactly which values are valid
-- **When to use (and when not to)**: Prevents the LLM from picking the wrong tool
-- **Format examples**: "ISO 8601 date (e.g., '2024-01-15')" removes ambiguity
-- **Edge cases explained**: What does `None` mean? What does an empty result mean?
 
-This is documentation for a non-human reader. Write it like you're explaining to a capable but literal-minded colleague who has never seen your codebase.
+### Between providers and cosumers: Custom UI
 
+One aspect that is somewhat in between providers and consumers and links all this with the web is the ability to build custom UX. once we have services exposed, we can have an agent that builds an UX that make sense for us as consumers and that possibly integrates in the same page content from multiple services based on what we need the most. 
 
-### 4.2 Discovering tools
 
-The AI needs to learn what tools are available. This requires:
 
-**Listing available tools** — an endpoint or mechanism to enumerate tools.
+## So....Which abstractions do we need, and what do we need to standardize? is MCP the answer?
 
-**Dynamic updates** — if tools change, the AI should be notified.
+The key abstractions to provide are:
 
-**Filtering/search** — with many tools, the AI may need to search rather than list all.
-
-This is analogous to the UDDI problem, but scoped differently. UDDI imagined global registries across organizations; for AI+tools, discovery is usually within a session or a configured set of servers.
-
-**What exists:** Protocol-level discovery (e.g., `tools/list` in MCP). Configuration files listing available tools.
-
-**What's missing:** Semantic search over tools ("find me a tool that can send emails"). Hierarchical organization. Federation across tool providers.
-
-
-### 4.3 Invoking tools (communication protocol)
-
-Once the AI decides to use a tool, how does the call happen?
-
-**Wire format** — how is the request encoded? JSON? XML? Binary?
-
-**Transport** — HTTP? WebSockets? stdin/stdout for local tools?
-
-**Synchronous vs streaming** — does the tool return all at once or stream results?
-
-**Error handling** — how are errors communicated? Retries?
-
-This is analogous to SOAP, but much simpler. The modern answer is JSON over HTTP (or stdio for local tools), with JSON-RPC as a thin layer for request/response correlation.
-
-**What exists:** [JSON-RPC 2.0](https://www.jsonrpc.org/specification) provides a minimal, transport-agnostic protocol:
-
-```json
-// Request
-{"jsonrpc": "2.0", "method": "get_weather", "params": {"location": "NYC"}, "id": 1}
-
-// Response
-{"jsonrpc": "2.0", "result": {"temp": 72, "conditions": "sunny"}, "id": 1}
-```
-
-**What's missing:** Streaming is ad-hoc. Long-running operations need polling or callbacks. No standard for partial results.
-
-
-### 4.4 Managing autonomy
-
-This is **new** — we didn't have this problem with SOAP/WSDL because clients were deterministic. If you called a SOAP service, it did exactly what you programmed it to do.
-
-AI clients are different: they interpret, reason, and sometimes surprise you. The question becomes: **how much can the AI do without asking?**
-
-![Autonomy spectrum](figs/autonomy-spectrum.svg)
-*Fig: The autonomy slider — from full human control (approve every action) to full AI autonomy (AI acts freely). Most real systems live somewhere in the middle.*
-
-```
-Full human control                                    Full AI autonomy
-|-------------------------------------------------------|
-  Human approves       AI suggests,        AI acts,        AI acts
-  every action         human confirms      human can       freely
-                                           intervene
-```
-
-Where you land depends on:
-- **Stakes**: reading a file vs. sending an email vs. transferring money
-- **Reversibility**: can you undo the action?
-- **Trust**: how well-tested is the AI's judgment for this task?
-- **Context**: is this a demo, a personal assistant, or a production system?
-
-**The "Click" problem**
-
-Remember the movie *[Click](https://en.wikipedia.org/wiki/Click_(2006_film))* (2006) with Adam Sandler.
-
-![Click (2006) movie poster](figs/click_film_poster.jpg)
-*Click (2006) — a cautionary tale about automation that learns your preferences.*
-
-In the film, Sandler's character gets a universal remote control that can fast-forward through boring parts of his life. Convenient! But the remote starts *learning* his preferences and auto-piloting his life — skipping arguments with his wife, fast-forwarding through his kids growing up, missing moments he would have wanted to experience.
-
-This is a cautionary tale for AI autonomy:
-- **Learning preferences is not the same as understanding intent.** The remote learned "he skips arguments" but not "he values his family."
-- **Defaults compound.** One shortcut becomes a pattern; a pattern becomes autopilot.
-- **You can't unlive skipped moments.** Some actions are irreversible.
-
-When we design AI systems that "learn from user preferences" to reduce confirmation prompts, we risk building a Click remote.
-
-**What exists:** Guidelines like "human in the loop." Confirmation prompts. Allowlists/blocklists.
-
-**What's missing:** Policy frameworks. Permission systems with fine-grained control. Audit infrastructure. Ways to express "the AI can do X but not Y" declaratively. Middleware that enforces autonomy policies.
-
-**Patterns for managing autonomy:**
-
-1. **Confirmation prompts** — ask before executing
-2. **Allowlists/blocklists** — restrict which tools can be called
-3. **Sandboxing** — run tools in isolated environments
-4. **Audit logging** — record every invocation for review
-5. **Rate limiting** — prevent runaway AI
-6. **Capability escalation** — start limited, expand with trust
-7. **Semantic guardrails** — use another AI to review proposed actions
-
-
-### 4.5 Testing
-
-Testing is another area where **we lack mature abstractions**.
-
-Traditional software testing has well-established patterns: unit tests, integration tests, end-to-end tests. For AI systems with tool access? We're mostly flying blind.
-
-**What makes testing AI+tools hard?**
-
-1. **Non-determinism**: The same input may produce different outputs.
-2. **Combinatorial explosion**: 20 tools × 5 parameters each = enormous test space.
-3. **Context sensitivity**: Behavior depends on conversation history, phrasing.
-4. **Emergent behavior**: The AI might use tools in unanticipated ways.
-5. **No ground truth**: For many tasks, there's no single "correct" answer.
-
-**What exists:** Manual probing. Adversarial testing. Eval frameworks like [promptfoo](https://github.com/promptfoo/promptfoo), [Braintrust](https://www.braintrust.dev/).
-
-**What's missing:**
-- **Behavioral specifications**: "the AI should never call `delete_file` without confirmation"
-- **Coverage metrics**: Did we exercise all tools? All parameter combinations?
-- **Regression detection**: Did this prompt change cause different behavior?
-- **Simulation environments**: Mock tools that look real but aren't
-- **Middleware for test harnesses**: Intercept calls, inject failures, record/replay
-
-
-### 4.6 Tool proliferation
-
-If you expose 500 tools to an LLM, it will struggle. Context windows are finite, and more tools mean more tokens spent on descriptions rather than reasoning.
-
-**What exists:** Flat tool lists. Manual curation.
-
-**What's missing:**
-- **Hierarchical organization**: Group tools into categories
-- **Dynamic loading**: Only expose tools relevant to the current task
-- **Semantic search**: Let the AI search for tools by description
-- **Agent delegation**: Instead of one agent with 500 tools, have specialized agents
-
-
-### 4.7 Other gaps
-
-| Area | What we have | What we need |
-|------|--------------|--------------|
-| **Observability** | Basic logging | Standardized traces, anomaly detection, cost attribution |
-| **Security** | Transport-level auth | Fine-grained permissions, prompt injection defense |
-| **Versioning** | Nothing standard | Tool version negotiation, deprecation policies |
-| **Streaming** | Ad-hoc implementations | Standard protocol for partial results |
-
-
-### 4.8 Summary: the design space
-
-| Need | Analogous to | Status |
-|------|--------------|--------|
-| Describing tools | WSDL | Partially solved (JSON Schema + natural language) |
-| Discovering tools | UDDI | Partially solved (protocol-level listing) |
-| Invoking tools | SOAP | Mostly solved (JSON-RPC over HTTP/stdio) |
-| Managing autonomy | *New* | Wide open |
-| Testing | *New* | Wide open |
-| Tool proliferation | *New* | Wide open |
-
-The first three are the "classic" problems from the services era — and they're reasonably well-addressed today, though not perfectly.
-
-The last three are **genuinely new** problems introduced by AI clients. This is where we need more experience, more abstractions, and eventually middleware.
-
-
-
-## 5. What exists today: MCP as an example
-
-The **Model Context Protocol (MCP)** is one attempt to standardize some of these needs. It's worth understanding what MCP covers and what it doesn't.
-
-MCP is developed by Anthropic and is designed for AI hosts (like Claude) to interact with external tools and data sources.
-
-
-### 5.1 What MCP standardizes
-
-**Describing tools** — Tools are described with JSON Schema for inputs, plus natural language descriptions:
-
-```json
-{
-  "name": "get_weather",
-  "description": "Get current weather information for a location",
-  "inputSchema": {
-    "type": "object",
-    "properties": {
-      "location": {"type": "string", "description": "City name or zip code"}
-    },
-    "required": ["location"]
-  }
-}
-```
-
-**Discovering tools** — Clients can call `tools/list` to enumerate available tools:
-
-```json
-// Request
-{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}
-
-// Response
-{"jsonrpc": "2.0", "id": 1, "result": {"tools": [...]}}
-```
-
-**Invoking tools** — Clients call `tools/call` with the tool name and arguments:
-
-```json
-// Request
-{"jsonrpc": "2.0", "id": 2, "method": "tools/call",
- "params": {"name": "get_weather", "arguments": {"location": "NYC"}}}
-
-// Response
-{"jsonrpc": "2.0", "id": 2, "result": {"content": [{"type": "text", "text": "72°F, sunny"}]}}
-```
-
-**Lifecycle** — MCP defines initialization, capability negotiation, and notifications (e.g., `tools/list_changed`).
-
-**Transport** — MCP works over stdio (for local tools) or HTTP with Server-Sent Events (for remote tools).
-
-![MCP message flow: Discovery, Tool Selection, Invocation, Updates](figs/message-flow-diagram.svg)
-*Fig: MCP message flow — the client discovers tools from the server, the LLM selects which tool to use, the client invokes it, and the server can notify of changes.*
-
-
-### 5.2 What MCP doesn't standardize
-
-MCP is a **wire protocol**. It tells you how to describe, discover, and invoke tools. It does *not* tell you:
-
-- **Autonomy policies**: Who can call what? When should the user be asked?
-- **Testing infrastructure**: How do you test AI+tool behavior?
-- **Tool proliferation**: How do you organize 500 tools?
-- **Observability**: How do you trace and debug tool invocations?
-- **Fine-grained security**: Beyond transport-level auth
-
-MCP gives you the primitives; you build the governance layer.
-
-
-### 5.3 MCP vs REST APIs
-
-You should still expose REST APIs. MCP doesn't replace them.
-
-Think of it as layers:
-1. **Core APIs** (REST/SDK) are the stable foundation for all clients
-2. **MCP** is an additional surface optimized for AI hosts
-
-An MCP server usually *wraps* existing REST APIs — it's a different contract, optimized for AI consumption.
-
-
-### 5.4 When to use MCP
-
-MCP helps most when:
-- Many AI hosts need the same capabilities
-- You want consistent tool schemas across ecosystems
-- You want discoverability and standard invocation semantics
-
-A plain API wrapper is often enough when:
-- You control both the host and the service
-- The integration is unique to one system
-- You're still iterating on the product boundary
-
-Rule of thumb:
-> Build on APIs for stability; add MCP for AI interoperability.
-
-
-### 5.5 Other resources
-
-- [MCP Specification](https://modelcontextprotocol.io/)
-- [FastMCP](https://github.com/jlowin/fastmcp) — Python library for building MCP servers
-- [JSON-RPC 2.0 Specification](https://www.jsonrpc.org/specification)
-
-
-
-## 6. Conclusion: where we are
-
-We've come full circle from the services era:
-
-| Era | Problem | Solution attempted | Outcome |
-|-----|---------|-------------------|---------|
-| 2000s | Machine-to-machine services | SOAP/WSDL/UDDI | Failed (too complex) |
-| 2010s | API integration | REST + documentation | Succeeded (good enough) |
-| 2020s | AI+tools | MCP + ??? | In progress |
-
-The "classic" problems (description, discovery, invocation) are reasonably solved. MCP and similar protocols address them adequately.
-
-The **new** problems (autonomy, testing, tool proliferation) are wide open. This is where the next generation of infrastructure will emerge.
-
-For now:
-- Use MCP (or similar) for the wire protocol
-- Build custom solutions for autonomy, testing, observability
-- Design for replaceability — your solutions will be superseded
-
-The lesson from history: **standards succeed when they reduce friction, not when they maximize expressiveness.** Whatever emerges for autonomy and testing will need to be simple enough for average developers to adopt.
+- Transport, service invocations, service descriptions
+- Description of a how to use a set of services, ideal / typical usage scenarios, things to avoid
+- Autonomy considerations
+- Observability and assessment: ability to observe and to define (tag) what is a "good" vs "bad" execution and why, and how to feed this back into the agent
+- Testing infra for agents
