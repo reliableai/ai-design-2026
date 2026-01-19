@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components, Services, Tools and AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --accent: #7dd3fc;
+            --accent-dim: #38bdf8;
+            --accent-glow: rgba(125, 211, 252, 0.15);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+            background: var(--accent-glow);
+        }
+
+        nav a.active {
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        /* Title */
+        .title-section {
+            text-align: center;
+            padding: 4rem 0 6rem;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-section h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-section .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            padding: 0.5rem 0 0.5rem 1.75rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Blockquote */
+        blockquote {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(18, 18, 26, 0.5) 100%);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Thesis block */
+        .thesis-block {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(18, 18, 26, 0.5) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thesis-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .thesis-block .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .thesis-block p {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .thesis-block strong {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        /* Content card */
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .content-card h4 {
+            margin-top: 0;
+        }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent);
+        }
+
+        pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:nth-child(even) td {
+            background: rgba(18, 18, 26, 0.3);
+        }
+
+        /* Images */
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .image-container .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* ASCII diagram */
+        .ascii-diagram {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre;
+            color: var(--accent);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 3rem 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            main {
+                padding: 5rem 1.25rem 2rem;
+            }
+
+            .thesis-block {
+                padding: 1.5rem;
+            }
+
+            pre {
+                padding: 1rem;
+            }
+        }
+
+        /* Scroll margin for anchors */
+        [id] {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">AI Tools Integration</div>
+    <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#monoliths">1. Monoliths</a></li>
+        <li><a href="#services">2. Services</a></li>
+        <li><a href="#ai-changes">3. Gen AI</a></li>
+        <li><a href="#standardize">4. What We Need</a></li>
+        <li><a href="#mcp">5. MCP</a></li>
+        <li><a href="#conclusion">6. Conclusion</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <!-- TITLE -->
+    <div class="title-section" id="intro">
+        <h1>Components, Services, Tools and AI</h1>
+        <p class="subtitle">Abstractions and Middleware for Agentic AI</p>
+    </div>
+
+    <!-- SECTION 1 -->
+    <section id="monoliths">
+        <div class="section-number">01 / HISTORY</div>
+        <h2>From monolithic software to modules and classes</h2>
+
+        <p>In the beginning, software was a monolith. We had code written on punching cards.</p>
+
+        <p>Then, with storage and data transfer we could write programs that consist of many lines of code and run them repeatedly.</p>
+
+        <p>Computers got bigger, programs got bigger too. With that we had to organize the code. Why? Because we need to manage complexity, and as Julius Caesar showed us, we do so by <strong>divide and conquer</strong>.</p>
+
+        <p>As complexity grows, we need teams to write software. Therefore we naturally need to divide the work using modules, packages, objects, classes, and other abstractions.</p>
+
+        <p>What these abstractions have in common is a desire to <strong>encapsulate logic</strong> and <strong>minimize coupling</strong> so that it was possible to evolve each component while keeping the overall code working.</p>
+
+        <p><strong>Versions</strong> were managed somewhat ad hoc. The layer of "standardization" was mostly defined by the programming language: all components were in C++, or in Java, and the compiler knew how to put pieces together.</p>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="services">
+        <div class="section-number">02 / SERVICES</div>
+        <h2>Services</h2>
+
+        <p>With the internet it becomes possible to offer functionality over the net. People started building complex "stuff" — databases, resources — and providing access to them on the fly.</p>
+
+        <div class="image-container">
+            <img src="5.5.1_web_services.png" alt="Web services enabling B2B integration">
+            <p class="caption">Web services standardize protocols, eliminating the need for many different middleware infrastructures.</p>
+        </div>
+
+
+        <div class="image-container">
+            <img src="5.5.2_manual.png" alt="B2B integration with message brokers">
+            <p class="caption">B2B integration via message brokers rarely happens in practice due to lack of trust, autonomy, and confidentiality.</p>
+        </div>
+
+        <h3>The Bezos API Mandate (circa 2002)</h3>
+
+        Bezos put some order into the chaos by making sure people exposed their data and functionality through service interfaces. Service interfaces put some degree of control on what can be accessed and how. This is the basis for the concept of a service.
+
+
+        <blockquote>
+            1. All teams will henceforth expose their data and functionality through service interfaces.<br><br>
+            2. Teams must communicate with each other through these interfaces.<br><br>
+            3. There will be no other form of interprocess communication allowed: no direct linking, no direct reads of another team's data store, no shared-memory model, no back-doors whatsoever. The only communication allowed is via service interface calls over the network.<br><br>
+            4. It doesn't matter what technology they use. HTTP, Corba, Pubsub, custom protocols — doesn't matter.<br><br>
+            5. All service interfaces, without exception, must be designed from the ground up to be externalizable. That is to say, the team must plan and design to be able to expose the interface to developers in the outside world. No exceptions.<br><br>
+            6. Anyone who doesn't do this will be fired.
+        </blockquote>
+
+        <p>The key insight was not technical — it was organizational: <strong>treat every consumer as if they were external</strong>, even internal teams.</p>
+
+        <div class="divider"></div>
+
+        <p>As we move across the net, the question becomes:</p>
+        <ul>
+            <li>How do we <strong>describe</strong> services so that other people can use them?</li>
+            <li>How does the <strong>communication</strong> take place?</li>
+            <li>How do we become <strong>aware</strong> of the existence of services?</li>
+        </ul>
+
+        <div class="image-container">
+            <img src="5.5.8.png" alt="Service description and discovery stack">
+            <p class="caption">The layers needed for service interoperability: common base language, interfaces, business protocols, properties and semantics — plus directories for discovery.</p>
+        </div>
+
+        <h3>SOAP, WSDL, and UDDI</h3>
+
+        <div class="image-container">
+            <img src="uddi.webp" alt="The SOAP/WSDL/UDDI triangle">
+            <p class="caption">The classic web services triangle — Service Registry (UDDI) for discovery, WSDL for description, SOAP for communication.</p>
+        </div>
+
+        <ul>
+            <li><strong><a href="https://www.w3.org/TR/soap12/">SOAP</a></strong> — addressed the communication problem (XML message format) — <a href="https://www.w3schools.com/xml/xml_soap.asp">see example</a></li>
+            <li><strong><a href="https://www.w3.org/TR/wsdl20/">WSDL</a></strong> — addressed the description problem (machine-readable API docs) — <a href="https://www.w3.org/2001/03/14-annotated-WSDL-examples.html">see example</a></li>
+            <li><strong><a href="https://www.oasis-open.org/committees/uddi-spec/doc/spec/v3/uddi-v3.0.2-20041019.htm">UDDI</a></strong> — addressed the discovery problem (global registry) — <a href="https://www.tutorialspoint.com/uddi/uddi_usage_example.htm">see example</a></li>
+        </ul>
+
+        <div class="image-container">
+            <img src="5.13.external_arch.png" alt="External architecture of Web services">
+            <p class="caption">The external architecture of web services — providers publish descriptions to a registry, requesters find and then interact with providers.</p>
+        </div>
+
+        <div class="content-card">
+            <h4>These specifications did not fail technically — they failed practically.</h4>
+            <p>The main aspect to keep in mind is that <strong>average developers are average</strong>. One is almost tempted to say that average programmers are below average, and we wrestle with math and statistics on this one. But the fact is that if a "standard" (horrible name — there is no such thing — there are specifications and adoption of specifications) is intended for humans, it has to be simple. Nobody can hope that millions of humans read complex specs and understand them — correctly, and in the same way. Even if we "just" hope that developers will implement clients to simplify work for humans, simplicity matters and facilitates adoption.</p>
+            <ul>
+                <li><strong>Complexity killed adoption.</strong> SOAP messages were verbose. WSDL files were notoriously difficult to read and write.</li>
+                <li><strong>The discovery dream never materialized.</strong> Companies did not want to advertise their internal services publicly.</li>
+                <li><strong>REST won by being simpler.</strong> It had no formal spec — just conventions. Good enough won.</li>
+            </ul>
+        </div>
+
+        <div class="thesis-block">
+            <div class="label">Key Lesson</div>
+            <p><strong>Standards succeed when they reduce friction</strong>, not when they maximize expressiveness. A protocol that is easy to adopt beats a protocol that is theoretically complete.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="ai-changes">
+        <div class="section-number">03 / THE SHIFT</div>
+        <h2>How Gen AI changes things</h2>
+
+        <p>The above remained true during the first wave of AI, where services exposed ML models such as classification or regression. Things change when we bring AI that is capable of understanding text.</p>
+
+        <h3>What's different with intelligent clients?</h3>
+
+        <ul>
+            <li>AI can read <strong>imperfect, informal descriptions</strong> and figure out intent</li>
+            <li>AI can handle <strong>variations in API formats</strong> without brittle parsing</li>
+            <li>AI can reason about <strong>when</strong> to use a tool, not just <strong>how</strong></li>
+            <li>We can move from <strong>procedural</strong> to <strong>declarative</strong></li>
+        </ul>
+
+        <div class="thesis-block">
+            <div class="label">The Shift</div>
+            <p>The SOAP/WSDL/UDDI dream of automatic integration might actually be achievable — not because we finally wrote the perfect spec, but because <strong>the client got smarter</strong>.</p>
+        </div>
+
+        <p>But this also introduces new challenges:</p>
+
+        <ul>
+            <li><strong>Ambiguity</strong> — when interfaces are "forgiving," there's room for misinterpretation</li>
+            <li><strong>Autonomy</strong> — who decides what the AI can do?</li>
+            <li><strong>Non-determinism</strong> — the same input might produce different outputs</li>
+            <li><strong>New attack surfaces</strong> — prompt injection, data exfiltration via tools</li>
+        </ul>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="standardize">
+        <div class="section-number">04 / DESIGN SPACE</div>
+        <h2>What do we need to standardize?</h2>
+
+        <p>Before looking at what exists, let's ask: <strong>if we were designing the infrastructure for AI+tools from scratch, what abstractions would we need?</strong></p>
+
+        <h3 id="describing-tools">4.1 Describing tools</h3>
+
+        <p>The AI needs to know what tools exist and how to use them:</p>
+
+        <ul>
+            <li><strong>What the tool does</strong> — when to use it, when <em>not</em> to use it</li>
+            <li><strong>Input schema</strong> — parameters, types, constraints</li>
+            <li><strong>Output schema</strong> — what it returns</li>
+            <li><strong>Error conditions</strong> — what can go wrong</li>
+        </ul>
+
+        <div class="content-card">
+            <h4>What exists</h4>
+            <p>JSON Schema for input/output. Docstrings. Tools like <a href="https://github.com/jlowin/fastmcp">FastMCP</a> that auto-generate schemas from Python.</p>
+            <h4>What's missing</h4>
+            <p>Standards for "when to use" vs "when not to use." Semantic versioning for tool behavior. Ways to express preconditions and side effects.</p>
+        </div>
+
+        <p><strong>Example — minimal vs better:</strong></p>
+
+        <pre><code class="language-python"># Minimal (LLM may guess wrong)
+@mcp.tool()
+def search_tickets(status: str, date: str) -> list[dict]:
+    """Search support tickets."""
+    ...</code></pre>
+
+        <pre><code class="language-python"># Better (explicit about formats, constraints, intent)
+@mcp.tool()
+def search_tickets(
+    status: Literal["open", "closed", "pending"],
+    created_after: str,
+    assignee: str | None = None,
+    limit: int = 50
+) -> list[dict]:
+    """Search support tickets in the helpdesk system.
+
+    Use this tool when the user asks about support tickets.
+    Do NOT use this for searching knowledge base articles.
+
+    Args:
+        status: Filter by ticket status.
+        created_after: ISO 8601 date (e.g., "2024-01-15").
+        assignee: Email of assigned agent. None = any.
+        limit: Maximum tickets to return (1-200).
+
+    Returns:
+        List of ticket objects. Empty list if no matches.
+    """
+    ...</code></pre>
+
+        <div class="divider"></div>
+
+        <h3 id="discovering-tools">4.2 Discovering tools</h3>
+
+        <ul>
+            <li><strong>Listing available tools</strong> — an endpoint to enumerate tools</li>
+            <li><strong>Dynamic updates</strong> — if tools change, AI should be notified</li>
+            <li><strong>Filtering/search</strong> — with many tools, AI may need to search</li>
+        </ul>
+
+        <div class="content-card">
+            <h4>What's missing</h4>
+            <p>Semantic search over tools. Hierarchical organization. Federation across providers.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 id="invoking-tools">4.3 Invoking tools</h3>
+
+        <p><strong>What exists:</strong> <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a> provides a minimal, transport-agnostic protocol:</p>
+
+        <pre><code class="language-json">// Request
+{"jsonrpc": "2.0", "method": "get_weather", "params": {"location": "NYC"}, "id": 1}
+
+// Response
+{"jsonrpc": "2.0", "result": {"temp": 72, "conditions": "sunny"}, "id": 1}</code></pre>
+
+        <div class="content-card">
+            <h4>What's missing</h4>
+            <p>Streaming is ad-hoc. Long-running operations need polling. No standard for partial results.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 id="managing-autonomy">4.4 Managing autonomy</h3>
+
+        <p>This is <strong>new</strong> — we didn't have this problem with SOAP/WSDL because clients were deterministic.</p>
+
+        <p>AI clients are different: they interpret, reason, and sometimes surprise you. The question becomes: <strong>how much can the AI do without asking?</strong></p>
+
+        <div class="image-container">
+            <img src="autonomy-spectrum.svg" alt="Autonomy spectrum">
+            <p class="caption">The autonomy slider — from full human control to full AI autonomy.</p>
+        </div>
+
+        <div class="ascii-diagram">Full human control                                    Full AI autonomy
+|-------------------------------------------------------|
+  Human approves       AI suggests,        AI acts,        AI acts
+  every action         human confirms      human can       freely
+                                           intervene</div>
+
+        <h4>The "Click" problem</h4>
+
+        <p>Remember the movie <em><a href="https://en.wikipedia.org/wiki/Click_(2006_film)">Click</a></em> (2006) with Adam Sandler.</p>
+
+        <div class="image-container">
+            <img src="click_film_poster.jpg" alt="Click (2006) movie poster" style="max-width: 200px;">
+            <p class="caption">Click (2006) — a cautionary tale about automation that learns your preferences.</p>
+        </div>
+
+        <p>Sandler gets a remote that can fast-forward through boring parts of life. But the remote starts <em>learning</em> his preferences and auto-piloting — skipping arguments, fast-forwarding through his kids growing up.</p>
+
+        <ul>
+            <li><strong>Learning preferences ≠ understanding intent.</strong></li>
+            <li><strong>Defaults compound.</strong> One shortcut becomes autopilot.</li>
+            <li><strong>You can't unlive skipped moments.</strong> Some actions are irreversible.</li>
+        </ul>
+
+        <div class="content-card">
+            <h4>Patterns for managing autonomy</h4>
+            <ul>
+                <li><strong>Confirmation prompts</strong> — ask before executing</li>
+                <li><strong>Allowlists/blocklists</strong> — restrict which tools can be called</li>
+                <li><strong>Sandboxing</strong> — run tools in isolated environments</li>
+                <li><strong>Audit logging</strong> — record every invocation</li>
+                <li><strong>Rate limiting</strong> — prevent runaway AI</li>
+                <li><strong>Capability escalation</strong> — start limited, expand with trust</li>
+                <li><strong>Semantic guardrails</strong> — use another AI to review</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 id="testing">4.5 Testing</h3>
+
+        <p>Testing is another area where <strong>we lack mature abstractions</strong>.</p>
+
+        <h4>What makes testing AI+tools hard?</h4>
+        <ul>
+            <li><strong>Non-determinism</strong> — same input, different outputs</li>
+            <li><strong>Combinatorial explosion</strong> — 20 tools × 5 params = huge space</li>
+            <li><strong>Context sensitivity</strong> — behavior depends on history</li>
+            <li><strong>Emergent behavior</strong> — unanticipated tool usage</li>
+            <li><strong>No ground truth</strong> — no single "correct" answer</li>
+        </ul>
+
+        <div class="content-card">
+            <h4>What's missing</h4>
+            <ul>
+                <li><strong>Behavioral specifications</strong> — "AI should never call delete_file without confirmation"</li>
+                <li><strong>Coverage metrics</strong> — did we exercise all tools?</li>
+                <li><strong>Regression detection</strong> — did this change cause different behavior?</li>
+                <li><strong>Simulation environments</strong> — mock tools that look real</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 id="tool-proliferation">4.6 Tool proliferation</h3>
+
+        <p>If you expose 500 tools to an LLM, it will struggle. Context windows are finite.</p>
+
+        <div class="content-card">
+            <h4>What's missing</h4>
+            <ul>
+                <li><strong>Hierarchical organization</strong> — group tools into categories</li>
+                <li><strong>Dynamic loading</strong> — only expose relevant tools</li>
+                <li><strong>Semantic search</strong> — search for tools by description</li>
+                <li><strong>Agent delegation</strong> — specialized agents with focused toolsets</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 id="summary-gaps">4.7 Summary: the design space</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Need</th>
+                    <th>Analogous to</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Describing tools</td>
+                    <td>WSDL</td>
+                    <td>Partially solved</td>
+                </tr>
+                <tr>
+                    <td>Discovering tools</td>
+                    <td>UDDI</td>
+                    <td>Partially solved</td>
+                </tr>
+                <tr>
+                    <td>Invoking tools</td>
+                    <td>SOAP</td>
+                    <td>Mostly solved</td>
+                </tr>
+                <tr>
+                    <td>Managing autonomy</td>
+                    <td><em>New</em></td>
+                    <td><strong>Wide open</strong></td>
+                </tr>
+                <tr>
+                    <td>Testing</td>
+                    <td><em>New</em></td>
+                    <td><strong>Wide open</strong></td>
+                </tr>
+                <tr>
+                    <td>Tool proliferation</td>
+                    <td><em>New</em></td>
+                    <td><strong>Wide open</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="thesis-block">
+            <div class="label">Key Insight</div>
+            <p>The first three are "classic" problems from the services era. The last three are <strong>genuinely new</strong> — this is where we need more experience, more abstractions, and eventually middleware.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section id="mcp">
+        <div class="section-number">05 / WHAT EXISTS</div>
+        <h2>What exists today: MCP</h2>
+
+        <p>The <strong>Model Context Protocol (MCP)</strong> is one attempt to standardize some of these needs. It's worth understanding what MCP covers and what it doesn't.</p>
+
+        <h3>What MCP standardizes</h3>
+
+        <p><strong>Describing tools</strong> — JSON Schema + natural language:</p>
+
+        <pre><code class="language-json">{
+  "name": "get_weather",
+  "description": "Get current weather information for a location",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "location": {"type": "string", "description": "City name or zip code"}
+    },
+    "required": ["location"]
+  }
+}</code></pre>
+
+        <p><strong>Discovering tools</strong> — <code>tools/list</code> endpoint</p>
+        <p><strong>Invoking tools</strong> — <code>tools/call</code> with JSON-RPC</p>
+        <p><strong>Lifecycle</strong> — initialization, capability negotiation, notifications</p>
+        <p><strong>Transport</strong> — stdio (local) or HTTP with SSE (remote)</p>
+
+        <div class="image-container">
+            <img src="message-flow-diagram.svg" alt="MCP message flow">
+            <p class="caption">MCP message flow — discover, select, invoke, update.</p>
+        </div>
+
+        <h3>What MCP doesn't standardize</h3>
+
+        <p>MCP is a <strong>wire protocol</strong>. It does <em>not</em> tell you:</p>
+
+        <ul>
+            <li><strong>Autonomy policies</strong> — who can call what?</li>
+            <li><strong>Testing infrastructure</strong> — how to test AI+tool behavior?</li>
+            <li><strong>Tool proliferation</strong> — how to organize 500 tools?</li>
+            <li><strong>Observability</strong> — how to trace and debug?</li>
+        </ul>
+
+        <div class="thesis-block">
+            <p>MCP gives you the primitives; <strong>you build the governance layer</strong>.</p>
+        </div>
+
+        <h3>MCP vs REST APIs</h3>
+
+        <p>You should still expose REST APIs. MCP doesn't replace them.</p>
+
+        <ul>
+            <li><strong>Core APIs</strong> (REST/SDK) are the stable foundation for all clients</li>
+            <li><strong>MCP</strong> is an additional surface optimized for AI hosts</li>
+        </ul>
+
+        <blockquote>
+            Rule of thumb: Build on APIs for stability; add MCP for AI interoperability.
+        </blockquote>
+
+        <h3>Resources</h3>
+
+        <ul>
+            <li><a href="https://modelcontextprotocol.io/">MCP Specification</a></li>
+            <li><a href="https://github.com/jlowin/fastmcp">FastMCP</a> — Python library for building MCP servers</li>
+            <li><a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0 Specification</a></li>
+        </ul>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section id="conclusion">
+        <div class="section-number">06 / CONCLUSION</div>
+        <h2>Where we are</h2>
+
+        <p>We've come full circle from the services era:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Era</th>
+                    <th>Problem</th>
+                    <th>Solution</th>
+                    <th>Outcome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2000s</td>
+                    <td>Machine-to-machine services</td>
+                    <td>SOAP/WSDL/UDDI</td>
+                    <td>Failed (too complex)</td>
+                </tr>
+                <tr>
+                    <td>2010s</td>
+                    <td>API integration</td>
+                    <td>REST + docs</td>
+                    <td>Succeeded (good enough)</td>
+                </tr>
+                <tr>
+                    <td>2020s</td>
+                    <td>AI+tools</td>
+                    <td>MCP + ???</td>
+                    <td>In progress</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The "classic" problems (description, discovery, invocation) are reasonably solved.</p>
+
+        <p>The <strong>new</strong> problems (autonomy, testing, tool proliferation) are wide open. This is where the next generation of infrastructure will emerge.</p>
+
+        <div class="content-card">
+            <h4>For now</h4>
+            <ul>
+                <li>Use MCP (or similar) for the wire protocol</li>
+                <li>Build custom solutions for autonomy, testing, observability</li>
+                <li>Design for replaceability — your solutions will be superseded</li>
+            </ul>
+        </div>
+
+        <div class="thesis-block">
+            <div class="label">The Lesson from History</div>
+            <p><strong>Standards succeed when they reduce friction</strong>, not when they maximize expressiveness. Whatever emerges for autonomy and testing will need to be simple enough for average developers to adopt.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    AI Tools Integration — AI Design Course, University of Trento
+</footer>
+
+<script>
+    hljs.highlightAll();
+
+    // Highlight current section in nav
+    const sections = document.querySelectorAll('section[id], .title-section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+        let current = 'intro';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 200) {
+                current = section.getAttribute('id') || 'intro';
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
