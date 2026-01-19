@@ -371,10 +371,67 @@ I do not have any good answer here so far except that we should be explicit for 
 5. Superhuman interactions. A key benefit is relaized when our agents start to interact with services in ways that is data dependent and that we did not anticipate. For example, it can decide to book hotels on Amex rather than booking because it autononously decide it is more conveninent or considers that the points we earn via Amex are valuable - based on our lifestyle.
 
 
-### Between providers and cosumers: Custom UI
+### Between providers and consumers: Custom UI
 
-One aspect that is somewhat in between providers and consumers and links all this with the web is the ability to build custom UX. once we have services exposed, we can have an agent that builds an UX that make sense for us as consumers and that possibly integrates in the same page content from multiple services based on what we need the most. 
+One aspect that is somewhat in between providers and consumers and links all this with the web is the ability to build custom UX. once we have services exposed, we can have an agent that builds an UX that make sense for us as consumers and that possibly integrates in the same page content from multiple services based on what we need the most.
 
+
+### The Tool-Calling Loop and Its Middleware
+
+Tool integration in AI systems is not a single request–response interaction,
+but an iterative loop in which a model reasons, invokes tools, observes outcomes,
+and adapts its behavior over time.
+
+This loop introduces new design concerns that were largely absent in traditional
+API-based systems: control flow is no longer fully specified by the developer,
+errors accumulate across steps, and decisions must be made under uncertainty.
+
+As a result, the system requires middleware that mediates between the model and
+the tools, enforcing budgets, retries, policies, and stopping conditions.
+These concerns are not properties of individual tools, but of the orchestration
+layer that binds them together.
+
+Designing this loop explicitly—and deciding which parts are delegated to the
+model and which are enforced by the system—is a central challenge in building
+reliable AI-enabled systems.
+
+
+### Novel Security, Safety, and Privacy Concerns
+
+Tool-enabled AI systems introduce security and safety risks that differ
+qualitatively from those of traditional software systems.
+
+In these systems, untrusted inputs and untrusted outputs can both influence
+control flow. A model may be manipulated into invoking tools in unintended ways,
+or tool outputs may inject instructions back into the reasoning process.
+This blurs traditional trust boundaries and creates new forms of confused
+deputy problems.
+
+Privacy concerns are similarly amplified: data may flow through models that are
+not designed to enforce access control, and sensitive information may persist in
+context or memory beyond its intended scope.
+
+These risks cannot be addressed solely through API security or input validation.
+They require explicit design of guards, policies, and isolation boundaries at the
+level of the AI system itself.
+
+
+### Context and Memory Management
+
+AI systems operate not only on current inputs, but on constructed context that
+combines instructions, interaction history, retrieved information, and memory.
+
+Unlike traditional state management, this context is ephemeral, selectively
+assembled, and interpreted probabilistically by a model. Decisions about what
+to include, what to persist, and what to forget directly affect system behavior.
+
+Long-term memory introduces additional challenges: information retained across
+interactions can influence future decisions, raise privacy concerns, and create
+feedback loops that are difficult to reason about or audit.
+
+Treating context and memory as first-class design elements—rather than incidental
+implementation details—is essential for building AI systems that are predictable,
+safe, and aligned with user expectations.
 
 
 ## So....Which abstractions do we need, and what do we need to standardize? is MCP the answer?
