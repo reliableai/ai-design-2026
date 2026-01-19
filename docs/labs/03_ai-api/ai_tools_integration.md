@@ -31,12 +31,15 @@ The layer of "standardization" was mostly defined by the programming language: a
 With the internet it becomes possible to offer functionality over the net (internally, as an intranet - but also externally).
 People started building more and more complex "stuff" - and by stuff here I mean also databases and all sorts of resources - and providing access to them on the fly, without the need of packaging and releasing software.
 
-![Web services enabling B2B integration across organizational boundaries](5.5.1_web_services.png)
+![Integration wild west - many protocols, no standards](figs/integration_wild_west.png)
+*Fig: Before standardization: every integration required custom protocols and middleware.*
+
+![Web services enabling B2B integration across organizational boundaries](figs/5.5.1_web_services.png)
 *Fig: Web services standardize protocols, eliminating the need for many different middleware infrastructures. Internal functionality becomes available as a service.*
 
 Initially the ability to access resources created massive confusion. Teams built point-to-point integrations, shared databases directly, and created tight coupling that made systems brittle and change expensive.
 
-![B2B integration with message brokers and adapters](5.5.2_manual.png)
+![B2B integration with message brokers and adapters](figs/5.5.2_manual.png)
 *Fig: While B2B integration via message brokers is conceptually possible, it rarely happens in practice due to lack of trust, autonomy, and confidentiality.*
 
 ### The Bezos API Mandate (circa 2002)
@@ -66,7 +69,7 @@ As we move across the net, and away from the notion of one compiler bundling cod
 2. how does the communication take place
 3. how do we even become aware of the existance of services
 
-![Service description and discovery stack](5.5.8.png)
+![Service description and discovery stack](figs/5.5.8.png)
 *Fig: The layers needed for service interoperability: common base language, interfaces, business protocols, properties and semantics — plus directories for discovery.*
 
 the problems applies both to machines and humans. First, it was "solved" for humans.
@@ -83,7 +86,7 @@ Prime examples of such specifications were SOAP, WSDL, and UDDI and it is very i
 
 ### SOAP, WSDL, and UDDI: The First Attempt at Machine-to-Machine Services
 
-![The SOAP/WSDL/UDDI triangle](uddi.webp)
+![The SOAP/WSDL/UDDI triangle](figs/uddi.webp)
 *Fig: The classic web services triangle — Service Registry (UDDI) for discovery, WSDL for description, SOAP for communication.*
 
 **[SOAP](https://www.w3.org/TR/soap12/)** (Simple Object Access Protocol) addressed the communication problem: how do two programs talk over the network in a language-agnostic way? SOAP defined a message format using XML. The idea was that regardless of whether your service was written in Java or C# or Perl, you could send and receive SOAP messages and understand each other. ([see example](https://www.w3schools.com/xml/xml_soap.asp))
@@ -92,7 +95,7 @@ Prime examples of such specifications were SOAP, WSDL, and UDDI and it is very i
 
 **[UDDI](https://www.oasis-open.org/committees/uddi-spec/doc/spec/v3/uddi-v3.0.2-20041019.htm)** (Universal Description, Discovery, and Integration) addressed the discovery problem: how do you find services in the first place? UDDI was meant to be a global registry - a kind of yellow pages for web services. Companies would publish their services to UDDI, and clients would query UDDI to find services that matched their needs. ([see example](https://www.tutorialspoint.com/uddi/uddi_usage_example.htm))
 
-![External architecture of Web services](5.13.external_arch.png)
+![External architecture of Web services](figs/5.13.external_arch.png)
 *Fig: The external architecture of web services — providers publish descriptions to a registry, requesters find and then interact with providers.*
 
 The vision was compelling: a world where software could automatically discover services, understand how to call them, and integrate on the fly. Dynamic, loosely coupled, language-agnostic integration.
@@ -279,7 +282,7 @@ This is **new** — we didn't have this problem with SOAP/WSDL because clients w
 
 AI clients are different: they interpret, reason, and sometimes surprise you. The question becomes: **how much can the AI do without asking?**
 
-![Autonomy spectrum](autonomy-spectrum.svg)
+![Autonomy spectrum](figs/autonomy-spectrum.svg)
 *Fig: The autonomy slider — from full human control (approve every action) to full AI autonomy (AI acts freely). Most real systems live somewhere in the middle.*
 
 ```
@@ -300,7 +303,7 @@ Where you land depends on:
 
 Remember the movie *[Click](https://en.wikipedia.org/wiki/Click_(2006_film))* (2006) with Adam Sandler.
 
-![Click (2006) movie poster](click_film_poster.jpg)
+![Click (2006) movie poster](figs/click_film_poster.jpg)
 *Click (2006) — a cautionary tale about automation that learns your preferences.*
 
 In the film, Sandler's character gets a universal remote control that can fast-forward through boring parts of his life. Convenient! But the remote starts *learning* his preferences and auto-piloting his life — skipping arguments with his wife, fast-forwarding through his kids growing up, missing moments he would have wanted to experience.
@@ -441,7 +444,7 @@ MCP is developed by Anthropic and is designed for AI hosts (like Claude) to inte
 
 **Transport** — MCP works over stdio (for local tools) or HTTP with Server-Sent Events (for remote tools).
 
-![MCP message flow: Discovery, Tool Selection, Invocation, Updates](message-flow-diagram.svg)
+![MCP message flow: Discovery, Tool Selection, Invocation, Updates](figs/message-flow-diagram.svg)
 *Fig: MCP message flow — the client discovers tools from the server, the LLM selects which tool to use, the client invokes it, and the server can notify of changes.*
 
 
