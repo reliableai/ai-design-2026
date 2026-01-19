@@ -3,6 +3,95 @@
 *Abstractions and Middleware for Agentic AI*
 
 
+## Learning Objectives
+
+This reading focuses on *design reasoning* rather than framework mastery.
+
+Throughout this piece, we adopt a design perspective on AI systems.
+
+Rather than focusing on specific frameworks or APIs, the goal is to reason about:
+
+- which **system-level properties** we want from AI-enabled systems,
+- which **perspectives** must be considered when designing them,
+- which **abstractions** help manage complexity and scale,
+- and which aspects must be **explicitly specified or standardized** for systems to be interoperable, safe, and evolvable.
+
+The historical examples and modern tool integrations discussed below are used as concrete anchors for this broader design discussion.
+
+By the end, students should be able to:
+
+- Trace the evolution of **abstractions for distributed systems** (components → services → tools) and explain why new abstractions emerge when existing ones fail.
+
+- Analyze AI integration from **provider and consumer perspectives**, including how these differ when the consumer is a human versus an AI agent.
+
+- Explain why some integration standards **succeed or fail**, using SOAP/WSDL/UDDI vs REST as a case study.
+
+- Distinguish what **must be standardized** versus what can remain flexible when building AI-enabled systems.
+
+- Identify **open problems** in AI+tools integration (autonomy, testing, observability) that lack mature abstractions.
+
+
+## Assessment (Course Use)
+
+This reading may be assessed, but assessment is optional when the material is used as a standalone reading.
+
+Assessment focuses on whether students can translate design reasoning into engineering reality.
+
+Students will be evaluated on whether they can design and implement services that are:
+
+- **Testable**
+  - clear and explicit contracts,
+  - well-defined inputs, outputs, and error modes,
+  - behavior that can be validated independently of the AI model.
+
+- **Observable**
+  - meaningful logging and tracing of tool usage,
+  - visibility into decisions, failures, and side effects,
+  - ability to inspect and replay executions.
+
+- **Autonomous, with explicitly justified boundaries**
+  - clear explanation of what the system may do autonomously,
+  - where human approval is required,
+  - and why these boundaries are appropriate.
+
+- **Guarded**
+  - safety and policy constraints enforced by design,
+  - protection against misuse, prompt injection, or unintended side effects,
+  - explicit handling of failure and uncertainty.
+
+The emphasis is not on using a specific framework, but on demonstrating sound system design choices and the ability to reason about their implications.
+
+
+### A note on terminology
+
+In this essay, we use the following terms with specific intent:
+
+- **Component**
+  A unit of functionality used *within* a system boundary, typically invoked in-process
+  (e.g., libraries, modules, classes).
+
+- **Service**
+  A remotely accessible capability exposed across a network boundary, with an explicit
+  interface and independent lifecycle.
+
+- **API**
+  A contract describing how a service or component can be invoked, including inputs,
+  outputs, and interaction patterns.
+
+- **Tool**
+  A callable capability exposed to an AI system or agent runtime, typically wrapping a
+  service or API, and designed to be invoked programmatically by a model rather than a
+  human.
+
+- **Agent**
+  An AI-driven system that can reason over goals, decide when to invoke tools, and
+  orchestrate actions over time, potentially with limited autonomy.
+
+These distinctions are not absolute, but they are useful for reasoning about system
+design, responsibilities, and where explicit contracts and safeguards are required.
+
+---
+
 ## 1. From monolithic software to modules and classes
 In the beginning, software was a monolith.
 We had code written on punching cards.

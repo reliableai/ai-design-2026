@@ -17,6 +17,7 @@
     <div class="logo">AI Tools Integration</div>
     <ul>
         <li><a href="#intro">Intro</a></li>
+        <li><a href="#objectives">Objectives</a></li>
         <li><a href="#monoliths">1. Monoliths</a></li>
         <li><a href="#services">2. Services</a></li>
         <li><a href="#ai-changes">3. Gen AI</a></li>
@@ -31,6 +32,99 @@
         <h1>Components, Services, Tools and AI</h1>
         <p class="subtitle">Abstractions and Middleware for Agentic AI</p>
     </div>
+
+    <!-- LEARNING OBJECTIVES -->
+    <section id="objectives">
+        <h2>Learning Objectives</h2>
+
+        <p>This reading focuses on <em>design reasoning</em> rather than framework mastery.</p>
+
+        <p>Throughout this piece, we adopt a design perspective on AI systems.</p>
+
+        <p>Rather than focusing on specific frameworks or APIs, the goal is to reason about:</p>
+
+        <ul>
+            <li>which <strong>system-level properties</strong> we want from AI-enabled systems,</li>
+            <li>which <strong>perspectives</strong> must be considered when designing them,</li>
+            <li>which <strong>abstractions</strong> help manage complexity and scale,</li>
+            <li>and which aspects must be <strong>explicitly specified or standardized</strong> for systems to be interoperable, safe, and evolvable.</li>
+        </ul>
+
+        <p>The historical examples and modern tool integrations discussed below are used as concrete anchors for this broader design discussion.</p>
+
+        <p>By the end, students should be able to:</p>
+
+        <ul>
+            <li>Trace the evolution of <strong>abstractions for distributed systems</strong> (components → services → tools) and explain why new abstractions emerge when existing ones fail.</li>
+            <li>Analyze AI integration from <strong>provider and consumer perspectives</strong>, including how these differ when the consumer is a human versus an AI agent.</li>
+            <li>Explain why some integration standards <strong>succeed or fail</strong>, using SOAP/WSDL/UDDI vs REST as a case study.</li>
+            <li>Distinguish what <strong>must be standardized</strong> versus what can remain flexible when building AI-enabled systems.</li>
+            <li>Identify <strong>open problems</strong> in AI+tools integration (autonomy, testing, observability) that lack mature abstractions.</li>
+        </ul>
+    </section>
+
+    <!-- ASSESSMENT -->
+    <section id="assessment">
+        <h2>Assessment (Course Use)</h2>
+
+        <p>This reading may be assessed, but assessment is optional when the material is used as a standalone reading.</p>
+
+        <p>Assessment focuses on whether students can translate design reasoning into engineering reality.</p>
+
+        <p>Students will be evaluated on whether they can design and implement services that are:</p>
+
+        <div class="content-card">
+            <h4>Testable</h4>
+            <ul>
+                <li>clear and explicit contracts,</li>
+                <li>well-defined inputs, outputs, and error modes,</li>
+                <li>behavior that can be validated independently of the AI model.</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h4>Observable</h4>
+            <ul>
+                <li>meaningful logging and tracing of tool usage,</li>
+                <li>visibility into decisions, failures, and side effects,</li>
+                <li>ability to inspect and replay executions.</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h4>Autonomous, with explicitly justified boundaries</h4>
+            <ul>
+                <li>clear explanation of what the system may do autonomously,</li>
+                <li>where human approval is required,</li>
+                <li>and why these boundaries are appropriate.</li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h4>Guarded</h4>
+            <ul>
+                <li>safety and policy constraints enforced by design,</li>
+                <li>protection against misuse, prompt injection, or unintended side effects,</li>
+                <li>explicit handling of failure and uncertainty.</li>
+            </ul>
+        </div>
+
+        <p>The emphasis is not on using a specific framework, but on demonstrating sound system design choices and the ability to reason about their implications.</p>
+
+        <h3>A note on terminology</h3>
+
+        <p>In this essay, we use the following terms with specific intent:</p>
+
+        <ul>
+            <li><strong>Component</strong> — A unit of functionality used <em>within</em> a system boundary, typically invoked in-process (e.g., libraries, modules, classes).</li>
+            <li><strong>Service</strong> — A remotely accessible capability exposed across a network boundary, with an explicit interface and independent lifecycle.</li>
+            <li><strong>API</strong> — A contract describing how a service or component can be invoked, including inputs, outputs, and interaction patterns.</li>
+            <li><strong>Tool</strong> — A callable capability exposed to an AI system or agent runtime, typically wrapping a service or API, and designed to be invoked programmatically by a model rather than a human.</li>
+            <li><strong>Agent</strong> — An AI-driven system that can reason over goals, decide when to invoke tools, and orchestrate actions over time, potentially with limited autonomy.</li>
+        </ul>
+
+        <p>These distinctions are not absolute, but they are useful for reasoning about system design, responsibilities, and where explicit contracts and safeguards are required.</p>
+    </section>
 
     <!-- SECTION 1 -->
     <section id="monoliths">
