@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizing in the Dark</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.7;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #292929;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 0.3em;
+            letter-spacing: -0.02em;
+        }
+        h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 1.5em;
+        }
+        p {
+            margin: 1.2em 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 1.5em 0;
+            border-radius: 4px;
+            display: block;
+        }
+        blockquote {
+            border-left: 4px solid #1a8917;
+            margin: 1.5em 0;
+            padding: 0.5em 0 0.5em 1.5em;
+            color: #555;
+            font-style: italic;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 1em;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background: #f8f8f8;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 2em 0;
+        }
+        a {
+            color: #1a8917;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        strong {
+            font-weight: 600;
+        }
+        em {
+            font-style: italic;
+        }
+        .tags {
+            margin-top: 3em;
+            padding-top: 1em;
+            border-top: 1px solid #e0e0e0;
+            color: #757575;
+            font-size: 0.9em;
+        }
+        .tags code {
+            background: #e8f5e9;
+            color: #1a8917;
+        }
+    </style>
+</head>
+<body>
+<h1>Optimizing in the Dark</h1>
+<p><strong>Why AI Evaluation Numbers Are Misleading—and What To Do About It</strong></p>
+<hr />
+<p><em>A four-part series on the hidden uncertainty in AI evaluation metrics</em></p>
+<hr />
+<p>You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.</p>
+<p>But how reliable is that number? What if the true accuracy could be anywhere from 74% to 95%? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?</p>
+<p>This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both <em>underestimating</em> and <em>ignoring</em> the bias and uncertainty in those numbers.</p>
+<hr />
+<h2>The Series</h2>
+<h3><a href="./part-1-structural-flaw.html">Part 1: A Structural Flaw in Judgment</a></h3>
+<p>The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action. And the real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along.</p>
+<h3><a href="./part-2-history-of-evals.html">Part 2: A Brief History of Evals</a></h3>
+<p>How we got here. A journey through Software 1.0 (deterministic code), Software 2.0 (ML models), and Software 3.0 (Gen AI applications)—tracing how our evaluation muscles weakened as systems became more complex, more open-ended, and harder to pin down.</p>
+<h3><a href="./part-3-sources-of-error.html">Part 3: Sources of Bias and Uncertainty</a></h3>
+<p>The technical deep dive. From sample size effects to multiple hypothesis testing, from developer-induced overfitting to noisy LLM judges, from rubric mapping artifacts to prompt sensitivity. Each source alone can flip your decisions. Together, they compound.</p>
+<h3><a href="./part-4-what-to-do.html">Part 4: What To Do About It</a></h3>
+<p>The path forward. Addressing visibility (awareness, estimation, reporting), action (reducing uncertainty, building observability), and culture (naming things right, asking the questions, making accountability explicit). Practical tools including evaluation worksheets and AI-powered methodology assistants.</p>
+<hr />
+<h2>Key Themes</h2>
+<ul>
+<li>
+<p><strong>Every score has two error terms</strong>: bias (systematic) and uncertainty (random). Bias is harder to see but often more dangerous.</p>
+</li>
+<li>
+<p><strong>Selection turns noise into bias</strong>: Even unbiased evaluations become optimistic when you pick winners. The math is real.</p>
+</li>
+<li>
+<p><strong>Small differences are noise</strong>: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.</p>
+</li>
+<li>
+<p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the <em>optimistic</em> case.</p>
+</li>
+<li>
+<p><strong>Culture matters</strong>: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—<em>that's</em> weakness.</p>
+</li>
+</ul>
+<hr />
+<h2>Who This Is For</h2>
+<ul>
+<li><strong>Engineering leaders</strong> making ship/no-ship decisions based on evaluation metrics</li>
+<li><strong>ML/AI practitioners</strong> designing and running evaluation pipelines</li>
+<li><strong>Product managers</strong> interpreting and reporting quality numbers</li>
+<li><strong>Executives</strong> who see scorecards and need to know what questions to ask</li>
+</ul>
+<hr />
+<p><em>"Any measurement, without knowledge of the uncertainty, is meaningless."</em><br />
+— Walter Lewin, MIT</p>
+<hr />
+<p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code> <code>Quality Assurance</code></p>
+</body>
+</html>
