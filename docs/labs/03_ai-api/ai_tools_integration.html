@@ -453,17 +453,345 @@
     <!-- SECTION 4 -->
     <section id="standardize">
         <div class="section-number">04 / WHAT WE NEED</div>
-        <h2>So....Which abstractions do we need, and what do we need to standardize? is MCP the answer?</h2>
+        <h2>So....Which abstractions do we need, and what do we need to standardize? Is MCP the answer?</h2>
 
-        <p>The key abstractions to provide are:</p>
+        <p>We identify six key dimensions of AI tool integration. For each, we assess what exists today, what gaps remain, and whether we need formal specifications, best practices, or further research.</p>
 
+        <div class="divider"></div>
+
+        <!-- Dimension 1 -->
+        <h3>Dimension 1: Basic Service Description and Interaction</h3>
+
+        <p><strong>The problem</strong>: How do agents discover what a service does and how to call it?</p>
+
+        <p><strong>What we have now</strong>:</p>
         <ul>
-            <li>Transport, service invocations, service descriptions</li>
-            <li>Description of a how to use a set of services, ideal / typical usage scenarios, things to avoid</li>
-            <li>Autonomy considerations</li>
-            <li>Observability and assessment: ability to observe and to define (tag) what is a "good" vs "bad" execution and why, and how to feed this back into the agent</li>
-            <li>Testing infra for agents</li>
+            <li><strong>For humans</strong>: HTML pages, documentation sites, examples</li>
+            <li><strong>For programs</strong>: JSON Schema, OpenAPI, MCP tool definitions</li>
+            <li><strong>Transport</strong>: HTTP, SSE, WebSockets</li>
         </ul>
+
+        <div class="thesis-block">
+            <div class="label">Key Insight</div>
+            <p>If the client is an intelligent agent, it can work with HTML just like humans do. An agent with browser access can read documentation, fill forms, and interact with services designed for humans. <strong>MCP facilitates this by providing machine-optimized descriptions, but agents could function without it</strong> — just as humans could always use websites before APIs existed.</p>
+        </div>
+
+        <p><strong>What MCP provides</strong>:</p>
+        <ul>
+            <li>Structured tool definitions (name, description, input schema)</li>
+            <li>Resource exposure (files, data the server wants to share)</li>
+            <li>Prompt templates</li>
+            <li>Transport options (stdio, SSE, streamable HTTP)</li>
+        </ul>
+
+        <p><strong>Analogy</strong>: MCP is to AI agents what APIs were to programmatic access. Humans could always scrape websites; APIs made it cleaner. Agents can always read HTML; MCP makes it cleaner. It is facilitation, not enablement.</p>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Best Practice</td><td>What to expose as tools vs. what to keep internal</td></tr>
+                <tr><td>Best Practice</td><td>Granularity: one coarse tool vs. many fine-grained tools</td></tr>
+                <tr><td>Best Practice</td><td>Naming and description conventions that reduce ambiguity</td></tr>
+                <tr><td>Best Practice</td><td>When to require structured input vs. accept natural language</td></tr>
+                <tr><td>Best Practice</td><td>Versioning strategies: how to evolve without breaking agents</td></tr>
+                <tr><td>Best Practice</td><td>Error messages that help agents recover or ask for help</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Design questions on exposure and granularity</strong>:</p>
+        <ul>
+            <li>Should <code>book_flight</code> be one tool, or <code>search_flights</code> + <code>select_flight</code> + <code>confirm_booking</code>?</li>
+            <li>If tools are too coarse, agents cannot intervene mid-workflow</li>
+            <li>If tools are too fine, agents must learn complex sequences</li>
+            <li>The right granularity depends on where you want human checkpoints</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <!-- Dimension 2 -->
+        <h3>Dimension 2: Aggregate Service Description</h3>
+
+        <p><strong>The problem</strong>: We can describe individual tools, but not how they fit together.</p>
+
+        <p><strong>What we have now</strong>:</p>
+        <ul>
+            <li>Per-tool schemas (MCP, OpenAPI)</li>
+            <li>Human-readable documentation</li>
+            <li>Ad-hoc system prompts listing tools</li>
+        </ul>
+
+        <p><strong>What's missing</strong>:</p>
+        <ul>
+            <li>How to describe a <em>set</em> of services as a coherent system</li>
+            <li>Typical workflows and sequencing ("search before booking")</li>
+            <li>Anti-patterns and things to avoid</li>
+            <li>Dependencies between tools</li>
+            <li>When to use which tool for overlapping capabilities</li>
+        </ul>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Specification</td><td>Schema for "tool set manifest" — metadata about the collection</td></tr>
+                <tr><td>Best Practice</td><td>Guidelines for writing system-level documentation</td></tr>
+                <tr><td>Best Practice</td><td>Patterns for declaring tool relationships (preconditions, sequences)</td></tr>
+                <tr><td>Best Practice</td><td>Examples of good vs. bad usage, not just API signatures</td></tr>
+                <tr><td>Research</td><td>Can agents learn workflow patterns from observation?</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Why this matters</strong>: Giving an agent 50 tools without explaining how they relate is like giving someone 50 IKEA parts without instructions. Individual descriptions do not sum to understanding.</p>
+
+        <div class="divider"></div>
+
+        <!-- Dimension 3 -->
+        <h3>Dimension 3: Autonomy</h3>
+
+        <p><strong>The problem</strong>: How much can an agent do without asking?</p>
+
+        <p><strong>What we have now</strong>:</p>
+        <ul>
+            <li>Nothing standard</li>
+            <li>Hard-coded rules in each application</li>
+            <li>Binary choices: fully autonomous or confirm everything</li>
+        </ul>
+
+        <p><strong>What's missing</strong>:</p>
+        <ul>
+            <li>Language for expressing autonomy boundaries</li>
+            <li>Mechanisms for enforcing them</li>
+            <li>Patterns for context-dependent autonomy</li>
+            <li>Ways to evolve autonomy as trust builds</li>
+        </ul>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Best Practice</td><td>Declare autonomy as allow-lists, not block-lists</td></tr>
+                <tr><td>Best Practice</td><td>Patterns for graduated autonomy — start constrained, expand with trust</td></tr>
+                <tr><td>Best Practice</td><td>Provider hints: "this action typically requires confirmation"</td></tr>
+                <tr><td>Research</td><td>Formal policy languages for autonomy</td></tr>
+                <tr><td>Research</td><td>How do humans want to express boundaries?</td></tr>
+                <tr><td>Research</td><td>Context-dependent autonomy (personal vs. work, low vs. high stakes)</td></tr>
+            </tbody>
+        </table>
+
+        <div class="content-card">
+            <h4>Key tensions</h4>
+            <ul>
+                <li>Too much autonomy → unsafe, users lose trust</li>
+                <li>Too little autonomy → agents become fancy autocomplete</li>
+                <li>Autonomy should evolve with demonstrated competence</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Dimension 4 -->
+        <h3>Dimension 4: Testing and Observability</h3>
+
+        <p><strong>The problem</strong>: How do we know if an agent is working correctly?</p>
+
+        <p><strong>What we have now</strong>:</p>
+        <ul>
+            <li>Unit tests and integration tests (for deterministic code)</li>
+            <li>Logging and tracing (OpenTelemetry)</li>
+            <li>Vibes-based evaluation ("seems to work")</li>
+        </ul>
+
+        <p><strong>What's missing</strong>:</p>
+        <ul>
+            <li>Testing strategies for non-deterministic behavior</li>
+            <li>Definition of "correct" when many paths lead to valid outcomes</li>
+            <li>Causal traces connecting goals → reasoning → actions → outcomes</li>
+            <li>Ability to tag executions as "good" or "bad" and learn from them</li>
+        </ul>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Best Practice</td><td>Test outcomes and properties, not exact trajectories</td></tr>
+                <tr><td>Best Practice</td><td>Structured logging that captures decision points</td></tr>
+                <tr><td>Best Practice</td><td>Evaluation rubrics: what makes an execution "good"?</td></tr>
+                <tr><td>Specification</td><td>Trace format that includes reasoning, not just tool calls</td></tr>
+                <tr><td>Research</td><td>Property-based testing for agents</td></tr>
+                <tr><td>Research</td><td>Trajectory evaluation — comparing paths, not just endpoints</td></tr>
+                <tr><td>Research</td><td>Feedback loops from observed failures</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>The core question</strong>: Same input → same output works for traditional software. Same goal → many valid paths for agents. What does "correct" mean?</p>
+
+        <div class="divider"></div>
+
+        <!-- Dimension 5 -->
+        <h3>Dimension 5: The Tool-Calling Loop</h3>
+
+        <p><strong>The problem</strong>: Tool use is an iterative loop, not request-response. Control flow is decided at runtime.</p>
+
+        <p><strong>What we have now</strong>:</p>
+        <ul>
+            <li>Framework-specific implementations (LangChain, Claude tools, etc.)</li>
+            <li>Ad-hoc retry logic</li>
+            <li>Token-based stopping (context exhaustion)</li>
+        </ul>
+
+        <p><strong>What's missing</strong>:</p>
+        <ul>
+            <li>Explicit design of the orchestration layer</li>
+            <li>Policies for retries, budgets, stopping conditions</li>
+            <li>Handling partial failures in multi-step operations</li>
+            <li>Compensation/rollback when things go wrong</li>
+        </ul>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Best Practice</td><td>Explicit budgets: max steps, max tokens, max cost</td></tr>
+                <tr><td>Best Practice</td><td>Stopping conditions beyond "model says done"</td></tr>
+                <tr><td>Best Practice</td><td>Retry policies: which errors are retryable? backoff?</td></tr>
+                <tr><td>Best Practice</td><td>Compensation patterns: if step 3 fails, undo steps 1-2</td></tr>
+                <tr><td>Specification</td><td>Tool metadata: idempotent, read-only, destructive</td></tr>
+                <tr><td>Research</td><td>What belongs in model reasoning vs. system enforcement?</td></tr>
+                <tr><td>Research</td><td>How do errors accumulate across steps?</td></tr>
+            </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- Dimension 6 -->
+        <h3>Dimension 6: Security and Safety</h3>
+
+        <p><strong>The problem</strong>: AI systems create new attack surfaces and blur trust boundaries.</p>
+
+        <p><strong>What we have now</strong>:</p>
+        <ul>
+            <li>Traditional API security (auth, rate limiting, input validation)</li>
+            <li>Ad-hoc prompt engineering defenses</li>
+            <li>Hope</li>
+        </ul>
+
+        <p><strong>What's missing</strong>:</p>
+        <ul>
+            <li>Defense against prompt injection (instructions hidden in data)</li>
+            <li>Prevention of data exfiltration via tools</li>
+            <li>Trust models for multi-party systems</li>
+            <li>Isolation boundaries between components</li>
+            <li>Handling sensitive data in context and memory</li>
+        </ul>
+
+        <p><strong>What we need</strong>:</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Content</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Best Practice</td><td>Treat all tool outputs as untrusted data</td></tr>
+                <tr><td>Best Practice</td><td>Minimize sensitive data in context; redact when possible</td></tr>
+                <tr><td>Best Practice</td><td>Principle of least privilege for tool access</td></tr>
+                <tr><td>Research</td><td>Trust propagation models — who trusts whom?</td></tr>
+                <tr><td>Research</td><td>Isolation architectures — sandbox tool execution?</td></tr>
+                <tr><td>Research</td><td>Prompt injection detection and defense</td></tr>
+                <tr><td>Research</td><td>Information flow control for AI systems</td></tr>
+            </tbody>
+        </table>
+
+        <div class="content-card">
+            <h4>The confused deputy problem</h4>
+            <p>A tool gets instructions from the model. The model gets instructions from the user, retrieved content, and tool outputs. If malicious content says "ignore previous instructions," where is the defense? The attack surface is the model's reasoning itself.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Summary: MCP Coverage -->
+        <h3>Summary: What MCP Covers and What It Does Not</h3>
+
+        <table>
+            <thead>
+                <tr><th>Dimension</th><th>MCP Coverage</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Basic Description & Interaction</strong></td><td>Covers</td><td>Tools, resources, prompts, transport. But agents could work without it using HTML+HTTP.</td></tr>
+                <tr><td><strong>Aggregate Service Description</strong></td><td>Not covered</td><td>No standard for describing tool sets holistically</td></tr>
+                <tr><td><strong>Autonomy</strong></td><td>Not covered</td><td>No mechanism for autonomy policies</td></tr>
+                <tr><td><strong>Testing & Observability</strong></td><td>Not covered</td><td>No trace format or evaluation standards</td></tr>
+                <tr><td><strong>Tool-Calling Loop</strong></td><td>Not covered</td><td>Orchestration is left to implementations</td></tr>
+                <tr><td><strong>Security & Safety</strong></td><td>Not covered</td><td>No trust model or isolation mechanisms</td></tr>
+            </tbody>
+        </table>
+
+        <p>MCP addresses the <strong>syntax</strong> of tool integration. The <strong>semantics</strong> — how tools work together, how much freedom agents have, how we verify correctness, how we stay safe — remain open.</p>
+
+        <div class="divider"></div>
+
+        <!-- Summary Table -->
+        <h3>Summary Table: What We Need</h3>
+
+        <table>
+            <thead>
+                <tr><th>Dimension</th><th>Specification</th><th>Best Practice</th><th>Research</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Basic Description & Interaction</strong></td>
+                    <td>MCP (optional)</td>
+                    <td>Exposure decisions, granularity, naming, versioning, error messages</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Aggregate Service Description</strong></td>
+                    <td>Tool set manifest</td>
+                    <td>System-level docs, workflow patterns, examples</td>
+                    <td>Learning from observation</td>
+                </tr>
+                <tr>
+                    <td><strong>Autonomy</strong></td>
+                    <td>—</td>
+                    <td>Allow-lists, graduated autonomy, provider hints</td>
+                    <td>Policy languages, context-dependence</td>
+                </tr>
+                <tr>
+                    <td><strong>Testing & Observability</strong></td>
+                    <td>Trace format</td>
+                    <td>Outcome testing, logging, rubrics</td>
+                    <td>Property testing, trajectory evaluation</td>
+                </tr>
+                <tr>
+                    <td><strong>Tool-Calling Loop</strong></td>
+                    <td>Safety metadata</td>
+                    <td>Budgets, stopping, retries, compensation</td>
+                    <td>Architecture, error accumulation</td>
+                </tr>
+                <tr>
+                    <td><strong>Security & Safety</strong></td>
+                    <td>—</td>
+                    <td>Least privilege, data minimization, distrust outputs</td>
+                    <td>Trust models, isolation, injection defense</td>
+                </tr>
+            </tbody>
+        </table>
+
     </section>
 
 </main>

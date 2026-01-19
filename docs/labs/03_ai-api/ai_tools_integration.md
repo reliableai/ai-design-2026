@@ -434,12 +434,228 @@ implementation details—is essential for building AI systems that are predictab
 safe, and aligned with user expectations.
 
 
-## So....Which abstractions do we need, and what do we need to standardize? is MCP the answer?
+## So....Which abstractions do we need, and what do we need to standardize? Is MCP the answer?
 
-The key abstractions to provide are:
+We identify six key dimensions of AI tool integration. For each, we assess what exists today, what gaps remain, and whether we need formal specifications, best practices, or further research.
 
-- Transport, service invocations, service descriptions
-- Description of a how to use a set of services, ideal / typical usage scenarios, things to avoid
-- Autonomy considerations
-- Observability and assessment: ability to observe and to define (tag) what is a "good" vs "bad" execution and why, and how to feed this back into the agent
-- Testing infra for agents
+---
+
+### Dimension 1: Basic Service Description and Interaction
+
+**The problem**: How do agents discover what a service does and how to call it?
+
+**What we have now**:
+- **For humans**: HTML pages, documentation sites, examples
+- **For programs**: JSON Schema, OpenAPI, MCP tool definitions
+- **Transport**: HTTP, SSE, WebSockets
+
+**Key insight**: If the client is an intelligent agent, it can work with HTML just like humans do. An agent with browser access can read documentation, fill forms, and interact with services designed for humans. **MCP facilitates this by providing machine-optimized descriptions, but agents could function without it** — just as humans could always use websites before APIs existed.
+
+**What MCP provides**:
+- Structured tool definitions (name, description, input schema)
+- Resource exposure (files, data the server wants to share)
+- Prompt templates
+- Transport options (stdio, SSE, streamable HTTP)
+
+**Analogy**: MCP is to AI agents what APIs were to programmatic access. Humans could always scrape websites; APIs made it cleaner. Agents can always read HTML; MCP makes it cleaner. It is facilitation, not enablement.
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Best Practice | What to expose as tools vs. what to keep internal |
+| Best Practice | Granularity: one coarse tool vs. many fine-grained tools |
+| Best Practice | Naming and description conventions that reduce ambiguity |
+| Best Practice | When to require structured input vs. accept natural language |
+| Best Practice | Versioning strategies: how to evolve without breaking agents |
+| Best Practice | Error messages that help agents recover or ask for help |
+
+**Design questions on exposure and granularity**:
+- Should `book_flight` be one tool, or `search_flights` + `select_flight` + `confirm_booking`?
+- If tools are too coarse, agents cannot intervene mid-workflow
+- If tools are too fine, agents must learn complex sequences
+- The right granularity depends on where you want human checkpoints
+
+---
+
+### Dimension 2: Aggregate Service Description
+
+**The problem**: We can describe individual tools, but not how they fit together.
+
+**What we have now**:
+- Per-tool schemas (MCP, OpenAPI)
+- Human-readable documentation
+- Ad-hoc system prompts listing tools
+
+**What's missing**:
+- How to describe a *set* of services as a coherent system
+- Typical workflows and sequencing ("search before booking")
+- Anti-patterns and things to avoid
+- Dependencies between tools
+- When to use which tool for overlapping capabilities
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Specification | Schema for "tool set manifest" — metadata about the collection |
+| Best Practice | Guidelines for writing system-level documentation |
+| Best Practice | Patterns for declaring tool relationships (preconditions, sequences) |
+| Best Practice | Examples of good vs. bad usage, not just API signatures |
+| Research | Can agents learn workflow patterns from observation? |
+
+**Why this matters**: Giving an agent 50 tools without explaining how they relate is like giving someone 50 IKEA parts without instructions. Individual descriptions do not sum to understanding.
+
+---
+
+### Dimension 3: Autonomy
+
+**The problem**: How much can an agent do without asking?
+
+**What we have now**:
+- Nothing standard
+- Hard-coded rules in each application
+- Binary choices: fully autonomous or confirm everything
+
+**What's missing**:
+- Language for expressing autonomy boundaries
+- Mechanisms for enforcing them
+- Patterns for context-dependent autonomy
+- Ways to evolve autonomy as trust builds
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Best Practice | Declare autonomy as allow-lists, not block-lists |
+| Best Practice | Patterns for graduated autonomy — start constrained, expand with trust |
+| Best Practice | Provider hints: "this action typically requires confirmation" |
+| Research | Formal policy languages for autonomy |
+| Research | How do humans want to express boundaries? |
+| Research | Context-dependent autonomy (personal vs. work, low vs. high stakes) |
+
+**Key tensions**:
+- Too much autonomy → unsafe, users lose trust
+- Too little autonomy → agents become fancy autocomplete
+- Autonomy should evolve with demonstrated competence
+
+---
+
+### Dimension 4: Testing and Observability
+
+**The problem**: How do we know if an agent is working correctly?
+
+**What we have now**:
+- Unit tests and integration tests (for deterministic code)
+- Logging and tracing (OpenTelemetry)
+- Vibes-based evaluation ("seems to work")
+
+**What's missing**:
+- Testing strategies for non-deterministic behavior
+- Definition of "correct" when many paths lead to valid outcomes
+- Causal traces connecting goals → reasoning → actions → outcomes
+- Ability to tag executions as "good" or "bad" and learn from them
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Best Practice | Test outcomes and properties, not exact trajectories |
+| Best Practice | Structured logging that captures decision points |
+| Best Practice | Evaluation rubrics: what makes an execution "good"? |
+| Specification | Trace format that includes reasoning, not just tool calls |
+| Research | Property-based testing for agents |
+| Research | Trajectory evaluation — comparing paths, not just endpoints |
+| Research | Feedback loops from observed failures |
+
+**The core question**: Same input → same output works for traditional software. Same goal → many valid paths for agents. What does "correct" mean?
+
+---
+
+### Dimension 5: The Tool-Calling Loop
+
+**The problem**: Tool use is an iterative loop, not request-response. Control flow is decided at runtime.
+
+**What we have now**:
+- Framework-specific implementations (LangChain, Claude tools, etc.)
+- Ad-hoc retry logic
+- Token-based stopping (context exhaustion)
+
+**What's missing**:
+- Explicit design of the orchestration layer
+- Policies for retries, budgets, stopping conditions
+- Handling partial failures in multi-step operations
+- Compensation/rollback when things go wrong
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Best Practice | Explicit budgets: max steps, max tokens, max cost |
+| Best Practice | Stopping conditions beyond "model says done" |
+| Best Practice | Retry policies: which errors are retryable? backoff? |
+| Best Practice | Compensation patterns: if step 3 fails, undo steps 1-2 |
+| Specification | Tool metadata: idempotent, read-only, destructive |
+| Research | What belongs in model reasoning vs. system enforcement? |
+| Research | How do errors accumulate across steps? |
+
+---
+
+### Dimension 6: Security and Safety
+
+**The problem**: AI systems create new attack surfaces and blur trust boundaries.
+
+**What we have now**:
+- Traditional API security (auth, rate limiting, input validation)
+- Ad-hoc prompt engineering defenses
+- Hope
+
+**What's missing**:
+- Defense against prompt injection (instructions hidden in data)
+- Prevention of data exfiltration via tools
+- Trust models for multi-party systems
+- Isolation boundaries between components
+- Handling sensitive data in context and memory
+
+**What we need**:
+
+| Type | Content |
+|------|---------|
+| Best Practice | Treat all tool outputs as untrusted data |
+| Best Practice | Minimize sensitive data in context; redact when possible |
+| Best Practice | Principle of least privilege for tool access |
+| Research | Trust propagation models — who trusts whom? |
+| Research | Isolation architectures — sandbox tool execution? |
+| Research | Prompt injection detection and defense |
+| Research | Information flow control for AI systems |
+
+**The confused deputy problem**: A tool gets instructions from the model. The model gets instructions from the user, retrieved content, and tool outputs. If malicious content says "ignore previous instructions," where is the defense? The attack surface is the model's reasoning itself.
+
+---
+
+## Summary: What MCP Covers and What It Does Not
+
+| Dimension | MCP Coverage | Notes |
+|-----------|--------------|-------|
+| **Basic Description & Interaction** | Covers | Tools, resources, prompts, transport. But agents could work without it using HTML+HTTP. |
+| **Aggregate Service Description** | Not covered | No standard for describing tool sets holistically |
+| **Autonomy** | Not covered | No mechanism for autonomy policies |
+| **Testing & Observability** | Not covered | No trace format or evaluation standards |
+| **Tool-Calling Loop** | Not covered | Orchestration is left to implementations |
+| **Security & Safety** | Not covered | No trust model or isolation mechanisms |
+
+MCP addresses the **syntax** of tool integration. The **semantics** — how tools work together, how much freedom agents have, how we verify correctness, how we stay safe — remain open.
+
+---
+
+## Summary Table: What We Need
+
+| Dimension | Specification | Best Practice | Research |
+|-----------|---------------|---------------|----------|
+| **Basic Description & Interaction** | MCP (optional) | Exposure decisions, granularity, naming, versioning, error messages | — |
+| **Aggregate Service Description** | Tool set manifest | System-level docs, workflow patterns, examples | Learning from observation |
+| **Autonomy** | — | Allow-lists, graduated autonomy, provider hints | Policy languages, context-dependence |
+| **Testing & Observability** | Trace format | Outcome testing, logging, rubrics | Property testing, trajectory evaluation |
+| **Tool-Calling Loop** | Safety metadata | Budgets, stopping, retries, compensation | Architecture, error accumulation |
+| **Security & Safety** | — | Least privilege, data minimization, distrust outputs | Trust models, isolation, injection defense |
+
