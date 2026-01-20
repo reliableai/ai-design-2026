@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<!--
+  Content by Fabio Casati
+  https://www.linkedin.com/in/sphoebs/
+  https://x.com/sphoebs
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L2: Stateless & Stateful Agents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../../lecture-style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<nav>
+    <div class="logo">L2: Stateless & Stateful Agents</div>
+    <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#stateless">1. Stateless</a></li>
+        <li><a href="#stateful">2. Stateful</a></li>
+        <li><a href="#tradeoffs">3. Tradeoffs</a></li>
+        <li><a href="#memory">4. Memory</a></li>
+        <li><a href="#apis">5. APIs</a></li>
+        <li><a href="#references">References</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <!-- TITLE -->
+    <div class="title-section" id="intro">
+        <h1>Stateless & Stateful Agents</h1>
+        <p class="subtitle">From single calls to conversations: managing context, cost, and memory</p>
+    </div>
+
+    <!-- INTRO -->
+    <section>
+        <h3>Learning objectives</h3>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ol>
+            <li>Build a stateless agent that treats each turn independently</li>
+            <li>Build a stateful agent that maintains conversation history</li>
+            <li>Measure and predict how cost and latency grow with context length</li>
+            <li>Implement context windowing to bound resource usage</li>
+            <li>Design a memory system that summarizes older context</li>
+            <li>Understand the tradeoffs between Chat Completions and Responses APIs</li>
+        </ol>
+
+        <h3>From calls to conversations</h3>
+
+        <p>In Lesson 1, every API call was <strong>stateless</strong>—the model had no memory of what came before. Ask "What is 2+2?", get "4". Ask "Multiply that by 3", and the model has no idea what "that" refers to.</p>
+
+        <p>Real applications need <strong>context</strong>. A coding assistant must remember what file you're working on. A customer service bot must remember your order number. A tutor must remember what you've already learned.</p>
+
+        <div class="thesis-block">
+            <div class="label">Key insight</div>
+            <p>LLMs are stateless functions. <strong>State is your responsibility.</strong> The model doesn't remember anything—you must send the relevant context with every request. This design choice has profound implications for cost, latency, and system architecture.</p>
+        </div>
+
+        <h3>What is an "agent"?</h3>
+
+        <p>An <strong>agent</strong> is a program that:</p>
+        <ul>
+            <li>Receives input (user message, event, trigger)</li>
+            <li>Decides what to do next (often by calling an LLM)</li>
+            <li>Takes action (responds, calls a tool, updates state)</li>
+            <li>Repeats until done</li>
+        </ul>
+
+        <p>This lesson focuses on the simplest agents: those that just converse. Lesson 3 adds <strong>tools</strong>, which let agents take actions beyond generating text.</p>
+
+        <h3>Cost awareness</h3>
+
+        <p>Today's examples are cheap to run individually, but the lesson is about <em>how costs scale</em>:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Example</th>
+                    <th>Model</th>
+                    <th>Cost per turn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Stateless agent</td>
+                    <td>gpt-4.1-mini</td>
+                    <td>~$0.001</td>
+                </tr>
+                <tr>
+                    <td>Stateful agent (10 turns)</td>
+                    <td>gpt-4.1-mini</td>
+                    <td>~$0.005 (growing)</td>
+                </tr>
+                <tr>
+                    <td>Agent with memory</td>
+                    <td>gpt-4.1-mini × 2</td>
+                    <td>~$0.002 (bounded)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The key observation: stateful agents with unbounded history have <strong>quadratic cost growth</strong> over a conversation. By turn 100, you're paying for 100× the context of turn 1.</p>
+    </section>
+
+    <!-- SECTION 1: STATELESS -->
+    <section id="stateless">
+        <div class="section-number">01 / STATELESS AGENT</div>
+        <h2>No memory, no context</h2>
+
+        <p>A stateless agent sends only the current user message. Each turn is independent.</p>
+
+        <pre><code class="language-python">"""
+Stateless Agent - Each turn starts fresh
+
+The model has no idea what you said before.
+This is the simplest possible agent.
+"""
+from dotenv import load_dotenv
+from openai import OpenAI
+import time
+
+load_dotenv()
+client = OpenAI()
+
+print("Stateless agent. Type 'exit' to quit.\n")
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        break
+
+    start = time.time()
+    
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "user", "content": user_input}
+        ],
+        temperature=0.7,
+    )
+    
+    elapsed = time.time() - start
+    reply = response.choices[0].message.content
+
+    print(f"\nAssistant ({elapsed:.2f}s):")
+    print(reply)
+    print()</code></pre>
+
+        <p><strong>Run it:</strong></p>
+        <pre><code class="language-bash">uv run python docs/labs/02_standalone_agents/1_stateless_agent.py</code></pre>
+
+        <h3>Try this conversation</h3>
+
+        <pre><code class="language-text">You: My name is Alice.
+Assistant: Nice to meet you, Alice! How can I help you today?
+
+You: What's my name?
+Assistant: I don't have access to personal information about you...</code></pre>
+
+        <p>The model doesn't know your name because it never saw the first message. Each turn is a fresh start.</p>
+
+        <div class="content-card">
+            <h4>When stateless works</h4>
+            <ul>
+                <li><strong>Single-shot tasks:</strong> "Translate this sentence to French"</li>
+                <li><strong>Independent queries:</strong> "What's the capital of France?"</li>
+                <li><strong>Stateless APIs:</strong> Serverless functions, webhooks</li>
+            </ul>
+            <p>If each request is self-contained, stateless is simpler and cheaper.</p>
+        </div>
+
+        <h3>Cost analysis</h3>
+
+        <p>With a stateless agent, cost per turn is <strong>constant</strong>:</p>
+
+        <pre><code class="language-text">Turn 1: ~100 tokens input + ~100 tokens output = ~200 tokens
+Turn 2: ~100 tokens input + ~100 tokens output = ~200 tokens
+Turn N: ~100 tokens input + ~100 tokens output = ~200 tokens
+
+Total after N turns: ~200N tokens</code></pre>
+
+        <p>Linear growth. Predictable. But no memory.</p>
+    </section>
+
+    <!-- SECTION 2: STATEFUL -->
+    <section id="stateful">
+        <div class="section-number">02 / STATEFUL AGENT</div>
+        <h2>Full conversation history</h2>
+
+        <p>A stateful agent maintains the entire conversation and sends it with every request.</p>
+
+        <pre><code class="language-python">"""
+Stateful Agent - Maintains conversation history
+
+Every turn includes the full history.
+The model can reference anything said before.
+"""
+from dotenv import load_dotenv
+from openai import OpenAI
+import time
+
+load_dotenv()
+client = OpenAI()
+
+# ---- AGENT STATE ----
+conversation = []
+
+print("Stateful agent. Type 'exit' to quit.\n")
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        break
+
+    # Add user message to state
+    conversation.append({"role": "user", "content": user_input})
+
+    start = time.time()
+    
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=conversation,  # Send full history
+        temperature=0.7,
+    )
+    
+    elapsed = time.time() - start
+    reply = response.choices[0].message.content
+
+    # Add assistant message to state
+    conversation.append({"role": "assistant", "content": reply})
+
+    print(f"\nAssistant ({elapsed:.2f}s):")
+    print(reply)
+    print()</code></pre>
+
+        <p><strong>Run it:</strong></p>
+        <pre><code class="language-bash">uv run python docs/labs/02_standalone_agents/2_stateful_agent.py</code></pre>
+
+        <h3>Now try the same conversation</h3>
+
+        <pre><code class="language-text">You: My name is Alice.
+Assistant: Nice to meet you, Alice! How can I help you today?
+
+You: What's my name?
+Assistant: Your name is Alice!</code></pre>
+
+        <p>It works! The model sees both messages in the history.</p>
+
+        <h3>What's actually sent</h3>
+
+        <p>On turn 3, the API receives:</p>
+
+        <pre><code class="language-python">messages = [
+    {"role": "user", "content": "My name is Alice."},
+    {"role": "assistant", "content": "Nice to meet you, Alice!..."},
+    {"role": "user", "content": "What's my name?"},
+    {"role": "assistant", "content": "Your name is Alice!"},
+    {"role": "user", "content": "What's my favorite color?"},  # Current turn
+]</code></pre>
+
+        <p>The model sees everything. But you're <em>paying</em> for everything.</p>
+
+        <div class="thesis-block">
+            <div class="label">The hidden cost</div>
+            <p>Every token in the conversation history is processed on every turn. By turn 50, you might be sending 10,000+ tokens of context—even if the current question is "yes or no?"</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: TRADEOFFS -->
+    <section id="tradeoffs">
+        <div class="section-number">03 / COST & LATENCY TRADEOFFS</div>
+        <h2>The quadratic problem</h2>
+
+        <p>Let's analyze how costs grow with a stateful agent:</p>
+
+        <pre><code class="language-text">Assume: 100 tokens per user message, 200 tokens per assistant response
+
+Turn 1: Input = 100 tokens
+Turn 2: Input = 100 + 200 + 100 = 400 tokens
+Turn 3: Input = 400 + 200 + 100 = 700 tokens
+Turn N: Input ≈ 300N tokens
+
+Total input tokens after N turns:
+  100 + 400 + 700 + ... + 300N ≈ 150N² tokens</code></pre>
+
+        <p><strong>Quadratic growth.</strong> Double the conversation length, quadruple the total cost.</p>
+
+        <h3>Real numbers</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Turns</th>
+                    <th>Approx. input tokens (cumulative)</th>
+                    <th>Cost at $0.15/M input</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10</td>
+                    <td>15,000</td>
+                    <td>$0.002</td>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td>375,000</td>
+                    <td>$0.056</td>
+                </tr>
+                <tr>
+                    <td>100</td>
+                    <td>1,500,000</td>
+                    <td>$0.225</td>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>37,500,000</td>
+                    <td>$5.63</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>A 500-turn conversation costs 2,500× as much per turn as a 10-turn conversation.</p>
+
+        <h3>Latency grows too</h3>
+
+        <p>More input tokens = more processing time. With a stateful agent:</p>
+
+        <ul>
+            <li>Turn 1: ~0.5s latency</li>
+            <li>Turn 50: ~2-3s latency</li>
+            <li>Turn 100+: potentially 5-10s+ latency</li>
+        </ul>
+
+        <p>Users notice. Long waits feel broken, even if the answer is good.</p>
+
+        <h3>Context window limits</h3>
+
+        <p>Every model has a maximum context length:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Context window</th>
+                    <th>Approx. turns at 300 tokens/turn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>gpt-4.1-mini</td>
+                    <td>128K tokens</td>
+                    <td>~400 turns</td>
+                </tr>
+                <tr>
+                    <td>claude-3.5-sonnet</td>
+                    <td>200K tokens</td>
+                    <td>~650 turns</td>
+                </tr>
+                <tr>
+                    <td>gpt-4.1</td>
+                    <td>128K tokens</td>
+                    <td>~400 turns</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Hit the limit, and your agent breaks. You must handle this.</p>
+
+        <div class="content-card">
+            <h4>The tradeoff triangle</h4>
+            <p>Pick two:</p>
+            <ul>
+                <li><strong>Full context:</strong> Model sees everything, best quality</li>
+                <li><strong>Low cost:</strong> Minimal tokens sent per turn</li>
+                <li><strong>Low latency:</strong> Fast responses</li>
+            </ul>
+            <p>You can't have all three with unbounded history. Something must give.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: MEMORY -->
+    <section id="memory">
+        <div class="section-number">04 / CONTEXT WINDOWING & MEMORY</div>
+        <h2>Bounding the unbounded</h2>
+
+        <p>The solution: don't send <em>everything</em>. Send what matters.</p>
+
+        <h3>Strategy 1: Sliding window</h3>
+
+        <p>Keep only the last N turns. Simple, predictable, but lossy.</p>
+
+        <pre><code class="language-python">def get_windowed_messages(conversation, window_size=6):
+    """Keep only the last N turns (user + assistant pairs)."""
+    if len(conversation) <= window_size * 2:
+        return conversation
+    
+    # Keep the last window_size turns
+    return conversation[-(window_size * 2):]
+
+# Usage
+messages = get_windowed_messages(conversation, window_size=6)
+response = client.chat.completions.create(
+    model="gpt-4.1-mini",
+    messages=messages,
+)</code></pre>
+
+        <p>Cost is now <strong>bounded</strong>: ~1,800 tokens max input regardless of conversation length.</p>
+
+        <p><strong>Problem:</strong> The model forgets everything outside the window. Ask "What did I tell you at the start?" and it has no idea.</p>
+
+        <h3>Strategy 2: Window + summarized memory</h3>
+
+        <p>Compress older turns into a summary. Keep recent turns verbatim.</p>
+
+        <pre><code class="language-python">"""
+Agent with sliding window + memory summary
+
+Old turns are compressed into a summary.
+Recent turns are kept verbatim.
+"""
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+client = OpenAI()
+
+WINDOW_TURNS = 6
+conversation = []
+memory_summary = ""
+
+def summarize_turns(turns, existing_memory):
+    """Compress turns into a memory summary."""
+    transcript = "\n".join([
+        f"{m['role'].title()}: {m['content']}" 
+        for m in turns
+    ])
+    
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[{
+            "role": "system",
+            "content": """Update this memory summary with new information.
+Keep it short (max 200 words). Focus on:
+- Facts about the user
+- Decisions made
+- Important context
+Return only the updated summary."""
+        }, {
+            "role": "user", 
+            "content": f"EXISTING MEMORY:\n{existing_memory or '(empty)'}\n\nNEW TURNS:\n{transcript}"
+        }],
+        temperature=0,
+    )
+    return response.choices[0].message.content
+
+def build_messages(memory, recent_turns, user_input):
+    """Build the message array for the API call."""
+    messages = [{
+        "role": "system",
+        "content": f"""You are a helpful assistant.
+
+MEMORY (summary of earlier conversation):
+{memory or '(none yet)'}
+
+Use this memory as context, but focus on the recent conversation."""
+    }]
+    messages.extend(recent_turns)
+    messages.append({"role": "user", "content": user_input})
+    return messages
+
+# Main loop
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "exit":
+        break
+
+    # Check if we need to compress older turns
+    if len(conversation) > WINDOW_TURNS * 2:
+        older = conversation[:-(WINDOW_TURNS * 2)]
+        memory_summary = summarize_turns(older, memory_summary)
+        conversation = conversation[-(WINDOW_TURNS * 2):]
+
+    messages = build_messages(memory_summary, conversation, user_input)
+    
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=messages,
+        temperature=0.7,
+    )
+    
+    reply = response.choices[0].message.content
+    
+    conversation.append({"role": "user", "content": user_input})
+    conversation.append({"role": "assistant", "content": reply})
+    
+    print(f"\nAssistant: {reply}\n")</code></pre>
+
+        <p><strong>Run it:</strong></p>
+        <pre><code class="language-bash">uv run python docs/labs/02_standalone_agents/3_agent_with_memory.py</code></pre>
+
+        <h3>How memory helps</h3>
+
+        <pre><code class="language-text"># After 20 turns, the model sees:
+
+MEMORY (summary of earlier conversation):
+- User's name is Alice
+- User is learning Python
+- User prefers practical examples over theory
+- User is working on a web scraping project
+
+[Last 6 turns verbatim]
+
+You: How should I handle rate limiting?</code></pre>
+
+        <p>The model knows who Alice is and what she's working on—without sending 20 turns of raw text.</p>
+
+        <div class="thesis-block">
+            <div class="label">Key insight</div>
+            <p>Memory is <strong>lossy compression</strong>. You're trading fidelity for efficiency. The summarizer decides what matters—and it might be wrong. This is a fundamental design choice, not a bug to fix.</p>
+        </div>
+
+        <h3>Memory design choices</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Choice</th>
+                    <th>Tradeoff</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Larger window</td>
+                    <td>More fidelity, higher cost</td>
+                </tr>
+                <tr>
+                    <td>More detailed summaries</td>
+                    <td>More context preserved, higher summarization cost</td>
+                </tr>
+                <tr>
+                    <td>Summarize every turn</td>
+                    <td>Freshest memory, 2× API calls</td>
+                </tr>
+                <tr>
+                    <td>Summarize in batches</td>
+                    <td>Cheaper, but stale memory</td>
+                </tr>
+                <tr>
+                    <td>Structured memory (JSON)</td>
+                    <td>Machine-readable, but rigid</td>
+                </tr>
+                <tr>
+                    <td>Free-form summary</td>
+                    <td>Flexible, but unpredictable</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Memory summary formats</h3>
+
+        <p>The example code supports multiple summary styles:</p>
+
+        <pre><code class="language-python"># Bullet points (default)
+SUMMARY_STYLE = "BULLETS"
+# Output:
+# - User's name is Alice
+# - Working on web scraping project
+# - Prefers Python examples
+
+# Structured JSON
+SUMMARY_STYLE = "JSON"
+# Output:
+# {"facts": ["Name: Alice"], "goals": ["Learn web scraping"], ...}
+
+# Paragraph
+SUMMARY_STYLE = "TLDR"
+# Output:
+# Alice is learning Python for a web scraping project...</code></pre>
+
+        <p>Experiment with these. Different applications need different memory structures.</p>
+    </section>
+
+    <!-- SECTION 5: APIs -->
+    <section id="apis">
+        <div class="section-number">05 / CHAT COMPLETIONS VS RESPONSES API</div>
+        <h2>Two approaches to state</h2>
+
+        <p>So far we've used the <strong>Chat Completions API</strong>—the industry standard. OpenAI also offers a newer <strong>Responses API</strong> with different tradeoffs.</p>
+
+        <h3>Chat Completions: You manage state</h3>
+
+        <pre><code class="language-python"># Chat Completions: stateless, you send full history
+messages = [
+    {"role": "system", "content": "You are helpful."},
+    {"role": "user", "content": "My name is Alice."},
+    {"role": "assistant", "content": "Nice to meet you!"},
+    {"role": "user", "content": "What's my name?"},
+]
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=messages  # You manage this list
+)</code></pre>
+
+        <p><strong>Characteristics:</strong></p>
+        <ul>
+            <li>Stateless: you send everything every time</li>
+            <li>Industry standard: works with OpenAI, Anthropic, OpenRouter, etc.</li>
+            <li>Full control over what's in context</li>
+            <li>You handle truncation, summarization, storage</li>
+        </ul>
+
+        <h3>Responses API: Optional server-side state</h3>
+
+        <pre><code class="language-python"># Responses API: server can store conversation
+response1 = client.responses.create(
+    model="gpt-4o",
+    input="My name is Alice.",
+    store=True  # OpenAI stores this
+)
+
+# Chain without resending history
+response2 = client.responses.create(
+    model="gpt-4o",
+    input="What's my name?",
+    previous_response_id=response1.id  # Reference previous
+)</code></pre>
+
+        <p><strong>Characteristics:</strong></p>
+        <ul>
+            <li>Optional server-side state (via <code>previous_response_id</code>)</li>
+            <li>Typed output items (function_call, message, reasoning, etc.)</li>
+            <li>Built-in tools (web search, file search, code interpreter)</li>
+            <li><strong>OpenAI-specific</strong>—no portability to other providers</li>
+        </ul>
+
+        <h3>When to use which</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Multi-vendor flexibility needed</td>
+                    <td>Chat Completions</td>
+                </tr>
+                <tr>
+                    <td>Serverless / stateless architecture</td>
+                    <td>Chat Completions</td>
+                </tr>
+                <tr>
+                    <td>OpenAI-only, want latest features</td>
+                    <td>Responses API</td>
+                </tr>
+                <tr>
+                    <td>Need built-in web search / file search</td>
+                    <td>Responses API</td>
+                </tr>
+                <tr>
+                    <td>Tool-heavy agentic workflows</td>
+                    <td>Responses API</td>
+                </tr>
+                <tr>
+                    <td>Learning / this course</td>
+                    <td>Chat Completions (portable)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="content-card">
+            <h4>For this course</h4>
+            <p>We use <strong>Chat Completions</strong> throughout because it's the industry standard and works across providers. The Responses API is powerful but locks you into OpenAI. Understanding Chat Completions means you can work with any LLM provider.</p>
+            <p>See <code>chat-completions-vs-responses-api.md</code> for a deep technical comparison.</p>
+        </div>
+    </section>
+
+    <!-- WHAT'S NEXT -->
+    <section id="whats-next">
+        <div class="section-number">WHAT'S NEXT</div>
+        <h2>From conversations to actions</h2>
+
+        <p>You can now build agents that maintain context across turns. But they can only <em>talk</em>. They can't <em>do</em> anything.</p>
+
+        <p>In the next lesson, we add <strong>tools</strong>—functions the model can call to interact with the outside world: search the web, query a database, send an email, run code. This transforms a chatbot into an agent that takes actions.</p>
+
+        <p>The stateful agent becomes an <strong>agentic loop</strong>:</p>
+
+        <pre><code class="language-text">while not done:
+    response = call_llm(messages)
+    
+    if response.wants_to_use_tool:
+        result = execute_tool(response.tool_call)
+        messages.append(tool_result)
+    else:
+        return response.message</code></pre>
+
+        <p>Tools raise new questions: What if the tool fails? What if the model loops forever? What if it calls the wrong tool? Lesson 3 explores the design of this orchestration layer.</p>
+
+        <h3>Exercises</h3>
+
+        <ol>
+            <li><strong>Measure growth:</strong> Modify <code>stateful_agent.py</code> to print token counts on each turn (check <code>response.usage</code>). Have a 20-turn conversation. Plot input tokens vs turn number. Is it linear? Quadratic?</li>
+            
+            <li><strong>Window experiment:</strong> Use the memory agent with window sizes of 2, 6, and 12. Have a conversation where early information matters (e.g., "My name is Alice" then 15 turns later "What's my name?"). When does it fail?</li>
+            
+            <li><strong>Summary comparison:</strong> Try all three <code>SUMMARY_STYLE</code> options (BULLETS, JSON, TLDR). Which preserves information best? Which is most compact? Does the model use the structured JSON effectively?</li>
+            
+            <li><strong>Cost calculator:</strong> Write a function that estimates the total cost of an N-turn conversation with (a) full history, (b) windowed, (c) windowed + memory. Assume 100 tokens/user message, 200 tokens/assistant response, and current gpt-4.1-mini pricing.</li>
+            
+            <li><strong>System prompt as memory:</strong> Instead of a summary, try storing key facts in the system prompt and updating it each turn. Compare to the summary approach. What are the tradeoffs?</li>
+        </ol>
+    </section>
+
+    <!-- REFERENCES -->
+    <section id="references">
+        <div class="section-number">REFERENCES</div>
+        <h2>Documentation & resources</h2>
+
+        <h3>API documentation</h3>
+        <ul>
+            <li><a href="https://platform.openai.com/docs/guides/conversation-state">OpenAI: Managing Conversation State</a> — official guide on context management</li>
+            <li><a href="https://platform.openai.com/docs/guides/responses-vs-chat-completions">OpenAI: Responses vs Chat Completions</a> — comparison of the two APIs</li>
+            <li><a href="https://platform.openai.com/docs/api-reference/chat/create">Chat Completions API Reference</a> — parameter details</li>
+            <li><a href="https://openrouter.ai/docs">OpenRouter Documentation</a> — multi-provider API</li>
+        </ul>
+
+        <h3>Background reading</h3>
+        <ul>
+            <li><a href="https://www.anthropic.com/news/contextual-retrieval">Anthropic: Contextual Retrieval</a> — advanced memory strategies</li>
+            <li><a href="https://arxiv.org/abs/2404.16811">MemoryBank: Enhancing Large Language Models with Long-Term Memory</a> — research on LLM memory</li>
+        </ul>
+
+        <h3>Code for this lesson</h3>
+        <ul>
+            <li><code>docs/labs/02_standalone_agents/1_stateless_agent.py</code> — no memory baseline</li>
+            <li><code>docs/labs/02_standalone_agents/2_stateful_agent.py</code> — full history</li>
+            <li><code>docs/labs/02_standalone_agents/3_agent_with_memory.py</code> — window + summary</li>
+            <li><code>docs/labs/02_standalone_agents/chat-completions-vs-responses-api.md</code> — detailed API comparison</li>
+        </ul>
+
+        <h3>Takeaways</h3>
+        
+        <div class="thesis-block">
+            <div class="label">Lesson 2 summary</div>
+            <ul style="margin-bottom: 0;">
+                <li><strong>LLMs are stateless.</strong> Context is your responsibility.</li>
+                <li><strong>Full history doesn't scale.</strong> Cost and latency grow quadratically.</li>
+                <li><strong>Memory is lossy compression.</strong> You choose what to keep and what to lose.</li>
+                <li><strong>Design for your constraints.</strong> Window size, summary format, and update frequency are all tradeoffs.</li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    L2: Stateless & Stateful Agents — AI Design Course, University of Trento
+    <br><span style="font-size: 0.85em;">Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a></span>
+</footer>
+
+<script>
+    hljs.highlightAll();
+
+    // Highlight current section in nav
+    const sections = document.querySelectorAll('section[id], .title-section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+        let current = 'intro';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 200) {
+                current = section.getAttribute('id') || 'intro';
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
