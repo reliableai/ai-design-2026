@@ -283,6 +283,8 @@ The questions we ask are the same as for SOA:
 And - as a developer and as a user - how do we make use of this.
 
 
+And perhaps the most important question: we are designing specs to simplify the work for LLMs. but modern LLMs are way more powerful than humans. So - do we need anything more than what we have? and if so, why?
+
 
 **What's different with AI agents?**
 
