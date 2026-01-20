@@ -26,7 +26,8 @@
         <li><a href="#stateful">2. Stateful</a></li>
         <li><a href="#tradeoffs">3. Tradeoffs</a></li>
         <li><a href="#memory">4. Memory</a></li>
-        <li><a href="#apis">5. APIs</a></li>
+        <li><a href="#long-term">5. Long-Term</a></li>
+        <li><a href="#apis">6. APIs</a></li>
         <li><a href="#references">References</a></li>
     </ul>
 </nav>
@@ -587,9 +588,188 @@ SUMMARY_STYLE = "TLDR"
         <p>Experiment with these. Different applications need different memory structures.</p>
     </section>
 
-    <!-- SECTION 5: APIs -->
+    <!-- SECTION 5: LONG-TERM MEMORY -->
+    <section id="long-term">
+        <div class="section-number">05 / SHORT-TERM VS LONG-TERM MEMORY</div>
+        <h2>Memory that persists</h2>
+
+        <p>So far, all our memory resets when the conversation ends. But real applications need to remember users <em>across</em> conversations.</p>
+
+        <h3>Two types of memory</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Scope</th>
+                    <th>Examples</th>
+                    <th>Storage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Short-term</strong></td>
+                    <td>This conversation only</td>
+                    <td>"You mentioned line 42 has a bug"</td>
+                    <td>In-memory (window + summary)</td>
+                </tr>
+                <tr>
+                    <td><strong>Long-term</strong></td>
+                    <td>Across all conversations</td>
+                    <td>"Alice works at TechCorp and prefers Python"</td>
+                    <td>Persistent (database, file)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>The design challenge</h3>
+
+        <p>What should go in long-term memory? Not everything:</p>
+
+        <ul>
+            <li><strong>Store:</strong> User facts, preferences, past decisions, expertise areas</li>
+            <li><strong>Don't store:</strong> Temporary debugging details, one-off questions, transient context</li>
+        </ul>
+
+        <p>The key insight: <strong>let the LLM decide</strong> what's worth remembering long-term. It can extract facts from conversation and classify them.</p>
+
+        <h3>Demo: Memory across sessions</h3>
+
+        <pre><code class="language-text">┌─────────────────────────────────────────────────────────┐
+│ SESSION 1                                               │
+├─────────────────────────────────────────────────────────┤
+│ Agent: What's your name?                                │
+│ You: I'm Alice. I work at TechCorp as a data scientist. │
+│ Agent: Nice to meet you, Alice!                         │
+│ You: I prefer Python over R for data analysis.          │
+│ Agent: Good choice! Python is very versatile.           │
+│ You: exit                                               │
+│                                                         │
+│ [Extracting long-term memory...]                        │
+│   Facts: ["Works at TechCorp", "Data scientist"]        │
+│   Preferences: ["Prefers Python over R"]                │
+│ [Saved to user_memories.json]                           │
+└─────────────────────────────────────────────────────────┘
+
+... days later ...
+
+┌─────────────────────────────────────────────────────────┐
+│ SESSION 2 (NEW CONVERSATION)                            │
+├─────────────────────────────────────────────────────────┤
+│ Agent: What's your name?                                │
+│ You: Alice                                              │
+│ [Loaded long-term memory for 'Alice']                   │
+│                                                         │
+│ You: What do you know about me?                         │
+│ Agent: You're a data scientist at TechCorp, and you     │
+│        prefer Python over R for data analysis!          │
+│                                                         │
+│ 🎉 Memory persisted across conversations!               │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+        <h3>Implementation</h3>
+
+        <pre><code class="language-python">"""
+Agent with Short-Term AND Long-Term Memory
+"""
+from pathlib import Path
+import json
+
+MEMORY_FILE = Path("user_memories.json")
+
+def get_user_memory(user_id: str) -> dict:
+    """Load long-term memory for a user."""
+    if MEMORY_FILE.exists():
+        memories = json.loads(MEMORY_FILE.read_text())
+        return memories.get(user_id.lower(), {"facts": [], "preferences": []})
+    return {"facts": [], "preferences": []}
+
+def extract_long_term_facts(conversation: list, existing: dict) -> dict:
+    """Ask LLM to extract facts worth remembering forever."""
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[{
+            "role": "system",
+            "content": """Extract LONG-TERM memory from this conversation.
+Include: user facts, preferences, decisions, expertise.
+Exclude: temporary details, one-off questions.
+Return JSON: {"facts": [...], "preferences": [...]}"""
+        }, {
+            "role": "user",
+            "content": f"Existing: {existing}\n\nConversation:\n{conversation}"
+        }],
+        response_format={"type": "json_object"}
+    )
+    return json.loads(response.choices[0].message.content)
+
+# On conversation start: load long-term memory
+long_term = get_user_memory("alice")
+
+# During conversation: use both memory types
+messages = [{
+    "role": "system",
+    "content": f"""LONG-TERM MEMORY (across sessions):
+{long_term}
+
+SHORT-TERM MEMORY (this session):
+{short_term_summary}"""
+}]
+
+# On conversation end: extract and save long-term facts
+updated = extract_long_term_facts(conversation, long_term)
+save_user_memory("alice", updated)</code></pre>
+
+        <p><strong>Run it:</strong></p>
+        <pre><code class="language-bash">uv run python docs/labs/02_standalone_agents/4_agent_with_long_term_memory.py</code></pre>
+
+        <div class="thesis-block">
+            <div class="label">Key insight</div>
+            <p>Long-term memory requires <strong>user identity</strong>. Without knowing who's talking, you can't look up their history. This is why ChatGPT requires login for its memory feature, and why enterprise systems integrate with user authentication.</p>
+        </div>
+
+        <h3>Real-world examples</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Short-term</th>
+                    <th>Long-term</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ChatGPT</td>
+                    <td>Conversation history</td>
+                    <td>"Memory" feature (facts about you)</td>
+                </tr>
+                <tr>
+                    <td>Claude</td>
+                    <td>Conversation context</td>
+                    <td>Project Knowledge (docs you upload)</td>
+                </tr>
+                <tr>
+                    <td>GitHub Copilot</td>
+                    <td>Current file context</td>
+                    <td>Repository patterns, your coding style</td>
+                </tr>
+                <tr>
+                    <td>Customer service bot</td>
+                    <td>Current ticket details</td>
+                    <td>Customer history, past issues</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="content-card">
+            <h4>Privacy consideration</h4>
+            <p>Long-term memory raises privacy questions: What data are you storing? For how long? Can users delete it? In production, you need clear policies and user controls. Our demo uses a local JSON file—fine for learning, not for production.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: APIs -->
     <section id="apis">
-        <div class="section-number">05 / CHAT COMPLETIONS VS RESPONSES API</div>
+        <div class="section-number">06 / CHAT COMPLETIONS VS RESPONSES API</div>
         <h2>Two approaches to state</h2>
 
         <p>So far we've used the <strong>Chat Completions API</strong>—the industry standard. OpenAI also offers a newer <strong>Responses API</strong> with different tradeoffs.</p>
@@ -745,19 +925,21 @@ response2 = client.responses.create(
         <ul>
             <li><code>docs/labs/02_standalone_agents/1_stateless_agent.py</code> — no memory baseline</li>
             <li><code>docs/labs/02_standalone_agents/2_stateful_agent.py</code> — full history</li>
-            <li><code>docs/labs/02_standalone_agents/3_agent_with_memory.py</code> — window + summary</li>
+            <li><code>docs/labs/02_standalone_agents/3_agent_with_memory.py</code> — window + summary (short-term)</li>
+            <li><code>docs/labs/02_standalone_agents/4_agent_with_long_term_memory.py</code> — short-term + long-term memory</li>
             <li><code>docs/labs/02_standalone_agents/chat-completions-vs-responses-api.md</code> — detailed API comparison</li>
         </ul>
 
         <h3>Takeaways</h3>
-        
+
         <div class="thesis-block">
             <div class="label">Lesson 2 summary</div>
             <ul style="margin-bottom: 0;">
                 <li><strong>LLMs are stateless.</strong> Context is your responsibility.</li>
                 <li><strong>Full history doesn't scale.</strong> Cost and latency grow quadratically.</li>
                 <li><strong>Memory is lossy compression.</strong> You choose what to keep and what to lose.</li>
-                <li><strong>Design for your constraints.</strong> Window size, summary format, and update frequency are all tradeoffs.</li>
+                <li><strong>Short-term vs long-term.</strong> What resets with the conversation vs what persists forever.</li>
+                <li><strong>Design for your constraints.</strong> Window size, summary format, persistence—all tradeoffs.</li>
             </ul>
         </div>
     </section>

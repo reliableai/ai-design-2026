@@ -41,5 +41,8 @@ htmlcov/
 # Logs
 *.log
 
+# Generated data
+user_memories.json
+
 # Claude Code
 CLAUDE.md
