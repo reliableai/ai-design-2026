@@ -43,25 +43,24 @@ uv sync
 uv run python main.py
 ```
 
-## LLM Access (OpenAI or OpenRouter)
+## API Keys Setup
 
-This course may require calling LLMs via OpenAI or OpenRouter. Configure one provider:
-
-Option A — OpenAI
+This course uses OpenAI and OpenRouter APIs. Set up your keys once:
 
 ```bash
-export OPENAI_API_KEY="<your-key>"
+# Copy the template
+cp .env.example .env
+
+# Edit .env and add your keys
+# OPENAI_API_KEY=sk-...
+# OPENROUTER_API_KEY=sk-or-...
 ```
 
-Option B — OpenRouter
+The `.env` file is git-ignored and will not be committed. All lab scripts automatically load keys from this file.
 
-```bash
-export OPENROUTER_API_KEY="<your-key>"
-# Optional override
-export OPENROUTER_BASE_URL="https://openrouter.ai/api/v1"
-```
-
-Provider/model selection and SDK usage will be specified per assignment. Do not commit secrets. Prefer a local `.env` (git-ignored) or your shell profile.
+Get your keys:
+- OpenAI: https://platform.openai.com/api-keys
+- OpenRouter: https://openrouter.ai/keys
 
 ## Repository Structure (planned)
 

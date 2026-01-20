@@ -27,8 +27,7 @@ async function loadHeader() {
         <div class="container">
           <h1><a href="index.html">Designing Large Scale AI Systems</a></h1>
           <nav>
-            <a href="index.html">Home</a>
-            <a href="materials.html">Materials</a>
+            <a href="index.html">Syllabus</a>
             <a href="assessments.html">Assessments</a>
             <a href="project.html">Project</a>
             <a href="about.html">About</a>
