@@ -19,6 +19,8 @@ wheels/
 venv/
 ENV/
 
+private/
+
 # IDE
 .idea/
 .vscode/
