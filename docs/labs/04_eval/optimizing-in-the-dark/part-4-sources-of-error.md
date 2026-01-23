@@ -1,7 +1,7 @@
 # Optimizing in the Dark:
 A Flaw in Human Judgement
 
-## Part 3: Sources of Bias and Uncertainty
+## Part 4: Sources of Bias and Uncertainty
 
 *The technical deep dive into what makes evaluation unreliable*
 
@@ -385,7 +385,7 @@ If you are comparing two prompt variations: System A scores 79%, System B scores
 
 ---
 
-*Next: [Part 4: What To Do About It](./part-4-what-to-do.md) — Practical solutions for visibility, action, and culture*
+*Next: [Part 5: What To Do About It](./part-5-what-to-do.md) — Practical solutions for visibility, action, and culture*
 
 ---
 

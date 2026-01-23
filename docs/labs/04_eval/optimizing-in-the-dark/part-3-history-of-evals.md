@@ -1,7 +1,7 @@
 # Optimizing in the Dark:
 A Flaw in Human Judgement
 
-## Part 2: A Brief History of Evals
+## Part 3: A Brief History of Evals
 
 *Why Uncertainty Cascades: Beyond Engineering Approximations*
 
@@ -267,7 +267,7 @@ I'll proceed with detailed examples in the next part. I will also show which sol
 
 ---
 
-*Next: [Part 3: Sources of Bias and Uncertainty](./part-3-sources-of-error.md) — The technical deep dive into what makes evaluation unreliable*
+*Next: [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) — The technical deep dive into what makes evaluation unreliable*
 
 ---
 

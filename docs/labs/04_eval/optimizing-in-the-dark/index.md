@@ -3,7 +3,7 @@ A Flaw in Human Judgement
 
 ---
 
-*A four-part series on the hidden uncertainty in AI evaluation metrics*
+*A five-part series on the hidden uncertainty in AI evaluation metrics*
 
 ---
 
@@ -21,17 +21,21 @@ This series explores a structural problem in how organizations evaluate AI syste
 
 ### [Part 1: A Structural Flaw in Judgment](./part-1-structural-flaw.md)
 
-The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action. And the real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along.
+The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action.
 
-### [Part 2: A Brief History of Evals](./part-2-history-of-evals.md)
+### [Part 2: The Cost of Inaction](./part-2-cost-of-inaction.md)
+
+The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along. How bias and noise compound across organizations.
+
+### [Part 3: A Brief History of Evals](./part-3-history-of-evals.md)
 
 How we got here. A journey through Software 1.0 (deterministic code), Software 2.0 (ML models), and Software 3.0 (Gen AI applications)—tracing how our evaluation muscles weakened as systems became more complex, more open-ended, and harder to pin down.
 
-### [Part 3: Sources of Bias and Uncertainty](./part-3-sources-of-error.md)
+### [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md)
 
 The technical deep dive. From sample size effects to multiple hypothesis testing, from developer-induced overfitting to noisy LLM judges, from rubric mapping artifacts to prompt sensitivity. Each source alone can flip your decisions. Together, they compound.
 
-### [Part 4: What To Do About It](./part-4-what-to-do.md)
+### [Part 5: What To Do About It](./part-5-what-to-do.md)
 
 The path forward. Addressing visibility (awareness, estimation, reporting), action (reducing uncertainty, building observability), and culture (naming things right, asking the questions, making accountability explicit). Practical tools including evaluation worksheets and AI-powered methodology assistants.
 
