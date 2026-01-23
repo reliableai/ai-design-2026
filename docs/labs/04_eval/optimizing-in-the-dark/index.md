@@ -1,6 +1,5 @@
-# Optimizing in the Dark
-
-**Why AI Evaluation Numbers Are Misleading—and What To Do About It**
+# Optimizing in the Dark:
+A Flaw in Human Judgement
 
 ---
 
@@ -9,6 +8,8 @@
 ---
 
 You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.
+
+![](../figs/metric_meeting.png)
 
 But how reliable is that number? What if the true accuracy could be anywhere from 74% to 95%? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?
 

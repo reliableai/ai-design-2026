@@ -1,4 +1,5 @@
-# Optimizing in the Dark
+# Optimizing in the Dark:
+A Flaw in Human Judgement
 
 ## Part 3: Sources of Bias and Uncertainty
 

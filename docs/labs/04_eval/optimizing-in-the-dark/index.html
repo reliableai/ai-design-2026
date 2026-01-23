@@ -8,132 +8,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimizing in the Dark</title>
+    <title>Optimizing in the Dark: A Flaw in Human Judgement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-size: 17px;
             line-height: 1.7;
-            max-width: 750px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 40px 20px;
-            color: #292929;
-            background: #fff;
+            padding: 64px 24px;
+            color: #2d3748;
+            background: #f7fafc;
         }
         h1 {
-            font-size: 2.5em;
-            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 2.4em;
+            font-weight: 600;
             margin-bottom: 0.3em;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            color: #1a202c;
         }
         h2 {
-            font-size: 1.8em;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.5em;
             font-weight: 600;
-            margin-top: 2em;
-            margin-bottom: 0.5em;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 0.3em;
+            margin-top: 2.5em;
+            margin-bottom: 0.6em;
+            color: #2d3748;
+            padding-bottom: 0.4em;
+            border-bottom: 2px solid #38b2ac;
         }
         h3 {
-            font-size: 1.4em;
-            font-weight: 600;
-            margin-top: 1.5em;
+            font-family: 'DM Mono', monospace;
+            font-size: 1.05em;
+            font-weight: 500;
+            margin-top: 1.8em;
+            color: #319795;
         }
         p {
-            margin: 1.2em 0;
+            margin: 1.3em 0;
         }
         img {
-            max-width: 100%;
+            max-width: 70%;
             height: auto;
-            margin: 1.5em 0;
-            border-radius: 4px;
+            margin: 2em auto;
+            border-radius: 12px;
             display: block;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         blockquote {
-            border-left: 4px solid #1a8917;
-            margin: 1.5em 0;
-            padding: 0.5em 0 0.5em 1.5em;
-            color: #555;
-            font-style: italic;
+            border-left: 4px solid #38b2ac;
+            margin: 2em 0;
+            padding: 1em 1.5em;
+            color: #4a5568;
+            background: #fff;
+            border-radius: 0 8px 8px 0;
         }
         code {
-            background: #f4f4f4;
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-        pre {
-            background: #f4f4f4;
-            padding: 1em;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-        pre code {
-            background: none;
-            padding: 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5em 0;
-            font-size: 0.95em;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px 12px;
-            text-align: left;
-        }
-        th {
-            background: #f8f8f8;
-            font-weight: 600;
-        }
-        tr:nth-child(even) {
-            background: #fafafa;
+            font-family: 'DM Mono', monospace;
+            background: #e6fffa;
+            padding: 0.2em 0.45em;
+            border-radius: 6px;
+            font-size: 0.88em;
+            color: #234e52;
         }
         ul, ol {
-            margin: 1em 0;
-            padding-left: 2em;
+            margin: 1.3em 0;
+            padding-left: 1.6em;
         }
         li {
-            margin: 0.5em 0;
+            margin: 0.6em 0;
         }
         hr {
             border: none;
-            border-top: 1px solid #e0e0e0;
-            margin: 2em 0;
+            border-top: 1px solid #e2e8f0;
+            margin: 2.5em 0;
         }
         a {
-            color: #1a8917;
-            text-decoration: none;
+            color: #319795;
+            text-decoration: underline;
         }
         a:hover {
-            text-decoration: underline;
+            color: #285e5e;
         }
         strong {
             font-weight: 600;
+            color: #1a202c;
         }
         em {
             font-style: italic;
+            color: #4a5568;
         }
-        .tags {
-            margin-top: 3em;
-            padding-top: 1em;
-            border-top: 1px solid #e0e0e0;
-            color: #757575;
+        footer {
+            margin-top: 80px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
             font-size: 0.9em;
-        }
-        .tags code {
-            background: #e8f5e9;
-            color: #1a8917;
+            color: #a0aec0;
         }
     </style>
 </head>
 <body>
-<h1>Optimizing in the Dark</h1>
-<p><strong>Why AI Evaluation Numbers Are Misleading—and What To Do About It</strong></p>
+<h1>Optimizing in the Dark:<br>A Flaw in Human Judgement</h1>
+
 <hr />
 <p><em>A four-part series on the hidden uncertainty in AI evaluation metrics</em></p>
 <hr />
 <p>You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.</p>
+<img src="../figs/metric_meeting.png" alt="Meeting room with Technical Accuracy 89% slide" />
 <p>But how reliable is that number? What if the true accuracy could be anywhere from 74% to 95%? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?</p>
 <p>This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both <em>underestimating</em> and <em>ignoring</em> the bias and uncertainty in those numbers.</p>
 <hr />
@@ -149,21 +136,11 @@
 <hr />
 <h2>Key Themes</h2>
 <ul>
-<li>
-<p><strong>Every score has two error terms</strong>: bias (systematic) and uncertainty (random). Bias is harder to see but often more dangerous.</p>
-</li>
-<li>
-<p><strong>Selection turns noise into bias</strong>: Even unbiased evaluations become optimistic when you pick winners. The math is real.</p>
-</li>
-<li>
-<p><strong>Small differences are noise</strong>: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.</p>
-</li>
-<li>
-<p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the <em>optimistic</em> case.</p>
-</li>
-<li>
-<p><strong>Culture matters</strong>: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—<em>that's</em> weakness.</p>
-</li>
+<li><p><strong>Every score has two error terms</strong>: bias (systematic) and uncertainty (random). Bias is harder to see but often more dangerous.</p></li>
+<li><p><strong>Selection turns noise into bias</strong>: Even unbiased evaluations become optimistic when you pick winners. The math is real.</p></li>
+<li><p><strong>Small differences are noise</strong>: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.</p></li>
+<li><p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the <em>optimistic</em> case.</p></li>
+<li><p><strong>Culture matters</strong>: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—<em>that's</em> weakness.</p></li>
 </ul>
 <hr />
 <h2>Who This Is For</h2>
@@ -178,7 +155,7 @@
 — Walter Lewin, MIT</p>
 <hr />
 <p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code> <code>Quality Assurance</code></p>
-<footer style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9em; color: #666;">
+<footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
 </footer>
 </body>
