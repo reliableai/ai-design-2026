@@ -1,7 +1,7 @@
 # Optimizing in the Dark:
 A Flaw in Human Judgement
 
-## Part 5: What To Do About It
+## Part 4: What To Do About It
 
 *Practical solutions for visibility, action, and culture*
 

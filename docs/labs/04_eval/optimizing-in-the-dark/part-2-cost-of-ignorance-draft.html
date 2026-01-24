@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<!--
+  Content by Fabio Casati
+  https://www.linkedin.com/in/sphoebs/
+  https://x.com/sphoebs
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizing in the Dark - Part 2: The Cost of Ignorance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 64px 24px;
+            color: #2d3748;
+            background: #f7fafc;
+        }
+        h1 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 2.4em;
+            font-weight: 600;
+            margin-bottom: 0.3em;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            color: #1a202c;
+        }
+        h2 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 0.6em;
+            color: #2d3748;
+            padding-bottom: 0.4em;
+            border-bottom: 2px solid #38b2ac;
+        }
+        h3 {
+            font-family: 'DM Mono', monospace;
+            font-size: 1.05em;
+            font-weight: 500;
+            margin-top: 1.8em;
+            color: #319795;
+        }
+        p {
+            margin: 1.3em 0;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            margin: 2em auto;
+            border-radius: 12px;
+            display: block;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        blockquote {
+            border-left: 4px solid #38b2ac;
+            margin: 2em 0;
+            padding: 1em 1.5em;
+            color: #4a5568;
+            background: #fff;
+            border-radius: 0 8px 8px 0;
+        }
+        blockquote p {
+            margin: 0;
+        }
+        blockquote p + p {
+            margin-top: 0.8em;
+        }
+        code {
+            font-family: 'DM Mono', monospace;
+            background: #e6fffa;
+            padding: 0.2em 0.45em;
+            border-radius: 6px;
+            font-size: 0.88em;
+            color: #234e52;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background: #edf2f7;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        ul, ol {
+            margin: 1.3em 0;
+            padding-left: 1.6em;
+        }
+        li {
+            margin: 0.6em 0;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2.5em 0;
+        }
+        a {
+            color: #319795;
+            text-decoration: underline;
+        }
+        a:hover {
+            color: #285e5e;
+        }
+        strong {
+            font-weight: 600;
+            color: #1a202c;
+        }
+        em {
+            font-style: italic;
+            color: #4a5568;
+        }
+        footer {
+            margin-top: 80px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9em;
+            color: #a0aec0;
+        }
+        .tags code {
+            background: #e6fffa;
+            color: #234e52;
+            margin-right: 0.5em;
+        }
+    </style>
+</head>
+<body>
+
+<p><em>← <a href="./part-1-structural-flaw.html">Part 1: A Structural Flaw in Judgment</a></em></p>
+
+<h1>Optimizing in the Dark - Part 2: The Cost of Ignorance</h1>
+<p><em>Ignoring uncertainty is expensive</em></p>
+
+<hr>
+
+<h2>The Shape of Value</h2>
+
+<p>Let's frame our evaluation problem as follows: we have N AI systems to evaluate. Each could go to production — or not, based on what we decide given our eval results.</p>
+
+<p>If deployed, each system can generate positive value — or it can harm (generate negative value). For example, consider an <strong>Incident Auto-Resolution</strong> agent that attempts to fix IT tickets automatically. Each execution might solve the problem completely (high positive value), give useful hint or workaround (still some positive value), do nothing useful (or say "i don't know" and do nothing - probably value around zero or slightly negative), or take a wrong action that makes things worse (high negative value). Or consider an <strong>Incident Summarization</strong> agent — each summary might accelerate triage, add nothing, or mislead the analyst (high negative value). The value generated varies, execution by execution.</p>
+
+<p>For now, assume we have a magic function Vf that captures the value that one execution of an AI system generates. In reality this metric is hard to define and hard to measure, but let's assume we have it.</p>
+
+<p>If we pick a random execution and apply Vf to it, we get a number — the value of that execution. The number we get depends on which execution we picked. Different executions yield different values.</p>
+
+<p>We therefore conceptualize our understanding of value for this use case as a <em>random variable</em> V. Each time the system runs, V takes a value — sometimes positive, sometimes negative, sometimes large, sometimes small.</p>
+
+<p>If we could observe many executions and record Vf for each, we'd see a <em>distribution</em> of values emerge.</p>
+
+<p>For example, consider the Incident Auto-Resolution agent: Imagine we deploy it and observe 1,000 executions. For each, we record Vf — the value generated. We might see:</p>
+
+<ul>
+    <li>400 executions where the agent solved the problem correctly: Vf ranging from +5 to +50</li>
+    <li>200 executions where it gave a useful hint: Vf around +2 to +10</li>
+    <li>250 executions where it said "I don't know" and did nothing: Vf around 0 or −1</li>
+    <li>100 executions where it took a wrong action on a minor issue: Vf around −10 to −20</li>
+    <li>50 executions where it took a wrong action on a critical incident: Vf ranging from −50 to −200</li>
+</ul>
+
+<p>Plot these 1,000 values as a histogram. That's the distribution of V for this agent.</p>
+
+<img src="./images/histogram-auto-resolution-v3.png" alt="Distribution of V: Incident Auto-Resolution Agent">
+
+<p>The agent <strong>Value</strong> doesn't have <em>one</em> value. It has a <em>shape</em> — a distribution of outcomes, shaped by the mix of incidents it encounters, the actions it takes, and how those actions land in context.</p>
+
+<p>The same holds for any agentic system.</p>
+
+<p>An <strong>Incident Summarization</strong> agent reads tickets and produces summaries for L1 analysts. Observe 1,000 summaries:</p>
+
+<ul>
+    <li>Some capture the key facts and accelerate triage (<em>positive Vf</em>)</li>
+    <li>Some are accurate but add nothing the analyst wouldn't have seen anyway (<em>Vf near zero</em>)</li>
+    <li>Some omit a critical detail, sending the analyst down the wrong path (<em>negative Vf</em>)</li>
+    <li>A few hallucinate a symptom that triggers an unnecessary escalation (<em>high negative Vf</em>)</li>
+</ul>
+
+<p>A <strong>KB Deduplication Detector</strong> scans a knowledge base and flags redundant articles. Observe 1,000 flags:</p>
+
+<ul>
+    <li>Some correctly identify duplicates, enabling cleanup (<em>positive Vf</em>)</li>
+    <li>Some flag near-duplicates that are actually distinct edge cases, leading to deletions that create gaps (<em>negative Vf</em>)</li>
+    <li>Some miss true duplicates, leaving the KB cluttered (<em>Vf slightly negative or zero</em>)</li>
+</ul>
+
+<p>In each case, V (the value) is not a number. It's a distribution — the shape of outcomes that the system generates, execution by execution.</p>
+
+<p>The way we model our knowledge of V is to state that V, the Value of the agent is a random variable with a certain distribution of outcome. In the example above we estimate the distribution empirically, by running the agent many times and observing the outcome, that is, the value of each execution (which is a number, as opposed to the Value of the agent, which is a random variable, characterized by a distribution of values).</p>
+
+<hr>
+
+<h2>Taking decisions</h2>
+
+<p>When we evaluate an agent to choose whether to deploy for a customer (or across the board), ideally we want to know the distribution of values we expect it to generate. Doing so means deciding on what distributions are acceptable. Both measuring / estimating the distribution and deciding on what distributions are acceptable are hard problems.</p>
+
+<p>So lets make some simplifying assumptions and decisions. Consider the following possible decision rules:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Decision Rule</th>
+            <th>Deploy if...</th>
+            <th>What it prioritizes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Positive expected value</td>
+            <td>E[V] &gt; 0</td>
+            <td>Average outcome is good</td>
+        </tr>
+        <tr>
+            <td>High success rate</td>
+            <td>P(V &gt; 0) &gt; 80%</td>
+            <td>Most executions are wins</td>
+        </tr>
+        <tr>
+            <td>Bounded downside</td>
+            <td>E[V] &gt; 0 AND P(V &lt; −L) &lt; 5%</td>
+            <td>Positive average, rare catastrophes</td>
+        </tr>
+        <tr>
+            <td>Median positive</td>
+            <td>median(V) &gt; 0</td>
+            <td>Typical execution is good</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>A risk-tolerant organization might deploy if expected value is positive, even if 30% of executions cause minor harm. A safety-critical deployment might require that catastrophic outcomes (V &lt; −L) are rare, regardless of the mean.</p>
+
+<p>For the analysis that follows, we'll use the simplest rule: <strong>deploy if E[V] &gt; 0</strong>. Expected value is positive — on average, the system helps more than it hurts.</p>
+
+<p>At the end, we'll revisit what changes if you care about tails or success rates instead.</p>
+
+<hr>
+
+<h2>Every Decision Is an Estimation under Uncertainty — Whether you are aware of it or not</h2>
+
+<p>Ideally you can run your agent at scale on the exact data it will see in production and get the distribution of V, which will in turn enable to you make informed decisions.</p>
+
+<p>In practice, you have some measures obtained in some way by your team on some dataset. Based on this, you will form a belief about V. Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V &gt; 0), the probability that V is positive.</p>
+
+<p>Remember that figure with the metric of 85%? that implicitly states that the agent is expected to generate a positive value 85% of the time.</p>
+
+<p>Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on <em>how wrong</em> you are — not on why.</p>
+
+<hr>
+
+<h3>Two types of errors</h3>
+
+<p>If your estimate is off, you make one of two errors:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Error</th>
+            <th>What happened</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Deploy a bad system</td>
+            <td>True E[V] &lt; 0 but you estimated E[V] &gt; 0</td>
+            <td>You incur harm in production</td>
+        </tr>
+        <tr>
+            <td>Miss a good system</td>
+            <td>True E[V] &gt; 0 but you estimated E[V] ≤ 0</td>
+            <td>You forgo value — opportunity cost</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>If we have the luxury of having our magic function Vf, then once in production we can measure the true value of the agent and compare it to our estimate. Indeed, not all errors are equal. The cost scales with how far off the actual average value is from our estimate:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Your estimate Ê[V]</th>
+            <th>True E[V]</th>
+            <th>Gap</th>
+            <th>Your decision</th>
+            <th>Correct decision</th>
+            <th>Outcome</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>+8</td>
+            <td>+10</td>
+            <td>−2</td>
+            <td>Deploy ✓</td>
+            <td>Deploy</td>
+            <td>Good — slight underestimate, no harm</td>
+        </tr>
+        <tr>
+            <td>+8</td>
+            <td>+2</td>
+            <td>+6</td>
+            <td>Deploy ✓</td>
+            <td>Deploy</td>
+            <td>Fine — you over-prioritized but still net positive</td>
+        </tr>
+        <tr>
+            <td>+8</td>
+            <td>−5</td>
+            <td>+13</td>
+            <td>Deploy ✗</td>
+            <td>Don't deploy</td>
+            <td><strong>Bad</strong> — you deployed a harmful system</td>
+        </tr>
+        <tr>
+            <td>+8</td>
+            <td>−30</td>
+            <td>+38</td>
+            <td>Deploy ✗</td>
+            <td>Don't deploy</td>
+            <td><strong>Disaster</strong> — significant harm in production</td>
+        </tr>
+        <tr>
+            <td>−3</td>
+            <td>+5</td>
+            <td>−8</td>
+            <td>Don't deploy ✗</td>
+            <td>Deploy</td>
+            <td><strong>Missed opportunity</strong> — you left value on the table</td>
+        </tr>
+        <tr>
+            <td>−3</td>
+            <td>+50</td>
+            <td>−53</td>
+            <td>Don't deploy ✗</td>
+            <td>Deploy</td>
+            <td><strong>Strategic blunder</strong> — you missed a big win</td>
+        </tr>
+        <tr>
+            <td>−3</td>
+            <td>−10</td>
+            <td>+7</td>
+            <td>Don't deploy ✓</td>
+            <td>Don't deploy</td>
+            <td>Good — you avoided harm</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h3>A worked example</h3>
+
+<p>Take our Incident Auto-Resolution agent. Suppose the true distribution has E[V] = −5 — on average, it hurts slightly more than it helps (the occasional critical failures outweigh the routine wins).</p>
+
+<p>But your evaluation estimates Ê[V] = +8.</p>
+
+<p>You deploy. Over the next quarter, the system runs 10,000 times in production. Each execution draws from the true distribution. The expected total harm: 10,000 × (−5) = −50,000 value points.</p>
+
+<p>You were off by 13 points. That error, multiplied by production volume, became a quarter's worth of accumulated harm.</p>
+
+<p>But how can our estimates be wrong if we experiment? and are they wrong "by chance", occasionally, or are they structurally wrong? and what can we do about it?</p>
+
+<hr>
+
+<h2>Measurements Without Uncertainty Are Meaningless</h2>
+
+<blockquote>
+    <p>"Any measurement without knowledge of the uncertainty is meaningless."<br>— Walter Lewin</p>
+    <p>"And when it is reported on presentation to executives, it is harmful."<br>— Fabio Casati</p>
+</blockquote>
+
+<hr>
+
+<p>Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent will be correct between 60 and 90% of the time - and that's all I can say."</p>
+
+<p>The second report is more informative and in many cases more honest than the first. It exposes our believed uncertainty, and invites questions about the basis of our belief. As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.</p>
+
+<h3>What decisions look like without uncertainty</h3>
+
+<p>When someone reports a point estimate without uncertainty, you have exactly two options:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>What you hear</th>
+            <th>Threshold</th>
+            <th>Decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>"Accuracy is 85%"</td>
+            <td>80%</td>
+            <td>Deploy</td>
+        </tr>
+        <tr>
+            <td>"Accuracy is 75%"</td>
+            <td>80%</td>
+            <td>Don't deploy</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>That's it. You act as if the estimate is the truth.</p>
+
+<hr>
+
+<h3>What decisions look like with uncertainty</h3>
+
+<p>When someone communicates their belief with a range, you have more options:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>What you hear</th>
+            <th>Threshold</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>"I believe accuracy is between 82% and 88%"</td>
+            <td>80%</td>
+            <td>Deploy — entire range is above threshold</td>
+        </tr>
+        <tr>
+            <td>"I believe accuracy is between 70% and 95%"</td>
+            <td>80%</td>
+            <td><strong>Choice</strong>: deploy (accept risk that it could be 70%), don't deploy (accept that it could be 95%), or <strong>investigate further to narrow the range</strong></td>
+        </tr>
+        <tr>
+            <td>"I believe accuracy is between 70% and 82%"</td>
+            <td>80%</td>
+            <td>Borderline — might be worth more investigation before deciding</td>
+        </tr>
+        <tr>
+            <td>"I believe accuracy is between 55% and 95%"</td>
+            <td>80%</td>
+            <td>Too uncertain — invest in better measurement before deciding</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The third option — <em>investigate further before deciding</em> — doesn't exist when you only hear a point estimate.</p>
+
+<hr>
+
+<h3>The cost of hiding uncertainty</h3>
+
+<p>When you report without uncertainty:</p>
+
+<ul>
+    <li>You cannot distinguish "confident yes" from "uncertain yes"</li>
+    <li>You cannot distinguish "confident no" from "uncertain no"</li>
+    <li>You never ask "should we get more data before this decision?"</li>
+    <li>You never prioritize measurement improvement over shipping</li>
+</ul>
+
+<p>Every decision becomes binary. Deploy or don't. The option to <em>learn more first</em> vanishes.</p>
+
+<hr>
+
+<h3>Back to our Incident Auto-Resolution agent</h3>
+
+<p>Your team reports: "Expected value is +8."</p>
+
+<p>You deploy.</p>
+
+<p>But what if they had reported: "I believe expected value is somewhere between −7 and +23. Our best guess is around +8, but I wouldn't be surprised if it's anywhere in that range."</p>
+
+<p>Now you see the situation differently. The range includes negative values. You might ask:</p>
+
+<ul>
+    <li>Can we run more test cases to narrow the range?</li>
+    <li>Can we do a limited production pilot before full rollout?</li>
+    <li>Why is the range so wide — is this use case unusually hard to evaluate?</li>
+</ul>
+
+<p>These questions never get asked when you only hear "+8".</p>
+
+<hr>
+
+<h2>The Value of Uncertainty Awareness</h2>
+
+<p>We've established that measurements without uncertainty are meaningless. But let's be concrete: what is the <em>value</em> of being aware of uncertainty — even before you do anything to reduce it?</p>
+
+<p>Consider the <em>visibility problem</em> we introduced in Part 1: people don't see the uncertainty. It's not reported, not computed, not surfaced. The green 89% looks solid. Decision-makers can't account for what they don't know exists.</p>
+
+<p>Let's quantify what visibility alone is worth.</p>
+
+<hr>
+
+<h3>Setup: N agents, one customer</h3>
+
+<p>You have 10 agents to evaluate for one customer. Your goal: deploy only where you're confident the agent will help more than harm. Specifically, you want P(E[V] &gt; 0) &gt; 90% — you want to be at least 90% confident that expected value is positive before deploying.</p>
+
+<p>We'll make one key assumption explicit: <strong>the cost of deploying a harmful agent is much greater than the cost of missing a good one.</strong> In enterprise AI, a bad deployment erodes customer trust, triggers escalations, and can lose the account. A delayed good deployment costs opportunity — but the customer doesn't know what they're missing.</p>
+
+<hr>
+
+<h3>Without uncertainty awareness</h3>
+
+<p>Your teams report point estimates. You see:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Agent</th>
+            <th>Reported E[V]</th>
+            <th>Your decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>A</td><td>+12</td><td>Deploy</td></tr>
+        <tr><td>B</td><td>+3</td><td>Deploy</td></tr>
+        <tr><td>C</td><td>+18</td><td>Deploy</td></tr>
+        <tr><td>D</td><td>+6</td><td>Deploy</td></tr>
+        <tr><td>E</td><td>−2</td><td>Don't deploy</td></tr>
+        <tr><td>F</td><td>+9</td><td>Deploy</td></tr>
+        <tr><td>G</td><td>+1</td><td>Deploy</td></tr>
+        <tr><td>H</td><td>+15</td><td>Deploy</td></tr>
+        <tr><td>I</td><td>−5</td><td>Don't deploy</td></tr>
+        <tr><td>J</td><td>+7</td><td>Deploy</td></tr>
+    </tbody>
+</table>
+
+<p>You deploy 8 agents. Seems reasonable — they all have positive expected value.</p>
+
+<hr>
+
+<h3>With uncertainty awareness</h3>
+
+<p>Same agents, same point estimates — but now you also see the uncertainty range:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Agent</th>
+            <th>Reported E[V]</th>
+            <th>Uncertainty range</th>
+            <th>P(E[V] &gt; 0)</th>
+            <th>Your decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>A</td><td>+12</td><td>[+8, +16]</td><td>&gt;99%</td><td>Deploy ✓</td></tr>
+        <tr><td>B</td><td>+3</td><td>[−8, +14]</td><td>~65%</td><td><strong>Hold</strong></td></tr>
+        <tr><td>C</td><td>+18</td><td>[+12, +24]</td><td>&gt;99%</td><td>Deploy ✓</td></tr>
+        <tr><td>D</td><td>+6</td><td>[−15, +27]</td><td>~70%</td><td><strong>Hold</strong></td></tr>
+        <tr><td>E</td><td>−2</td><td>[−6, +2]</td><td>~35%</td><td>Don't deploy</td></tr>
+        <tr><td>F</td><td>+9</td><td>[+4, +14]</td><td>&gt;95%</td><td>Deploy ✓</td></tr>
+        <tr><td>G</td><td>+1</td><td>[−12, +14]</td><td>~55%</td><td><strong>Hold</strong></td></tr>
+        <tr><td>H</td><td>+15</td><td>[+10, +20]</td><td>&gt;99%</td><td>Deploy ✓</td></tr>
+        <tr><td>I</td><td>−5</td><td>[−10, 0]</td><td>~5%</td><td>Don't deploy</td></tr>
+        <tr><td>J</td><td>+7</td><td>[+2, +12]</td><td>&gt;95%</td><td>Deploy ✓</td></tr>
+    </tbody>
+</table>
+
+<p>Now you deploy only 5 agents (A, C, F, H, J) — the ones where you're confident.</p>
+
+<p>You hold 3 agents (B, D, G) — not because they look bad, but because the uncertainty is too high. Their point estimates are positive, but the range includes significant negative territory. You're not 90% confident.</p>
+
+<hr>
+
+<h3>What happens next?</h3>
+
+<p>Suppose the true E[V] values are:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Agent</th>
+            <th>Reported E[V]</th>
+            <th>True E[V]</th>
+            <th>Without awareness</th>
+            <th>With awareness</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>A</td><td>+12</td><td>+10</td><td>Deploy ✓</td><td>Deploy ✓</td></tr>
+        <tr><td>B</td><td>+3</td><td>−4</td><td>Deploy ✗ (harm)</td><td>Hold ✓</td></tr>
+        <tr><td>C</td><td>+18</td><td>+15</td><td>Deploy ✓</td><td>Deploy ✓</td></tr>
+        <tr><td>D</td><td>+6</td><td>+8</td><td>Deploy ✓</td><td>Hold (missed)</td></tr>
+        <tr><td>E</td><td>−2</td><td>−3</td><td>Don't deploy ✓</td><td>Don't deploy ✓</td></tr>
+        <tr><td>F</td><td>+9</td><td>+7</td><td>Deploy ✓</td><td>Deploy ✓</td></tr>
+        <tr><td>G</td><td>+1</td><td>−6</td><td>Deploy ✗ (harm)</td><td>Hold ✓</td></tr>
+        <tr><td>H</td><td>+15</td><td>+12</td><td>Deploy ✓</td><td>Deploy ✓</td></tr>
+        <tr><td>I</td><td>−5</td><td>−8</td><td>Don't deploy ✓</td><td>Don't deploy ✓</td></tr>
+        <tr><td>J</td><td>+7</td><td>+5</td><td>Deploy ✓</td><td>Deploy ✓</td></tr>
+    </tbody>
+</table>
+
+<p><strong>Without awareness:</strong> You deployed 8 agents. Two of them (B, G) had true E[V] &lt; 0. You harmed the customer twice.</p>
+
+<p><strong>With awareness:</strong> You deployed 5 agents. All had true E[V] &gt; 0. You missed one good agent (D) — but you harmed the customer zero times.</p>
+
+<p>The tradeoff: you gave up one good deployment to avoid two harmful ones. Given our assumption that harm &gt;&gt; missed opportunity, this is a good trade.</p>
+
+<hr>
+
+<h3>The value of visibility</h3>
+
+<p>Uncertainty awareness didn't change the agents. It didn't improve anything. It just made the uncertainty <em>visible</em>.</p>
+
+<p>That visibility alone:</p>
+
+<ul>
+    <li>Prevented 2 harmful deployments</li>
+    <li>Identified 3 agents that need more investigation before deciding</li>
+    <li>Let you deploy 5 agents with high confidence</li>
+</ul>
+
+<p>This is the epistemic value of uncertainty — the value of simply <em>knowing what you don't know</em>.</p>
+
+<hr>
+
+<h2>The Value of Reducing Uncertainty</h2>
+
+<p>Awareness tells you <em>which</em> agents are uncertain. But what happens when you invest in reducing that uncertainty — through better measurement, larger test sets, more representative data?</p>
+
+<p>The key insight: <strong>reducing uncertainty creates value even if the system doesn't improve.</strong></p>
+
+<hr>
+
+<h3>Continuing the example</h3>
+
+<p>You held agents B, D, and G because their uncertainty was too high. Now you invest in better evaluation — more test cases, better judges, more representative data.</p>
+
+<p>The systems don't change. But your knowledge improves:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Agent</th>
+            <th>Before</th>
+            <th>After better measurement</th>
+            <th>True E[V]</th>
+            <th>Decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>B</td><td>+3 [−8, +14]</td><td>−2 [−5, +1]</td><td>−4</td><td>Don't deploy ✓</td></tr>
+        <tr><td>D</td><td>+6 [−15, +27]</td><td>+9 [+6, +12]</td><td>+8</td><td>Deploy ✓</td></tr>
+        <tr><td>G</td><td>+1 [−12, +14]</td><td>−4 [−7, −1]</td><td>−6</td><td>Don't deploy ✓</td></tr>
+    </tbody>
+</table>
+
+<p>With better measurement:</p>
+
+<ul>
+    <li><strong>Agent B:</strong> The range narrowed and shifted. You now see it's likely negative. You confirm the hold — correct decision.</li>
+    <li><strong>Agent D:</strong> The range narrowed dramatically. You now see it's confidently positive. You can deploy — you've unlocked value that was always there.</li>
+    <li><strong>Agent G:</strong> The range narrowed and you see it's clearly negative. You confirm the hold — correct decision.</li>
+</ul>
+
+<hr>
+
+<h3>What reducing uncertainty gives you</h3>
+
+<ol>
+    <li><strong>Confident deploys:</strong> Agent D was a good system all along. You just didn't know it. Better measurement gave you the confidence to ship.</li>
+    <li><strong>Confident rejects:</strong> Agents B and G were bad systems. Better measurement confirmed you should hold back, and now you can stop investigating them.</li>
+    <li><strong>No wasted effort:</strong> Without better measurement, you might have kept investigating all three forever — or eventually deployed them out of impatience.</li>
+</ol>
+
+<p>The system didn't improve. Your <em>knowledge</em> improved. And that knowledge has direct business value: you shipped a good agent you were holding back, and you stopped wasting effort on bad ones.</p>
+
+<hr>
+
+<h3>The investment case for better measurement</h3>
+
+<p>This reframes how we think about evaluation investment.</p>
+
+<p>Traditional framing: "We need better evals to improve our systems."</p>
+
+<p>Better framing: "We need better evals to <em>know which systems are already good enough to ship</em> — and which ones aren't worth further investment."</p>
+
+<p>Reducing uncertainty doesn't just help you improve. It helps you <em>decide</em> — faster, with more confidence, and with fewer mistakes.</p>
+
+<hr>
+
+<h2>Bias: When Your Estimate Is Systematically Off — and is systematically optimistic</h2>
+
+<p>So far we've talked about uncertainty — your estimate has some range around it. If you report that range, at least you and your stakeholders know you're uncertain.</p>
+
+<p>Bias is a different problem. Bias means your estimate is <em>systematically off</em> — not wobbling around the truth, but centered on the wrong number - and way more often than not, a massively optimistic number (we'll see why that is). Indeed, you can sometimes even have a narrow range centered on the wrong value.</p>
+
+<hr>
+
+<h3>Four situations</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Your belief</th>
+            <th>Reality</th>
+            <th>Situation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Narrow range, centered on truth</td>
+            <td>Close to what you think</td>
+            <td>You can trust your estimate</td>
+        </tr>
+        <tr>
+            <td>Wide range, centered on truth</td>
+            <td>Somewhere in your range</td>
+            <td>Uncertain, but honest — your range contains the truth</td>
+        </tr>
+        <tr>
+            <td>Wide range, off-center</td>
+            <td>Not where you think</td>
+            <td>Uncertain and wrong — but the wide range might at least overlap with truth</td>
+        </tr>
+        <tr>
+            <td>Narrow range, off-center</td>
+            <td>Far from what you think</td>
+            <td>You're confident in a wrong number</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The last row is the problem: you feel confident, but you're wrong. And nothing in your run-to-run variance tells you so — because bias doesn't show up as variability.</p>
+
+<hr>
+
+<h3>What bias looks like</h3>
+
+<p>Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4):</p>
+
+<ul>
+    <li>Your test set is easier than production</li>
+    <li>Your test set over-represents cases where the system performs well</li>
+    <li>Your judge prompt is lenient</li>
+    <li>You've tuned your system on the test set (overfitting)</li>
+    <li>You've tried many variants and reported the best-looking one (selection bias)</li>
+    <li>You have mandated that teams have K ground truth examples, and all your teams have obliged - and have massively overfit to it so that you are <em>completely</em> misled despite doing exactly what you asked them to do.</li>
+</ul>
+
+<p>If your evaluation process is biased by +15 points:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>True E[V]</th>
+            <th>Bias</th>
+            <th>What you report</th>
+            <th>Your decision</th>
+            <th>Outcome</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>−5</td>
+            <td>+15</td>
+            <td>"I believe E[V] is between +5 and +15"</td>
+            <td>Deploy</td>
+            <td>Deployed a net-negative system</td>
+        </tr>
+        <tr>
+            <td>+2</td>
+            <td>+15</td>
+            <td>"I believe E[V] is between +12 and +22"</td>
+            <td>Deploy, high priority</td>
+            <td>Net positive, but over-prioritized</td>
+        </tr>
+        <tr>
+            <td>−20</td>
+            <td>+15</td>
+            <td>"I believe E[V] is between −10 and 0"</td>
+            <td>Don't deploy</td>
+            <td>Correct decision, but by luck</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>In the first row, you reported a belief that E[V] is between +5 and +15. Entirely positive. You deploy.</p>
+
+<p>But the true value is −5. You were systematically off by 15 points. Your stated range was narrow and felt confident — but it was centered on the wrong number.</p>
+
+<hr>
+
+<h3>Questions you should ask in every presentation</h3>
+
+<ul>
+    <li>Is our evaluation systematically optimistic? Do we know? if not, how do we know? if yes, by how much?</li>
+    <li>Are some use cases more biased than others?</li>
+    <li>What would the cost of bias be? and the risk? (cost × likelihood)</li>
+    <li>How would we detect bias if it existed?</li>
+</ul>
+
+<p>These questions are rarely asked. Bias is invisible in run-to-run variance. Asking can feel like admitting weakness. And the organization's incentives often favor shipping over questioning.</p>
+
+<hr>
+
+<h3>Bias compounds</h3>
+
+<p>Early evaluations — typically the most biased due to small test sets, unrepresentative data, and uncalibrated judges — shape downstream decisions:</p>
+
+<ul>
+    <li>Which architectures you pursue</li>
+    <li>Which use cases you prioritize</li>
+    <li>Which teams get resources</li>
+    <li>What "good" looks like</li>
+</ul>
+
+<p>By the time production feedback reveals the gap, you've built on a biased foundation. The cost isn't one wrong decision — it's a series of decisions, each informed by the last.</p>
+
+<hr>
+
+<h2>Bias at Portfolio Scale</h2>
+
+<p>We've seen the value of uncertainty awareness and the value of reducing uncertainty. But what happens when bias operates across your portfolio?</p>
+
+<p>Suppose you've addressed the visibility problem — your teams report uncertainty ranges, and you make decisions accordingly. You've even invested in reducing uncertainty for borderline cases.</p>
+
+<p>But your entire evaluation process is systematically optimistic by ~7 points. You don't know this.</p>
+
+<p>Consider 10 agents. Your teams report beliefs, and you make decisions:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Use case</th>
+            <th>What you believe</th>
+            <th>What's actually true</th>
+            <th>Your decision</th>
+            <th>Outcome</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>A</td><td>"78% to 92%"</td><td>71% to 85%</td><td>Deploy</td><td>Might be below threshold</td></tr>
+        <tr><td>B</td><td>"70% to 86%"</td><td>63% to 79%</td><td>Investigate</td><td>Actually below threshold</td></tr>
+        <tr><td>C</td><td>"88% to 94%"</td><td>81% to 87%</td><td>Deploy</td><td>Still above — fine</td></tr>
+        <tr><td>D</td><td>"65% to 95%"</td><td>58% to 88%</td><td>Investigate</td><td>Even more uncertain</td></tr>
+        <tr><td>E</td><td>"72% to 80%"</td><td>65% to 73%</td><td>Don't deploy</td><td>Correct</td></tr>
+        <tr><td>F</td><td>"82% to 94%"</td><td>75% to 87%</td><td>Deploy</td><td>Straddles threshold now</td></tr>
+        <tr><td>G</td><td>"75% to 83%"</td><td>68% to 76%</td><td>Investigate</td><td>Actually below threshold</td></tr>
+        <tr><td>H</td><td>"80% to 88%"</td><td>73% to 81%</td><td>Deploy</td><td>Barely above, risky</td></tr>
+        <tr><td>I</td><td>"68% to 78%"</td><td>61% to 71%</td><td>Don't deploy</td><td>Correct</td></tr>
+        <tr><td>J</td><td>"79% to 93%"</td><td>72% to 86%</td><td>Deploy</td><td>Straddles threshold</td></tr>
+    </tbody>
+</table>
+
+<p>With 7 points of bias:</p>
+
+<ul>
+    <li>Use cases you thought were "confidently above threshold" (C, F) are now borderline or just above</li>
+    <li>Use cases you thought "straddled the threshold" (B, G) are actually below</li>
+    <li>Your "deploy with confidence" decisions become "deployed something risky"</li>
+</ul>
+
+<p>And you don't know any of this. Your beliefs feel well-calibrated. Your ranges are honest about uncertainty. But they're all shifted.</p>
+
+<hr>
+
+<h3>The compound effect</h3>
+
+<p>Across a portfolio:</p>
+
+<ul>
+    <li>Uncertainty without bias: some decisions will be wrong by chance, but errors balance out over time</li>
+    <li>Bias without awareness: errors accumulate in one direction — you systematically over-deploy, over-prioritize, and under-invest in the use cases that would actually benefit from more work</li>
+</ul>
+
+<p>The cost isn't one wrong call. It's a portfolio of wrong calls, all tilted the same way.</p>
+
+<hr>
+
+<h2>One Agent, Many Customers: A Different Kind of Uncertainty</h2>
+
+<p>So far we've discussed N agents for one customer. But there's another dimension: deploying one agent across N customers.</p>
+
+<p>This introduces a different kind of uncertainty — one that better measurement can <em>reveal</em> but cannot <em>reduce</em>.</p>
+
+<hr>
+
+<h3>The setup</h3>
+
+<p>You have one agent — say, Incident Auto-Resolution — and 10 customers considering deployment. You've evaluated thoroughly and you're confident: E[V] = +8, range [+5, +11].</p>
+
+<p>Should you deploy to all 10 customers?</p>
+
+<hr>
+
+<h3>The problem: cross-customer variability</h3>
+
+<p>Your evaluation was done on some dataset — maybe a mix of data from several customers, maybe synthetic data, maybe data from your most engaged pilot customer.</p>
+
+<p>But each customer's data is different:</p>
+
+<ul>
+    <li>Customer A has clean, well-structured tickets with consistent formatting</li>
+    <li>Customer B has messy tickets with lots of jargon and abbreviations</li>
+    <li>Customer C has tickets in multiple languages</li>
+    <li>Customer D has a ticket system that truncates long descriptions</li>
+</ul>
+
+<p>The agent might perform very differently across these environments. Your confident E[V] = +8 might actually be:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>True E[V]</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>A</td><td>+15</td></tr>
+        <tr><td>B</td><td>+2</td></tr>
+        <tr><td>C</td><td>−5</td></tr>
+        <tr><td>D</td><td>+12</td></tr>
+        <tr><td>E</td><td>+8</td></tr>
+        <tr><td>F</td><td>−3</td></tr>
+        <tr><td>G</td><td>+10</td></tr>
+        <tr><td>H</td><td>+6</td></tr>
+        <tr><td>I</td><td>+1</td></tr>
+        <tr><td>J</td><td>−8</td></tr>
+    </tbody>
+</table>
+
+<p>Your aggregate evaluation gave you confidence, but the reality is: 3 out of 10 customers would be harmed.</p>
+
+<hr>
+
+<h3>This uncertainty is different</h3>
+
+<p>With measurement uncertainty, better evaluation narrows your range. You become more confident about the true E[V].</p>
+
+<p>With cross-customer variability:</p>
+
+<ul>
+    <li>Better measurement makes you <em>more confident about the variance</em> — you learn precisely how much performance differs across customers</li>
+    <li>But better measurement <em>doesn't reduce</em> the variance — it's real variability in the world, not measurement error</li>
+</ul>
+
+<p>If you evaluate on Customer C's data, you don't make the agent work better for Customer C. You just learn that it doesn't work well there.</p>
+
+<hr>
+
+<h3>What can you do?</h3>
+
+<ol>
+    <li><strong>Improve the system:</strong> Make the agent more robust to different data distributions. This actually reduces the variance.</li>
+    <li><strong>Deploy selectively:</strong> Learn which customers (or which data characteristics) predict success, and only deploy where you expect E[V] &gt; 0.</li>
+    <li><strong>Set expectations:</strong> If you deploy broadly, communicate that results will vary. Some customers will see great results; some won't.</li>
+</ol>
+
+<p>The key point: this is not a measurement problem. It's a real-world variability problem. Recognizing the difference matters for deciding where to invest effort.</p>
+
+<hr>
+
+<p><strong>Try it yourself:</strong> <a href="./part-2-portfolio-simulator.html">Interactive Portfolio Simulator</a> — Experience how uncertainty and bias affect decisions at portfolio scale.</p>
+
+<hr>
+
+<p><em>Next: <a href="./part-3-sources-of-error.html">Part 3: Sources of Bias and Uncertainty</a> — The technical deep dive into what makes evaluation unreliable</em></p>
+
+<hr>
+
+<p class="tags">
+    <strong>Tags:</strong>
+    <code>AI</code>
+    <code>Machine Learning</code>
+    <code>Evaluation</code>
+    <code>MLOps</code>
+    <code>AI Engineering</code>
+</p>
+
+</body>
+</html>

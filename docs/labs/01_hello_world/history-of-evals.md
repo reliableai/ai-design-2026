@@ -1,9 +1,6 @@
-# Optimizing in the Dark:
-A Flaw in Human Judgement
+# A Brief History of Evals
 
-## Part 3: A Brief History of Evals
-
-*Why Uncertainty Cascades: Beyond Engineering Approximations*
+*From deterministic tests to probabilistic judgments: how our eval muscles got weaker*
 
 ---
 
@@ -263,11 +260,7 @@ To "demonstrate" that:
 1. there is a large uncertainty in evals, and
 2. this is more than we think,
 
-I'll proceed with detailed examples in the next part. I will also show which solutions do not work (and can, in fact, backfire), and why. Then, we'll see if we can instead try to make some progress.
-
----
-
-*Next: [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) — The technical deep dive into what makes evaluation unreliable*
+I'll proceed with detailed examples in a later discussion. I will also show which solutions do not work (and can, in fact, backfire), and why. Then, we'll see if we can instead try to make some progress.
 
 ---
 

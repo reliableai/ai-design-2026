@@ -288,7 +288,7 @@ And perhaps the most important question: we are designing specs to simplify the 
 
 **What's different with AI agents?**
 
-AI agents kind of combine the benefits of humans and services.
+AI agents kind of combine the benefits of humans and services. ([diagram](https://miro.com/app/board/uXjVGNUbYRA=/?share_link_id=519477813799))
 
 Like humans, they can read APi descriptions and learn how to interact with them.
 This means that, in theory, they can figure out the intent of an API, gracefully handle variations in versions as the API evolve, reason when and if to use a tool, not just how.
