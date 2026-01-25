@@ -79,11 +79,11 @@ This book resonated well with my experience working with many companies and syst
 
 ![](./images/image6.jpeg)
 
-Even more insightful was the experience I had from discussing it with a friend working at an AI company in the Valley. His response after reading it was: "*Yeah, the book is pretty useless. We know there's a standard deviation.*" This is the same kind of response that the Anthropic article received.
+I've had this conversation a dozen times with engineers at AI companies. The response is remarkably consistent: "*Yeah, we know there's variance.*" But when I ask follow-up questions—*how much* variance? *where* does it come from? how does it affect your ship decisions?—the conversation usually stops.
 
-The point the book is making is not that assessments are subject to errors. But that such errors are large, and largely ignored by organizations. The book dwell then some more on how orgs are especially insensitive to noise even more so than bias - for us, they are both relevant and need to be addressed.
+The point the book is making is not that assessments are subject to errors, but that such errors are large, and largely ignored by organizations. The book dwells on how orgs are especially insensitive to noise even more so than bias—for us, both are relevant and need to be addressed.
 
-So, yes, there's noise, and variance—and we don't know:
+So yes, there's noise and variance—but we don't know:
 
 - How large it is,
 - Where it comes from,

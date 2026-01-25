@@ -41,23 +41,9 @@ Without this, the mandate becomes a shield: "We followed the process." Accountab
 
 If you make presentations easier for people who followed your mandates with respect to teams that don't, you are relieving them from accountability for the quality of their eval and you are responsible, as an executive, for the resulting failure to deliver.
 
-### Best Practices
+Best practices have the same failure mode. They are useful as starting points. They become harmful when they replace judgment and accountability — when teams stop asking "is this right?" and start asking "did we follow the steps?"
 
-Best practices have the same failure mode. A team follows the best practice guide, checks every box, and produces a number that looks rigorous. But they never asked: *is this number actually reliable?*
 
-Best practices are useful as starting points. They become harmful when they replace judgment—when teams stop asking "is this right?" and start asking "did we follow the steps?"
-
-### Why This Happens
-
-Both mandates and best practices shift accountability in a subtle but important way:
-
-| Approach | Accountability for | Leads to |
-|----------|-------------------|----------|
-| Mandates | Following the process | Gaming the process |
-| Best practices | Checking the boxes | Box-checking without thinking |
-| **Outcome ownership** | Reliability of the result | Actual rigor |
-
-The fix isn't to abandon mandates or best practices. It's to make accountability explicit.
 
 ### Make RACI Clear
 
