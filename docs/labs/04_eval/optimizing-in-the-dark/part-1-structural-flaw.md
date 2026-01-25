@@ -1,5 +1,5 @@
 # Optimizing in the Dark:
-A Flaw in Human Judgement
+Organizational Blindness in AI Evaluations
 
 ## Part 1: A Structural Flaw in Judgment
 
