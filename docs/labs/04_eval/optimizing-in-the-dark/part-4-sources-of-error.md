@@ -45,7 +45,7 @@ There are many sources of error in AI evaluation. Some contribute to bias, some 
 
 | Source | Contributes to | Key insight |
 |--------|---------------|-------------|
-| **Small test sets** | Noise | 100 samples → ~16 point confidence interval |
+| **Small test sets** | Noise | 100 samples → ~16-point-wide 95% CI |
 | **Multiple hypothesis testing** | Bias | Picking the best of K tries inflates scores |
 | **Developer-induced overfit** | Bias | Tuning to test set doesn't transfer to production |
 | **Eval/production mismatch** | Bias | Test distribution ≠ real-world distribution |
@@ -326,12 +326,12 @@ This creates compression: all true scores get pulled toward a middle range. With
 
 | True Pass Rate | Reported |
 |----------------|----------|
-| 50% | 52.5% |
-| 70% | 65.5% |
+| 50% | 47.5% |
+| 70% | 62.5% |
 | 80% | 70.0% |
-| 90% | 74.5% |
+| 90% | 77.5% |
 
-A system that truly improved from 70% to 90% (20 points) would only *appear* to improve from 65.5% to 74.5% (9 points). **The ruler got compressed. Progress looks smaller than it is.**
+A system that truly improved from 70% to 90% (20 points) would only *appear* to improve from 62.5% to 77.5% (15 points). **The ruler got compressed. Progress looks smaller than it is.**
 
 ### Subjectivity: User Perception is a Distribution
 
@@ -429,7 +429,7 @@ This explains why 20-30 point swings are plausible even with deterministic judgi
 
 Each of these sources adds variance. Each can introduce bias. And each is sufficient to flip your decisions—about what to ship, and about which direction to iterate.
 
-If you are comparing two prompt variations: System A scores 79%, System B scores 85%. You pick B and move forward. But with ±8 points of variance on each measurement, **System A might actually be better**. With a 30-40 point interval, it's a randomizer. You just iterated in the wrong direction—and you have no way of knowing unless 4 months into production.
+If you are comparing two prompt variations: System A scores 79%, System B scores 85%. You pick B and move forward. But with run-to-run measurement noise on the order of σ ≈ 8 points per system, **System A might actually be better**. With a ~40-point-wide 95% interval on the difference, it's a randomizer. You just iterated in the wrong direction—and you have no way of knowing unless 4 months into production.
 
 ![](./images/image13.png)
 

@@ -121,8 +121,17 @@
 <hr />
 <p>You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.</p>
 <img src="../figs/metric_meeting.png" alt="Meeting room with Technical Accuracy 89% slide" />
-<p>But how reliable is that number? What if the true accuracy could be anywhere from 74% to 95%? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?</p>
+<p>But how reliable is that number? What if the true accuracy were 10+ points away from what you're seeing on the slide? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?</p>
 <p>This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both <em>underestimating</em> and <em>ignoring</em> the bias and uncertainty in those numbers.</p>
+<blockquote>
+<p><strong>Notation (used throughout)</strong></p>
+<ul>
+<li><p>Scores are in <strong>percentage points</strong> ("points").</p></li>
+<li><p><code>σ</code> = standard deviation of <strong>one-run measurement noise</strong> for a single system (random error).</p></li>
+<li><p><code>±h</code> = approximate <strong>95% confidence interval half-width</strong> (so CI width is <code>2h</code>).</p></li>
+<li><p>When comparing two systems with independent noise <code>σ</code>, the noise on the difference is <code>√2 · σ</code>.</p></li>
+</ul>
+</blockquote>
 <hr />
 <h2>The Series</h2>
 
@@ -146,8 +155,8 @@
 <ul>
 <li><p><strong>Every score has two error terms</strong>: bias (systematic) and uncertainty (random). Bias is harder to see but often more dangerous.</p></li>
 <li><p><strong>Selection turns noise into bias</strong>: Even unbiased evaluations become optimistic when you pick winners. The math is real.</p></li>
-<li><p><strong>Small differences are noise</strong>: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.</p></li>
-<li><p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the <em>optimistic</em> case.</p></li>
+<li><p><strong>Small differences are noise</strong>: If per-system measurement noise is σ ≈ 4 points, a true 4-point gap still gives you a ~24% chance of picking the wrong one (independent Normal noise).</p></li>
+<li><p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a ~16-point-wide 95% confidence interval on 100 examples at 82% accuracy (≈82% ± 8). And that's the <em>optimistic</em> case.</p></li>
 <li><p><strong>Better eval beats more dev effort</strong>: Investing in measurement first enables better deployment decisions and directed improvement—even before touching the agents.</p></li>
 <li><p><strong>Culture matters</strong>: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—<em>that's</em> weakness.</p></li>
 </ul>

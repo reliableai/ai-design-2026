@@ -11,9 +11,15 @@ You've been in this room. A slide goes up. There's a metric—"Technical Accurac
 
 ![](../figs/metric_meeting.png)
 
-But how reliable is that number? What if the true accuracy could be anywhere from 74% to 95%? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?
+But how reliable is that number? What if the true accuracy were 10+ points away from what you're seeing on the slide? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?
 
 This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both *underestimating* and *ignoring* the bias and uncertainty in those numbers.
+
+> **Notation (used throughout)**
+> - Scores are in **percentage points** ("points").
+> - **σ** = standard deviation of **one-run measurement noise** for a single system (random error).
+> - **±h** = approximate **95% confidence interval half-width** (so CI width is **2h**).
+> - When comparing two systems with independent noise **σ**, the noise on the difference is **√2 · σ**.
 
 ---
 
@@ -47,9 +53,9 @@ The path forward. Addressing visibility (awareness, estimation, reporting), acti
 
 - **Selection turns noise into bias**: Even unbiased evaluations become optimistic when you pick winners. The math is real.
 
-- **Small differences are noise**: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.
+- **Small differences are noise**: If per-system measurement noise is σ ≈ 4 points, a true 4-point gap still gives you a ~24% chance of picking the wrong one (independent Normal noise).
 
-- **The uncertainty is larger than you think**: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the *optimistic* case.
+- **The uncertainty is larger than you think**: Sample size alone gives you a ~16-point-wide 95% confidence interval on 100 examples at 82% accuracy (≈82% ± 8). And that's the *optimistic* case.
 
 - **Better eval beats more dev effort**: Investing in measurement first enables better deployment decisions and directed improvement—even before touching the agents.
 

@@ -23,15 +23,23 @@ The solutions must address all three. But first, let's be clear about what doesn
 
 ## What Doesn't Work
 
-### Mandates
+### Mandates and Best Practices on AI Evaluation
 
-A common response to eval quality problems is to mandate process: "Every eval must have at least 100 ground truth examples." "Every team must use the standard rubric." "Every release must pass the evaluation checklist."
+Every org on the planet is probably sending out best practices, guidelines and mandates on AI evaluation. 
+I do too - with this series.
 
-These mandates aren't wrong. The problem is what happens next.
+A common mandate is "you shall have at least 100 ground truth examples", or "you shall use the standard rubric", or "you shall pass the evaluation checklist" (I do suggest a checklist, by the way).
 
-Teams optimize for the mandate, not for the outcome. They produce 100 ground truth examples—but overfit to them. They use the standard rubric—but don't ask whether it captures what matters. They pass the checklist—and ship a system that fails in production.
+Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them proprely. 
 
-The mandate becomes a shield: "We followed the process." Accountability shifts from *delivering reliable results* to *complying with requirements*. And compliance is much easier to game than reliability.
+What is wrong - and counterproductive - is 1. when we give the impression - in emails, in meetings, in dashboards - that  following the mandates is sufficient to deliver reliable results and 2. when we relieve the dev team from accountability for the quailty of their eval.
+
+
+You need to make the dev team (or QA, if you so decide) accountable for **the quality of their eval**, you need a team that can stand by what they report, not because they follow a mandate but because they are aware of how good evals are done and reported and are clearly outlining what they know and what is uncertain. 
+
+Without this, the mandate becomes a shield: "We followed the process." Accountability shifts from *delivering reliable results* to *complying with requirements*. And compliance is much easier to game than reliability.
+
+If you make presentations easier for people who followed your mandates with respect to teams that don't, you are relieving them from accountability for the quality of their eval and you are responsible, as an executive, for the resulting failure to deliver.
 
 ### Best Practices
 
@@ -225,7 +233,7 @@ Think of it as a **Center of Excellence at your fingertips**. Not a rubber stamp
 
 Everything above—the techniques, the tools, the processes—requires a cultural foundation.
 
-Teams need to feel safe saying "we don't know." Executives need to accept that "82% ± 8 points" is more valuable than "82%"—even though it feels less confident.
+Teams need to feel safe saying "we don't know." Executives need to accept that "82% (95% CI: 74%–90%)" is more valuable than "82%"—even though it feels less confident.
 
 This is perhaps the hardest part. Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness.
 
