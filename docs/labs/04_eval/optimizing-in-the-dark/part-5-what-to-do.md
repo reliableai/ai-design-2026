@@ -47,15 +47,14 @@ Best practices have the same failure mode. They are useful as starting points. T
 
 ### Make RACI Clear
 
-For every evaluation, someone must be **Accountable**—not for following the process, but for the *reliability of the number*. This person should be able to answer:
+For every evaluation, someone must be **Accountable**—not for following the process, but for the *reliability of the statement they make about their agent and system*. This person should be able to answer:
 
-- Would you stake your reputation on this number?
-- What range would you sign your name to?
-- If this goes to production and fails, are you comfortable explaining why you believed it would work?
+- Would you stand behind these metrics, numbers or ranges?
+- How did you estimate the uncertainty, and account for biases? how did you prevent overfitting to a set of ground truth examples or manage the testing of multiple hypotheses?
 
-When accountability is clear, mandates become tools rather than shields. "We have 100 ground truth examples" becomes "We have 100 ground truth examples, and here's why I believe they're representative." The checklist becomes a starting point, not an endpoint.
+When accountability is clear, mandates become tools rather than shields. "We have 100 ground truth examples" becomes "We have 100 ground truth examples, and here's why I believe they're representative and here is how we translate the evals over these 100 examples into a uncertainty window." The checklist becomes a starting point, not an endpoint.
 
-**Mandate the questions, not the answers.** Require teams to answer "what's your confidence interval?" and "how do you know your data is representative?"—but let them own the answers.
+**Mandate the questions, not the answers.** Require teams to answer "what's your uncertainty window?" and "how do you know your data is representative?"—but let them own the answers.
 
 ---
 
