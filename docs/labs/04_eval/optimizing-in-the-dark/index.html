@@ -125,16 +125,22 @@
 <p>This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both <em>underestimating</em> and <em>ignoring</em> the bias and uncertainty in those numbers.</p>
 <hr />
 <h2>The Series</h2>
+
 <h3><a href="./part-1-structural-flaw.html">Part 1: A Structural Flaw in Judgment</a></h3>
 <p>The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action.</p>
-<h3><a href="./part-2-cost-of-inaction.html">Part 2: The Cost of Inaction</a></h3>
+
+<h3><a href="./part-2-cost-of-ignorance-draft.html">Part 2: The Cost of Ignorance</a></h3>
 <p>The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along. How bias and noise compound across organizations.</p>
-<h3><a href="./part-3-history-of-evals.html">Part 3: A Brief History of Evals</a></h3>
-<p>How we got here. A journey through Software 1.0 (deterministic code), Software 2.0 (ML models), and Software 3.0 (Gen AI applications)—tracing how our evaluation muscles weakened as systems became more complex, more open-ended, and harder to pin down.</p>
+
+<h3><a href="./part-3-value-of-better-measurement.html">Part 3: Better "Evals" Beats Better Dev</a></h3>
+<p>The value of better measurement. The M×C matrix, the critical distinction between uncertainty and variability, and why better eval leads to better quality even without touching the system.</p>
+
 <h3><a href="./part-4-sources-of-error.html">Part 4: Sources of Bias and Uncertainty</a></h3>
 <p>The technical deep dive. From sample size effects to multiple hypothesis testing, from developer-induced overfitting to noisy LLM judges, from rubric mapping artifacts to prompt sensitivity. Each source alone can flip your decisions. Together, they compound.</p>
-<h3><a href="./part-5-what-to-do.html">Part 5: What To Do About It</a></h3>
+
+<h3><a href="./part-5-what-to-do.html">Part 5: What To Do, and What Not To Do</a></h3>
 <p>The path forward. Addressing visibility (awareness, estimation, reporting), action (reducing uncertainty, building observability), and culture (naming things right, asking the questions, making accountability explicit). Practical tools including evaluation worksheets and AI-powered methodology assistants.</p>
+
 <hr />
 <h2>Key Themes</h2>
 <ul>
@@ -142,6 +148,7 @@
 <li><p><strong>Selection turns noise into bias</strong>: Even unbiased evaluations become optimistic when you pick winners. The math is real.</p></li>
 <li><p><strong>Small differences are noise</strong>: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.</p></li>
 <li><p><strong>The uncertainty is larger than you think</strong>: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the <em>optimistic</em> case.</p></li>
+<li><p><strong>Better eval beats more dev effort</strong>: Investing in measurement first enables better deployment decisions and directed improvement—even before touching the agents.</p></li>
 <li><p><strong>Culture matters</strong>: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—<em>that's</em> weakness.</p></li>
 </ul>
 <hr />

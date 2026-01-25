@@ -23,19 +23,19 @@ This series explores a structural problem in how organizations evaluate AI syste
 
 The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action.
 
-### [Part 2: The Cost of Inaction](./part-2-cost-of-inaction.md)
+### [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance-draft.md)
 
 The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along. How bias and noise compound across organizations.
 
-### [Part 3: A Brief History of Evals](./part-3-history-of-evals.md)
+### [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md)
 
-How we got here. A journey through Software 1.0 (deterministic code), Software 2.0 (ML models), and Software 3.0 (Gen AI applications)—tracing how our evaluation muscles weakened as systems became more complex, more open-ended, and harder to pin down.
+The value of better measurement. The M×C matrix, the critical distinction between uncertainty and variability, and why better eval leads to better quality even without touching the system.
 
 ### [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md)
 
 The technical deep dive. From sample size effects to multiple hypothesis testing, from developer-induced overfitting to noisy LLM judges, from rubric mapping artifacts to prompt sensitivity. Each source alone can flip your decisions. Together, they compound.
 
-### [Part 5: What To Do About It](./part-5-what-to-do.md)
+### [Part 5: What To Do, and What Not To Do](./part-5-what-to-do.md)
 
 The path forward. Addressing visibility (awareness, estimation, reporting), action (reducing uncertainty, building observability), and culture (naming things right, asking the questions, making accountability explicit). Practical tools including evaluation worksheets and AI-powered methodology assistants.
 
@@ -50,6 +50,8 @@ The path forward. Addressing visibility (awareness, estimation, reporting), acti
 - **Small differences are noise**: If your evaluation noise is ±4 points, a 4-point gap between systems gives you a ~24% chance of picking the wrong one.
 
 - **The uncertainty is larger than you think**: Sample size alone gives you a 16-point confidence interval on 100 examples at 82% accuracy. And that's the *optimistic* case.
+
+- **Better eval beats more dev effort**: Investing in measurement first enables better deployment decisions and directed improvement—even before touching the agents.
 
 - **Culture matters**: Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness. But pretending certainty where none exists—*that's* weakness.
 

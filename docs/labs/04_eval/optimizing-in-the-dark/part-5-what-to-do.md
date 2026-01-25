@@ -1,9 +1,11 @@
 # Optimizing in the Dark:
 A Flaw in Human Judgement
 
-## Part 4: What To Do About It
+## Part 5: What To Do, and What Not To Do
 
 *Practical solutions for visibility, action, and culture*
+
+← [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) | [Series Index](./index.md)
 
 ---
 
@@ -15,7 +17,51 @@ Recall the three facets of the problem we identified:
 
 3. **The action problem** (methodological): Even when uncertainty is visible and the culture asks about it, people don't know what to do.
 
-The solutions must address all three.
+The solutions must address all three. But first, let's be clear about what doesn't work.
+
+---
+
+## What Doesn't Work
+
+### Mandates
+
+A common response to eval quality problems is to mandate process: "Every eval must have at least 100 ground truth examples." "Every team must use the standard rubric." "Every release must pass the evaluation checklist."
+
+These mandates aren't wrong. The problem is what happens next.
+
+Teams optimize for the mandate, not for the outcome. They produce 100 ground truth examples—but overfit to them. They use the standard rubric—but don't ask whether it captures what matters. They pass the checklist—and ship a system that fails in production.
+
+The mandate becomes a shield: "We followed the process." Accountability shifts from *delivering reliable results* to *complying with requirements*. And compliance is much easier to game than reliability.
+
+### Best Practices
+
+Best practices have the same failure mode. A team follows the best practice guide, checks every box, and produces a number that looks rigorous. But they never asked: *is this number actually reliable?*
+
+Best practices are useful as starting points. They become harmful when they replace judgment—when teams stop asking "is this right?" and start asking "did we follow the steps?"
+
+### Why This Happens
+
+Both mandates and best practices shift accountability in a subtle but important way:
+
+| Approach | Accountability for | Leads to |
+|----------|-------------------|----------|
+| Mandates | Following the process | Gaming the process |
+| Best practices | Checking the boxes | Box-checking without thinking |
+| **Outcome ownership** | Reliability of the result | Actual rigor |
+
+The fix isn't to abandon mandates or best practices. It's to make accountability explicit.
+
+### Make RACI Clear
+
+For every evaluation, someone must be **Accountable**—not for following the process, but for the *reliability of the number*. This person should be able to answer:
+
+- Would you stake your reputation on this number?
+- What range would you sign your name to?
+- If this goes to production and fails, are you comfortable explaining why you believed it would work?
+
+When accountability is clear, mandates become tools rather than shields. "We have 100 ground truth examples" becomes "We have 100 ground truth examples, and here's why I believe they're representative." The checklist becomes a starting point, not an endpoint.
+
+**Mandate the questions, not the answers.** Require teams to answer "what's your confidence interval?" and "how do you know your data is representative?"—but let them own the answers.
 
 ---
 

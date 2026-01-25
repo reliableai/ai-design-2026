@@ -2,6 +2,8 @@
 
 *Ignoring uncertainty is expensive*
 
+← [Part 1: A Structural Flaw in Judgment](./part-1-structural-flaw.md) | [Series Index](./index.md)
+
 ---
 
 ## The Shape of Value
@@ -378,14 +380,13 @@ The last row is the problem: you feel confident, but you're wrong. And nothing i
 
 **What bias looks like**
 
-Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4):
+Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Error):
 
 - Your test set is easier than production
 - Your test set over-represents cases where the system performs well
 - Your judge prompt is lenient
 - You've tuned your system on the test set (overfitting)
 - You've tried many variants and reported the best-looking one (selection bias)
-- you have mandated that teams have K ground truth examples, and all your teams have obliged - and have massively overfit to it so that you are *completely* misled despite doing exactly what you asked them to do.
 
 
 If your evaluation process is biased by +15 points:
@@ -537,7 +538,7 @@ The key point: this is not a measurement problem. It's a real-world variability 
 
 ---
 
-*Next: [Part 3: Sources of Bias and Uncertainty](./part-3-sources-of-error.md) — The technical deep dive into what makes evaluation unreliable*
+*Next: [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md) — The value of knowing what you're measuring*
 
 ---
 

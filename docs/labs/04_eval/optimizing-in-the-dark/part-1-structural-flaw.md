@@ -5,6 +5,8 @@ A Flaw in Human Judgement
 
 *Iterating towards a random target*
 
+[Series Index](./index.md) | [Part 2 →](./part-2-cost-of-ignorance-draft.md)
+
 ---
 
 ![](./images/image1.png)
@@ -110,11 +112,11 @@ The question is hard also because the "problem" landscape has three distinct fac
 
 3. **The action problem** (methodological): Even when uncertainty is visible and the culture asks about it, people don't know what to do. How do you decide when the range is 77–95%? How do you reduce variance when you don't know which source dominates? The frameworks and practices are neither widely known nor well-established in modern AI.
 
-To understand why evaluation practices erode as we move toward gen AI, we need to look at how engineering evolved across Software 1.0, 2.0, and 3.0. But first, let's understand the cost of inaction.
+Let's understand the cost of inaction—and then what to do about it.
 
 ---
 
-*Next: [Part 2: The Cost of Inaction](./part-2-cost-of-inaction.md) — Why ignoring uncertainty is expensive*
+*Next: [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance-draft.md) — Why ignoring uncertainty is expensive*
 
 ---
 

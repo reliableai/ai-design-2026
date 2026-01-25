@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Content by Fabio Casati
-  https://www.linkedin.com/in/sphoebs/
-  https://x.com/sphoebs
+  Design Variant 4: Technical Documentation Style
+  Clean, functional, inspired by Stripe/Notion docs
 -->
 <html lang="en">
 <head>
@@ -11,126 +10,140 @@
     <title>Optimizing in the Dark: A Flaw in Human Judgement</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --blue-600: #2563eb;
+            --blue-100: #dbeafe;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
         body {
-            font-family: 'DM Sans', -apple-system, sans-serif;
-            font-size: 17px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 16px;
             line-height: 1.7;
-            max-width: 700px;
+            max-width: 740px;
             margin: 0 auto;
-            padding: 64px 24px;
-            color: #2d3748;
-            background: #f7fafc;
+            padding: 60px 32px;
+            color: var(--gray-700);
+            background: #fff;
         }
         h1 {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 2.4em;
+            font-size: 2.25em;
             font-weight: 600;
-            margin-bottom: 0.3em;
-            letter-spacing: -0.025em;
-            line-height: 1.15;
-            color: #1a202c;
+            margin-bottom: 0.25em;
+            line-height: 1.2;
+            color: var(--gray-900);
         }
         h2 {
-            font-family: 'DM Sans', sans-serif;
             font-size: 1.5em;
             font-weight: 600;
-            margin-top: 2.5em;
-            margin-bottom: 0.6em;
-            color: #2d3748;
-            padding-bottom: 0.4em;
-            border-bottom: 2px solid #38b2ac;
+            margin-top: 3em;
+            margin-bottom: 0.75em;
+            color: var(--gray-900);
+            padding-bottom: 0.5em;
+            border-bottom: 1px solid var(--gray-200);
         }
         h3 {
-            font-family: 'DM Mono', monospace;
-            font-size: 1.05em;
-            font-weight: 500;
-            margin-top: 1.8em;
-            color: #319795;
+            font-size: 1.125em;
+            font-weight: 600;
+            margin-top: 2em;
+            color: var(--gray-900);
         }
         p {
-            margin: 1.3em 0;
+            margin: 1.25em 0;
         }
         img {
-            max-width: 70%;
+            max-width: 100%;
             height: auto;
-            margin: 2em auto;
-            border-radius: 12px;
+            margin: 2em 0;
             display: block;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
         }
         blockquote {
-            border-left: 4px solid #38b2ac;
-            margin: 2em 0;
+            border-left: 4px solid var(--blue-600);
+            margin: 1.5em 0;
             padding: 1em 1.5em;
-            color: #4a5568;
-            background: #fff;
+            color: var(--gray-700);
+            background: var(--blue-100);
             border-radius: 0 8px 8px 0;
         }
         blockquote p {
             margin: 0;
         }
         code {
-            font-family: 'DM Mono', monospace;
-            background: #e6fffa;
-            padding: 0.2em 0.45em;
-            border-radius: 6px;
-            font-size: 0.88em;
-            color: #234e52;
+            font-family: 'Fira Code', monospace;
+            background: var(--gray-100);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-size: 0.875em;
+            color: var(--gray-900);
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5em 0;
-            font-size: 0.95em;
+            font-size: 0.9em;
         }
         th, td {
-            border: 1px solid #e2e8f0;
-            padding: 10px 12px;
+            border: 1px solid var(--gray-200);
+            padding: 12px 16px;
             text-align: left;
         }
         th {
-            background: #edf2f7;
+            background: var(--gray-50);
             font-weight: 600;
+            color: var(--gray-900);
         }
-        tr:nth-child(even) {
-            background: #f7fafc;
+        tr:hover {
+            background: var(--gray-50);
         }
         ul, ol {
-            margin: 1.3em 0;
-            padding-left: 1.6em;
+            margin: 1.25em 0;
+            padding-left: 1.5em;
         }
         li {
-            margin: 0.6em 0;
+            margin: 0.5em 0;
         }
         hr {
             border: none;
-            border-top: 1px solid #e2e8f0;
-            margin: 2.5em 0;
+            border-top: 1px solid var(--gray-200);
+            margin: 3em 0;
         }
         a {
-            color: #319795;
-            text-decoration: underline;
+            color: var(--blue-600);
+            text-decoration: none;
         }
         a:hover {
-            color: #285e5e;
+            text-decoration: underline;
         }
         strong {
             font-weight: 600;
-            color: #1a202c;
+            color: var(--gray-900);
         }
         em {
             font-style: italic;
-            color: #4a5568;
+        }
+        /* Navigation breadcrumb style */
+        h2 + p:first-of-type {
+            font-size: 0.9em;
+            color: var(--gray-500);
         }
         footer {
             margin-top: 80px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-            font-size: 0.9em;
-            color: #a0aec0;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.875em;
+            color: var(--gray-500);
+        }
+        /* Callout for key points */
+        blockquote em {
+            font-style: normal;
         }
     </style>
 </head>
@@ -139,10 +152,10 @@
 
 <h2>Part 1: A Structural Flaw in Judgment</h2>
 <p><em>Iterating towards a random target</em></p>
-<p><a href="./index.html">Series Index</a> | <a href="./part-2-cost-of-ignorance-draft.html">Part 2 →</a></p>
+<p><a href="../index.html">Series Index</a> | <a href="../part-2-cost-of-ignorance-draft.html">Part 2 →</a></p>
 <hr />
 
-<img src="./images/image1.png" alt="Technical Accuracy 89%" style="max-width: 49%;" />
+<img src="../images/image1.png" alt="Technical Accuracy 89%" style="max-width: 49%;" />
 
 <p>You have all been in this room. A slide goes up. There's a <em>metric</em>—"Technical Accuracy", a <em>number</em>: 89%, and a <em>color</em>—green.</p>
 
@@ -151,11 +164,11 @@
 <p>They are the final output of a complex process of decisions and actions. This output is very consequential. Not only do they determine ship/no-ship decisions, but they tell engineers where to focus their energy, where to improve.
 The metrics act like a <em>loss profile</em> and give us axes along which we need to improve our product. Unlike ML, this loss profile does not tell us how to improve, but it points us to what to work on.</p>
 
-<img src="../figs/loss_profile.jpg" alt="Loss profile optimization landscape" />
+<img src="../../figs/loss_profile.jpg" alt="Loss profile optimization landscape" />
 
 <p>And as AI takes more of a leading role, they also tell AI where to improve—helping us make the "AI code generation → Evaluation" loop effective. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.</p>
 
-<img src="./images/image3.png" alt="AI-Human loop" />
+<img src="../images/image3.png" alt="AI-Human loop" />
 
 <p>As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: <em>how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room, know? Do we grasp what that means for the decision we're about to make?</em></p>
 
@@ -185,19 +198,19 @@ How many time have you heard this argument? Or how often do you hear that "yeah,
 
 <p>I started paying closer attention to this problem when Anthropic published a paper titled "<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a>." I thought: "It's about time people in this industry begin making this point."</p>
 
-<img src="./images/image4.png" alt="Anthropic paper" />
+<img src="../images/image4.png" alt="Anthropic paper" />
 
 <p>But..... no, I was wrong. Social media were telling a different story.
 Pedro Domingos said: "<em>Spectacular breakthrough in AI: Anthropic has discovered error bars!</em>" The sarcasm was widespread. "<em>What an unserious field</em>", people said, that needs to be told to add error bars.</p>
 
-<img src="./images/image5.png" alt="Social media reactions" />
+<img src="../images/image5.png" alt="Social media reactions" />
 
 <p><strong>The mockery proved the paper's point.</strong> (the paper is on way more than "error bars" - and uncertainty is not synonymous with "error bars" - but it makes the point).
 If this was obvious and practiced, the paper wouldn't exist. The fact that a leading AI lab felt the need to write it—and the fact that the community's response was ridicule rather than embarrassment—tells us where we are.</p>
 
 <hr />
 
-<h1>Kahneman's "Noise" and Organizational Blindness</h1>
+<h2>Kahneman's "Noise" and Organizational Blindness</h2>
 
 <p>Around the same time, I came across Kahneman, Sibony, and Sunstein's book "<em>Noise: A Flaw in Human Judgment</em>."</p>
 
@@ -205,7 +218,7 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 
 <p>This book resonated well with my experience working with many companies and system integrators.</p>
 
-<img src="./images/image6.jpeg" alt="Noise book" />
+<img src="../images/image6.jpeg" alt="Noise book" />
 
 <p>Even more insightful was the experience I had from discussing it with a friend working at an AI company in the Valley. His response after reading it was: "<em>Yeah, the book is pretty useless. We know there's a standard deviation.</em>" This is the same kind of response that the Anthropic article received.</p>
 
@@ -246,7 +259,7 @@ The muscle doesn't exist—and it is unclear even if the right incentives to dev
 
 <hr />
 
-<p><em>Next: <a href="./part-2-cost-of-ignorance-draft.html">Part 2: The Cost of Ignorance</a> — Why ignoring uncertainty is expensive</em></p>
+<p><em>Next: <a href="../part-2-cost-of-ignorance-draft.html">Part 2: The Cost of Ignorance</a> — Why ignoring uncertainty is expensive</em></p>
 
 <hr />
 

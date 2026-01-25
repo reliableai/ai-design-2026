@@ -1,17 +1,67 @@
 # Optimizing in the Dark:
 A Flaw in Human Judgement
 
-## Part 3: Sources of Bias and Uncertainty
+## Part 4: Sources of Bias and Uncertainty
 
 *The technical deep dive into what makes evaluation unreliable*
 
----
-
-To "demonstrate" that there is a large uncertainty in evals—and that this is more than we think—I'll proceed with detailed examples. I will also show which solutions do not work (and can, in fact, backfire), and why.
+← [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md) | [Series Index](./index.md)
 
 ---
 
-## Uncertainty Due to Data Size
+## Bias and Noise: Two Ways to Be Wrong
+
+Before diving into sources of error, let's be precise about terminology.
+
+**Bias** is systematic error—your measurement is consistently off in the same direction. Like a bathroom scale that always reads 5 lbs light. Every time you step on it, you get the wrong answer, and it's wrong in the same way.
+
+**Noise** (or variance) is random error—your measurement fluctuates unpredictably. Like a bathroom scale that varies ±3 lbs depending on where you stand. Sometimes high, sometimes low, no pattern.
+
+In evaluation:
+- **Bias** means your eval consistently over- or under-estimates true performance. You might think your agent is at 85% when it's really at 70%. Every run of the eval tells you roughly the same (wrong) thing.
+- **Noise** means your eval gives different answers each time, even for the same system. Run it Monday: 78%. Run it Tuesday: 84%. Run it Wednesday: 71%. The system didn't change—your measurement did.
+
+**Why noise is just as dangerous as bias:**
+
+You might think "at least noise averages out." It doesn't—not when you're making decisions.
+
+The mean squared error of any estimate decomposes as:
+
+> **MSE = Bias² + Variance**
+
+A measurement with 0 bias and 5 points of noise has the same expected squared error as a measurement with 5 points of bias and 0 noise. Both are equally wrong on average.
+
+Worse: noise creates *the illusion* of signal. When you compare System A vs System B with noisy measurement, the one that happens to get lucky looks better—even if they're identical. Selection turns noise into bias (we'll see this below in "Multiple Hypothesis Testing").
+
+---
+
+*In Parts 2 and 3, we discussed uncertainty in terms of E[V]—expected value. Here, we'll often use "accuracy" as a concrete example. The same principles apply to any metric you use to estimate E[V].*
+
+---
+
+## The Sources: A Map
+
+There are many sources of error in AI evaluation. Some contribute to bias, some to noise, some to both. Here's the landscape:
+
+| Source | Contributes to | Key insight |
+|--------|---------------|-------------|
+| **Small test sets** | Noise | 100 samples → ~16 point confidence interval |
+| **Multiple hypothesis testing** | Bias | Picking the best of K tries inflates scores |
+| **Developer-induced overfit** | Bias | Tuning to test set doesn't transfer to production |
+| **Eval/production mismatch** | Bias | Test distribution ≠ real-world distribution |
+| **Rubric mapping artifacts** | Bias | Converting qualitative to quantitative hides information |
+| **Noisy ground truth** | Noise | If labels are inconsistent, scores are inconsistent |
+| **LLM judge variance** | Noise (+ Bias) | Same input, different judgment each time |
+| **Judge prompt sensitivity** | Bias (+ Noise) | Small prompt changes → large score changes |
+| **Subjectivity** | Noise | Reasonable people disagree on "good" |
+
+Each source alone can flip your decisions. Together, they compound.
+
+We'll walk through each in detail. The goal is not to memorize them, but to develop intuition for *where* your numbers might be wrong—so you know which questions to ask.
+
+---
+
+## Small Test Sets: The Baseline Uncertainty
 
 You run your evaluation on 100 test cases and get 82%. How confident should you be in that number?
 
@@ -31,7 +81,7 @@ This begins to show that the report may not just be meaningless, but also **misl
 
 ---
 
-## Bias and Uncertainty Due to Multiple Hypotheses Testing
+## Multiple Hypothesis Testing: How Noise Becomes Bias
 
 In Software 3.0, improvement is usually not a single leap, but a search process. You try a prompt tweak. You change the retrieval strategy. You reorder steps in the pipeline. You swap the judge prompt. You run the same evaluation suite again. Repeat.
 
@@ -107,7 +157,7 @@ When you see a crisp green number, three context questions often unlock most of 
 
 ---
 
-## Bias and Uncertainty Due to Developer-Induced Overfit
+## Developer-Induced Overfit: The Invisible Gap
 
 *Note: This section focuses specifically on bias introduced when developers tune prompts based on observing test cases—a distinct contribution to the gap between test and production performance.*
 
@@ -209,7 +259,7 @@ When multiple overfitting mechanisms operate together, their effects partially o
 
 ---
 
-## Qualitative to Quantitative Eval Mapping
+## Rubric Mapping: When Numbers Hide Reality
 
 Even when we have collected our data, run our evaluations, and obtained raw results from our LLM-as-judge or human raters, we still have to *map* those results to scores—and this mapping is far more arbitrary than most teams realize.
 
@@ -250,7 +300,7 @@ And note: every one of these mappings is *reasonable*. The choice between them i
 
 ---
 
-## Impact of Noisy Ground Truth, Noisy LLM Judge, or Subjectivity
+## Noisy Ground Truth, Noisy Judges, and Subjectivity
 
 Most evaluation pipelines for Software 3.0 quietly assume something that feels 'Software 1.0-ish':
 - There is a correct answer (ground truth), or
@@ -306,7 +356,7 @@ Even if 80% of real users would approve, a 5-person panel will still end up majo
 
 ---
 
-## Impact of Prompt Variations (Judge Prompt Sensitivity)
+## Judge Prompt Sensitivity: Small Edits, Big Swings
 
 This section focuses on a specific and surprisingly large source of variability: **small variations in the LLM judge prompt**. Even with a deterministic judge (temperature 0), changing a few words in the rubric can move headline metrics by many points—sometimes enough to flip decisions or reverse model rankings.
 
@@ -385,7 +435,7 @@ If you are comparing two prompt variations: System A scores 79%, System B scores
 
 ---
 
-*Next: [Part 4: What To Do About It](./part-4-what-to-do.md) — Practical solutions for visibility, action, and culture*
+*Next: [Part 5: What To Do, and What Not To Do](./part-5-what-to-do.md) — Practical solutions for visibility, action, and culture*
 
 ---
 
