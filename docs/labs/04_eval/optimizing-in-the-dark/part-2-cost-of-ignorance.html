@@ -537,61 +537,6 @@
 
 <hr>
 
-<h3>What bias looks like</h3>
-
-<p>Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Bias and Uncertainty):</p>
-
-<ul>
-    <li>Your test set is easier than production</li>
-    <li>Your test set over-represents cases where the system performs well</li>
-    <li>Your judge prompt is lenient</li>
-    <li>You've tuned your system on the test set (overfitting)</li>
-    <li>You've tried many variants and reported the best-looking one (selection bias)</li>
-</ul>
-
-<p>If your evaluation process is biased by +15 points:</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>True E[V]</th>
-            <th>Bias</th>
-            <th>What you report</th>
-            <th>Your decision</th>
-            <th>Outcome</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>−5</td>
-            <td>+15</td>
-            <td>"I believe E[V] is between +5 and +15"</td>
-            <td>Deploy</td>
-            <td>Deployed a net-negative system</td>
-        </tr>
-        <tr>
-            <td>+2</td>
-            <td>+15</td>
-            <td>"I believe E[V] is between +12 and +22"</td>
-            <td>Deploy, high priority</td>
-            <td>Net positive, but over-prioritized</td>
-        </tr>
-        <tr>
-            <td>−20</td>
-            <td>+15</td>
-            <td>"I believe E[V] is between −10 and 0"</td>
-            <td>Don't deploy</td>
-            <td>Correct decision, but by luck</td>
-        </tr>
-    </tbody>
-</table>
-
-<p>In the first row, you reported a belief that E[V] is between +5 and +15. Entirely positive. You deploy.</p>
-
-<p>But the true value is −5. You were systematically off by 15 points. Your stated range was narrow and felt confident — but it was centered on the wrong number.</p>
-
-<hr>
-
 <h3>Questions you should ask in every presentation</h3>
 
 <ul>
@@ -626,7 +571,7 @@
 
 <p>Suppose you've addressed the visibility problem — your teams report uncertainty ranges, and you make decisions accordingly. You've even invested in reducing uncertainty for borderline cases.</p>
 
-<p>But your entire evaluation process is systematically optimistic by ~7 points. You don't know this.</p>
+<p>But your entire evaluation process is systematically optimistic by ~7 points. You don't know this. (actually, you do know this because you have seen you are always optimistic in your assessments)</p>
 
 <p>Consider 10 agents. Your teams report beliefs, and you make decisions:</p>
 
@@ -679,9 +624,9 @@
 
 <hr>
 
-<h2>One Agent, Many Customers: A Different Kind of Uncertainty</h2>
+<h1>One Agent, Many Customers: A Different Kind of Uncertainty</h1>
 
-<p>So far we've discussed N agents for one customer. But there's another dimension: deploying one agent across N customers.</p>
+<p>So far we've discussed M agents for one customer. But there's another dimension: deploying one agent across N customers.</p>
 
 <p>This introduces a different kind of uncertainty — one that better measurement can <em>reveal</em> but cannot <em>reduce</em>.</p>
 

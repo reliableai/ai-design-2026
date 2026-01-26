@@ -308,31 +308,6 @@ The last row is the problem: you feel confident, but you're wrong. And nothing i
 
 ---
 
-**What bias looks like**
-
-Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Bias and Uncertainty):
-
-- Your test set is easier than production
-- Your test set over-represents cases where the system performs well
-- Your judge prompt is lenient
-- You've tuned your system on the test set (overfitting)
-- You've tried many variants and reported the best-looking one (selection bias)
-
-
-If your evaluation process is biased by +15 points:
-
-| True E[V] | Bias | What you report | Your decision | Outcome |
-|-----------|------|-----------------|---------------|---------|
-| −5 | +15 | "I believe E[V] is between +5 and +15" | Deploy | Deployed a net-negative system |
-| +2 | +15 | "I believe E[V] is between +12 and +22" | Deploy, high priority | Net positive, but over-prioritized |
-| −20 | +15 | "I believe E[V] is between −10 and 0" | Don't deploy | Correct decision, but by luck |
-
-In the first row, you reported a belief that E[V] is between +5 and +15. Entirely positive. You deploy.
-
-But the true value is −5. You were systematically off by 15 points. Your stated range was narrow and felt confident — but it was centered on the wrong number.
-
----
-
 **Questions you should ask in every presentation**
 
 - Is our evaluation systematically optimistic? Do we know? if not, how do we know? if yes, by how much?
@@ -344,26 +319,13 @@ These questions are rarely asked. Bias is invisible in run-to-run variance. Aski
 
 ---
 
-**Bias compounds**
-
-Early evaluations — typically the most biased due to small test sets, unrepresentative data, and uncalibrated judges — shape downstream decisions:
-
-- Which architectures you pursue
-- Which use cases you prioritize
-- Which teams get resources
-- What "good" looks like
-
-By the time production feedback reveals the gap, you've built on a biased foundation. The cost isn't one wrong decision — it's a series of decisions, each informed by the last.
-
----
-
 ## Bias at Portfolio Scale
 
 We've seen the value of uncertainty awareness and the value of reducing uncertainty. But what happens when bias operates across your portfolio?
 
 Suppose you've addressed the visibility problem — your teams report uncertainty ranges, and you make decisions accordingly. You've even invested in reducing uncertainty for borderline cases.
 
-But your entire evaluation process is systematically optimistic by ~7 points. You don't know this.
+But your entire evaluation process is systematically optimistic by ~7 points. You don't know this. (actually, you do know this because you have seen you are always optimisticin your assessments)
 
 Consider 10 agents. Your teams report beliefs, and you make decisions:
 
@@ -399,23 +361,18 @@ The cost isn't one wrong call. It's a portfolio of wrong calls, all tilted the s
 
 ---
 
-## One Agent, Many Customers: A Different Kind of Uncertainty
+# One Agent, Many Customers: A Different Kind of Uncertainty
 
-So far we've discussed N agents for one customer. But there's another dimension: deploying one agent across N customers.
+So far we've discussed M agents for one customer. But there's another dimension: deploying one agent across N customers.
 
 This introduces a different kind of uncertainty — one that better measurement can *reveal* but cannot *reduce*.
 
----
 
-**The setup**
 
 You have one agent — say, Incident Auto-Resolution — and 10 customers considering deployment. You've evaluated thoroughly and you're confident: E[V] = +8, range [+5, +11].
 
 Should you deploy to all 10 customers?
 
----
-
-**The problem: cross-customer variability**
 
 Your evaluation was done on some dataset — maybe a mix of data from several customers, maybe synthetic data, maybe data from your most engaged pilot customer.
 
