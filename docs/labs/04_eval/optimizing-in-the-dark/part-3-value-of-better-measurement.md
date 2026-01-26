@@ -5,7 +5,7 @@ Organizational Blindness in AI Evaluations*
 
 *The value of knowing what you're measuring*
 
-← [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance.md) | [Series Index](./index.md)
+← [Part 2b: Uncertainty vs Variability](./part-2b-uncertainty-vs-variability.md) | [Series Index](./index.md)
 
 ---
 
@@ -29,60 +29,6 @@ There are two ways to improve quality:
 2. **Better eval** — improve your knowledge of the system
 
 Most companies focus exclusively on (1). This is the rookie mistake. Path 1 is almost trivial with AI—*if* you have Path 2. But without reliable measurement, you don't even know if Path 1 is working.
-
-Let's understand what we're actually trying to measure.
-
----
-
-## The M×C Matrix: What You're Actually Optimizing
-
-When you deploy AI agents across an enterprise, you're not optimizing a single number. You're optimizing a *matrix*.
-
-Consider: you have **M agents** (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) deployed across **C customers** (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a *value distribution*: V<sub>m,c</sub>.
-
-<figure class="mxc-matrix">
-<!-- MxC Matrix visualization will go here -->
-</figure>
-
-**What's in each cell?** A distribution of value. Not a single number—a random variable. For Incident Auto-Resolution at Customer A, sometimes it saves 15 minutes, sometimes 5, sometimes it makes things worse and costs 10 minutes. The distribution captures this reality.
-
-**The aggregates matter too:**
-- **Row totals**: E[V<sub>m,*</sub>] = expected value of agent m across all customers
-- **Column totals**: E[V<sub>*,c</sub>] = expected value for customer c across all agents
-
-Each cell is *unknown*. We have *beliefs* about it, with varying degrees of uncertainty. And this is where things get interesting.
-
----
-
-## Uncertainty vs. Variability: The Critical Distinction
-
-When you see distributions or "bars" around a value, you need to be sure you understand what they represent. And you want to make sure the presenter knows what they represent.
-
-If somebody says "We expect our incident resolution agent to have a value/cost savings of $12 per run, plus or minus $4," **you MUST ask what they mean**.
-
-| What they might mean | Interpretation | Can we reduce it? |
-|---------------------|----------------|-------------------|
-| **Uncertainty** | "We believe the average is somewhere between $8 and $16, but we're not sure which" | **YES** — better measurement narrows the range |
-| **Variability** | "We're confident the average is $12, but Customer A sees $8, Customer B sees $16" | **NO** — this is real-world difference, not measurement error |
-
-This distinction is fundamental:
-
-**Uncertainty** is about our *knowledge*. It reflects the fact that we haven't measured enough, or our measurements are noisy, or our judges are inconsistent. Uncertainty can be reduced by:
-- Larger test sets
-- Better sampling
-- More consistent evaluation criteria
-- Multiple judges with adjudication
-
-**Variability** is about *reality*. It reflects the fact that different customers have different data quality, different languages, different processes. Variability across customers (the fact that E[V<sub>m,c1</sub>] ≠ E[V<sub>m,c2</sub>]) cannot be reduced via better measurement. It can only be addressed via:
-- More adaptive agent implementations
-- Selective deployment (only deploy where E[V] > 0)
-- Better matching of agents to customer characteristics
-
-**The questions you must ask:**
-1. "Is that uncertainty or variability?"
-2. "Does the presenter even know what they mean?"
-
-When someone presents a range and can't answer these questions, the number is not just uncertain—it's *uninterpretable*.
 
 ---
 

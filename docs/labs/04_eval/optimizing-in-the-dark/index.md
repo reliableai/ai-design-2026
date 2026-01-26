@@ -25,9 +25,13 @@ The problem statement. Why "89% accuracy" might be meaningless—or worse, misle
 
 The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along. How bias and noise compound across organizations.
 
+### [Part 2b: Uncertainty vs Variability](./part-2b-uncertainty-vs-variability.md)
+
+The M×C matrix and the critical distinction between uncertainty (reducible via better measurement) and variability (real differences across customers). When you see a range, what does it mean?
+
 ### [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md)
 
-The value of better measurement. The M×C matrix, the critical distinction between uncertainty and variability, and why better eval leads to better quality even without touching the system.
+The value of better measurement. Why better eval leads to better quality even without touching the system.
 
 ### [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md)
 

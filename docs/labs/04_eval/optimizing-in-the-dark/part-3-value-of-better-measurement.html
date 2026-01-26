@@ -193,7 +193,7 @@
 <h1>Better "Evals" Beats Better Dev</h1>
 <p class="series-title">Part 3 of <em>Optimizing in the Dark:<br>Organizational Blindness in AI Evaluations</em></p>
 <p><em>The value of knowing what you're measuring</em></p>
-<p>← <a href="./part-2-cost-of-ignorance.html">Part 2: The Cost of Ignorance</a> | <a href="./index.html">Series Index</a></p>
+<p>← <a href="./part-2b-uncertainty-vs-variability.html">Part 2b: Uncertainty vs Variability</a> | <a href="./index.html">Series Index</a></p>
 <hr />
 
 <h2>Two Ways to Improve Quality</h2>
@@ -218,89 +218,6 @@
 </ol>
 
 <p>Most companies focus exclusively on (1). This is the rookie mistake. Path 1 is almost trivial with AI—<em>if</em> you have Path 2. But without reliable measurement, you don't even know if Path 1 is working.</p>
-
-<p>Let's understand what we're actually trying to measure.</p>
-
-<hr />
-
-<h2>The M×C Matrix: What You're Actually Optimizing</h2>
-
-<p>When you deploy AI agents across an enterprise, you're not optimizing a single number. You're optimizing a <em>matrix</em>.</p>
-
-<p>Consider: you have <strong>M agents</strong> (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) deployed across <strong>C customers</strong> (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a <em>value distribution</em>: V<sub>m,c</sub>.</p>
-
-<figure>
-    <img src="./images/mxc-matrix.svg" alt="M×C Matrix showing value distributions across agents and customers" style="max-width: 100%; border: none; box-shadow: none;" />
-</figure>
-
-<p><strong>What's in each cell?</strong> A distribution of value. Not a single number—a random variable. For Incident Auto-Resolution at Customer A, sometimes it saves 15 minutes, sometimes 5, sometimes it makes things worse and costs 10 minutes. The distribution captures this reality.</p>
-
-<p><strong>The aggregates matter too:</strong></p>
-<ul>
-    <li><strong>Row totals</strong>: E[V<sub>m,*</sub>] = expected value of agent m across all customers</li>
-    <li><strong>Column totals</strong>: E[V<sub>*,c</sub>] = expected value for customer c across all agents</li>
-</ul>
-
-<p>Each cell is <em>unknown</em>. We have <em>beliefs</em> about it, with varying degrees of uncertainty. And this is where things get interesting.</p>
-
-<hr />
-
-<h2>Uncertainty vs. Variability: The Critical Distinction</h2>
-
-<p>When you see distributions or "bars" around a value, you need to be sure you understand what they represent. And you want to make sure the presenter knows what they represent.</p>
-
-<div class="highlight-box">
-<p>If somebody says "We expect our incident resolution agent to have a value/cost savings of $12 per run, plus or minus $4," <strong>you MUST ask what they mean.</strong></p>
-</div>
-
-<table>
-    <thead>
-        <tr>
-            <th>What they might mean</th>
-            <th>Interpretation</th>
-            <th>Can we reduce it?</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>Uncertainty</strong></td>
-            <td>"We believe the average is somewhere between $8 and $16, but we're not sure which"</td>
-            <td><strong>YES</strong> — better measurement narrows the range</td>
-        </tr>
-        <tr>
-            <td><strong>Variability</strong></td>
-            <td>"We're confident the average is $12, but Customer A sees $8, Customer B sees $16"</td>
-            <td><strong>NO</strong> — this is real-world difference, not measurement error</td>
-        </tr>
-    </tbody>
-</table>
-
-<p>This distinction is fundamental:</p>
-
-<p><strong>Uncertainty</strong> is about our <em>knowledge</em>. It reflects the fact that we haven't measured enough, or our measurements are noisy, or our judges are inconsistent. Uncertainty can be reduced by:</p>
-<ul>
-    <li>Larger test sets</li>
-    <li>Better sampling</li>
-    <li>More consistent evaluation criteria</li>
-    <li>Multiple judges with adjudication</li>
-</ul>
-
-<p><strong>Variability</strong> is about <em>reality</em>. It reflects the fact that different customers have different data quality, different languages, different processes. Variability across customers (the fact that E[V<sub>m,c1</sub>] ≠ E[V<sub>m,c2</sub>]) cannot be reduced via better measurement. It can only be addressed via:</p>
-<ul>
-    <li>More adaptive agent implementations</li>
-    <li>Selective deployment (only deploy where E[V] > 0)</li>
-    <li>Better matching of agents to customer characteristics</li>
-</ul>
-
-<div class="question-list">
-<p><strong>The questions you must ask:</strong></p>
-<ol>
-    <li>"Is that uncertainty or variability?"</li>
-    <li>"Does the presenter even know what they mean?"</li>
-</ol>
-</div>
-
-<p>When someone presents a range and can't answer these questions, the number is not just uncertain—it's <em>uninterpretable</em>.</p>
 
 <hr />
 
