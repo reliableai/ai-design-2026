@@ -196,6 +196,20 @@
 <p>← <a href="./part-2b-uncertainty-vs-variability.html">Part 2b: Uncertainty vs Variability</a> | <a href="./index.html">Series Index</a></p>
 <hr />
 
+<h2>Executive Summary</h2>
+
+<blockquote>
+<p><strong>Better eval improves customer value even if you never touch the system.</strong></p>
+<p>Through better deployment decisions alone—deploying what works, holding what's uncertain, avoiding what harms—you realize more value from the systems you already have.</p>
+</blockquote>
+
+<blockquote>
+<p><strong>If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way around.</strong></p>
+<p>The 2 engineers can iterate fast—AI helps them write code, test variants, try new approaches. But without reliable measurement, the engineers have no idea if their iterations are improvements. They're spinning. With reliable measures, AI can likely do the improvement by itself.</p>
+</blockquote>
+
+<hr />
+
 <h2>Two Ways to Improve Quality</h2>
 
 <p>You're pouring engineering effort into making your agents better. More prompt tuning. More fine-tuning. More RAG improvements. More guardrails.</p>
@@ -217,7 +231,7 @@
     <li><strong>Better eval</strong> — improve your knowledge of the system</li>
 </ol>
 
-<p>Most companies focus exclusively on (1). This is the rookie mistake. Path 1 is almost trivial with AI—<em>if</em> you have Path 2. But without reliable measurement, you don't even know if Path 1 is working.</p>
+<p>Most companies focus exclusively on (1) and are not even aware that you can improve customer value just by having better evals. This is the rookie mistake. Path 1 - better systems - is almost trivial with AI—<em>if</em> you have reliable evals. But without reliable measurement, you don't even know if your dev cycles are going in the right direction.</p>
 
 <hr />
 
@@ -300,13 +314,6 @@
 
 <p><strong>Notice the asymmetry:</strong> harmful deploys cost 5× more than the value of good deploys. This is typical in enterprise settings where trust, once lost, is hard to regain. This asymmetry makes the value of better eval even higher—avoiding one harmful deploy is worth more than making five good ones.</p>
 
-<div class="highlight-box">
-<p><strong>If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way around.</strong></p>
-<p>The 2 engineers can iterate fast—AI helps them write code, test variants, try new approaches. But without the 8 people building reliable measurement, the 2 engineers have no idea if their iterations are improvements. They're spinning.</p>
-</div>
-
-<p class="aside">(Also, you probably shouldn't have teams of 10 people working on one thing. But that's a different article.)</p>
-
 <hr />
 
 <h2>The Value of Reducing Uncertainty</h2>
@@ -363,115 +370,7 @@
 
 <hr />
 
-<h2>From Value to Scorecard: Knowing Where to Improve</h2>
-
-<p>So far we've talked about V (value) as a single number. But in practice, value is composed of multiple factors.</p>
-
-<p>Think back to the loss profile from Part 1:</p>
-
-<figure>
-    <img src="../figs/loss_profile.jpg" alt="Loss profile optimization landscape" style="max-width: 70%;" />
-    <figcaption>The loss landscape has many dimensions—each representing a different quality axis</figcaption>
-</figure>
-
-<p>This multi-dimensional surface maps to a <em>scorecard</em>—a breakdown of value into measurable components:</p>
-
-<ul>
-    <li><strong>Latency</strong>: How fast does the agent respond?</li>
-    <li><strong>Accuracy</strong>: Does it get the right answer?</li>
-    <li><strong>Fluency (German)</strong>: How natural is the German output?</li>
-    <li><strong>Fluency (English)</strong>: How natural is the English output?</li>
-    <li><strong>Safety</strong>: Does it avoid harmful outputs?</li>
-    <li><strong>Cost</strong>: How much does it cost to run?</li>
-    <li><strong>Compliance</strong>: Does it follow required procedures?</li>
-</ul>
-
-<p>Each dimension is an axis along which we can improve. And critically, <strong>if we can measure these dimensions reliably, we know where to focus engineering effort</strong>.</p>
-
-<p>This is the second way better eval leads to better quality: not just through better deployment decisions, but through <strong>directed improvement</strong>.</p>
-
-<p>Consider two scenarios:</p>
-
-<p><strong>Scenario A: Poor scorecard measurement</strong></p>
-<ul>
-    <li>You know the agent is "not great" but not why</li>
-    <li>Engineers try random improvements</li>
-    <li>Some work, some don't, you're not sure which</li>
-    <li>Progress is slow and uncertain</li>
-</ul>
-
-<p><strong>Scenario B: Good scorecard measurement</strong></p>
-<ul>
-    <li>You know German fluency is at 65%, English at 92%, accuracy at 88%</li>
-    <li>Engineers focus specifically on German fluency</li>
-    <li>You can measure whether each change helps</li>
-    <li>Progress is fast and directed</li>
-</ul>
-
-<p>Conversely, if we cannot measure scorecard metrics properly, we cannot understand where to act. We're flying blind—iterating toward a random target, as we discussed in Part 1.</p>
-
-<hr />
-
-<h2>Finding What Matters: Correlation as a Shortcut</h2>
-
-<p>Here's a practical insight: sometimes it's hard to come up with a good scorecard from first principles. What dimensions actually matter to customers? Is latency more important than fluency? Does accuracy matter more than compliance?</p>
-
-<p>There's an empirical shortcut:</p>
-
-<ol>
-    <li><strong>Build a rich scorecard</strong> — many dimensions, even speculative ones</li>
-    <li><strong>Measure actual value</strong> — ask customers directly, or observe outcomes (adoption, complaints, escalations)</li>
-    <li><strong>Identify correlations</strong> — which scorecard dimensions predict customer value?</li>
-    <li><strong>Focus on what matters</strong> — now you know which aspects of the scorecard are useful and which are secondary</li>
-</ol>
-
-<p><strong>This is extremely powerful.</strong> You don't need to know in advance what matters. You can discover it empirically.</p>
-
-<p>For example, you might hypothesize that latency matters a lot. But after measuring, you discover that customers don't complain about latency until it exceeds 5 seconds—below that, they don't notice. Meanwhile, every 10% improvement in German fluency correlates with a 15% increase in adoption among German-speaking users.</p>
-
-<p>Now you know: optimize German fluency, not latency. Without the correlation analysis, you might have spent months shaving milliseconds off response time while the real problem went unaddressed.</p>
-
-<hr />
-
-<h2>Why This All Matters</h2>
-
-<p>Better eval gives you two things:</p>
-
-<p><strong>1. Better decisions.</strong> Deploy what works, hold what's uncertain, disable what harms. This improves value immediately, without touching the agents.</p>
-
-<p><strong>2. Effective improvement cycles.</strong> You know the gradient—which dimensions to optimize, which agents need work, which customers are underserved. Your iterations move in the right direction, and you waste fewer cycles on changes that don't matter.</p>
-
-<p>This is analogous to knowing the gradient in ML: you can always iterate, but without the gradient you're doing random search.</p>
-
-<p>And here's why this matters even more now: <strong>AI can write the code.</strong> The engineering bottleneck is dissolving. What remains is knowing <em>what</em> to build. The teams with better eval will compound improvements. The teams without it will spin, whether they have 2 engineers or 20.</p>
-
-<hr />
-
-<h2>The Questions You Must Ask</h2>
-
-<p>In every presentation, every review, every decision, train yourself to ask:</p>
-
-<div class="question-list">
-<ol>
-    <li><strong>"Can you stand behind these numbers?"</strong> — Not "are they good" but "would you bet on them?"</li>
-    <li><strong>"Are you giving me a number or a range?"</strong> — A point estimate without uncertainty is not information.</li>
-    <li><strong>"How did you reduce uncertainty?"</strong> — What did you do to make this measurement reliable? More samples? Better judges? Multiple evaluators?</li>
-    <li><strong>"What measures have you taken against bias?"</strong> — How do you know your eval isn't systematically optimistic? Have you checked for overfitting? For multiple hypothesis testing—picking the best of many runs?</li>
-    <li><strong>"Is that range uncertainty or variability?"</strong> — Are we unsure about the average, or certain that it varies across customers?</li>
-</ol>
-</div>
-
-<p>Today, most presenters cannot answer these questions. That's the problem.</p>
-
-<p>The next part explains <em>why</em>—where the bias, overfitting, and noise come from. But you don't need to understand the sources to start asking. Start asking.</p>
-
-<hr />
-
-<p><strong>And we haven't even started discussing why your evals are likely to be structurally wrong.</strong> That's next.</p>
-
-<hr />
-
-<p><em>Next: <a href="./part-4-sources-of-error.html">Part 4: Sources of Bias and Uncertainty</a> — Where evaluation uncertainty comes from</em></p>
+<p><em>Next: <a href="./part-3b-from-value-to-scorecard.html">Part 3b: From Value to Scorecard</a> — Knowing where to improve</em></p>
 
 <hr />
 

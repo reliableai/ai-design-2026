@@ -179,23 +179,19 @@
 
 <h2>The M×C Matrix: What You're Actually Optimizing</h2>
 
-<p>When you deploy AI agents across an enterprise, you're not optimizing a single number. You're optimizing a <em>matrix</em>.</p>
-
-<p>Consider: you have <strong>M agents</strong> (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) deployed across <strong>C customers</strong> (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a <em>value distribution</em>: V<sub>m,c</sub>.</p>
+<p>You have <strong>M agents</strong> (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) and you are considering deploying them across <strong>C customers</strong> (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a <em>value distribution</em>: V<sub>m,c</sub> - in other words, each of these cell is a random variable.</p>
 
 <figure>
     <img src="./images/mxc-matrix.svg" alt="M×C Matrix showing value distributions across agents and customers" style="max-width: 100%; border: none; box-shadow: none;">
 </figure>
 
-<p><strong>What's in each cell?</strong> A distribution of value. Not a single number—a random variable. For Incident Auto-Resolution at Customer A, sometimes it saves 15 minutes, sometimes 5, sometimes it makes things worse and costs 10 minutes. The distribution captures this reality.</p>
-
-<p><strong>The aggregates matter too:</strong></p>
+<p><strong>The aggregates matter too:</strong> You can also consider what happens at the row and column level, that is, the value of one agent (across customers) of the value for a customer that implements some - or all - of the agents. Those are random variables, too. And you can think about statistics such as:</p>
 <ul>
-    <li><strong>Row totals</strong>: E[V<sub>m,*</sub>] = expected value of agent m across all customers</li>
-    <li><strong>Column totals</strong>: E[V<sub>*,c</sub>] = expected value for customer c across all agents</li>
+    <li><strong>Row totals</strong>: E[V<sub>m,*</sub>] = expected value of agent m across all customers, or, P(E[V<sub>m,*</sub>]>0) = probability that a customer will see a positive value from agent m.</li>
+    <li><strong>Column totals</strong>: E[V<sub>*,c</sub>] = expected value for customer c across all agents, or, P(E[V<sub>*,c</sub>]>0) = probability that a customer will see a positive value from the agents.</li>
 </ul>
 
-<p>Each cell is <em>unknown</em>. We have <em>beliefs</em> about it, with varying degrees of uncertainty. And this is where things get interesting.</p>
+<p>Each cell is <em>unknown</em>. We have <em>beliefs</em> about it, with varying degrees of uncertainty. It is very common to be uncertain about these distributions - what is not acceptable is to be unaware that we have such uncertainty and avoid asking ourselves questions about it.</p>
 
 <hr>
 
@@ -203,7 +199,7 @@
 
 <p>When you see distributions or "bars" around a value, you need to be sure you understand what they represent. And you want to make sure the presenter knows what they represent.</p>
 
-<p>If somebody says "We expect our incident resolution agent to have a value/cost savings of $12 per run, plus or minus $4," <strong>you MUST ask what they mean</strong>.</p>
+<p>If somebody says <em>"We expect our incident resolution agent to have a value/cost savings of $12 per run, plus or minus $4,"</em> <strong>you MUST ask what they mean</strong>.</p>
 
 <table>
     <thead>
@@ -221,7 +217,7 @@
         </tr>
         <tr>
             <td><strong>Variability</strong></td>
-            <td>"We're confident the average is $12, but Customer A sees $8, Customer B sees $16"</td>
+            <td>"We're confident the average is $12, but some customers will be around $8, some other customers will see $16"</td>
             <td><strong>NO</strong> — this is real-world difference, not measurement error</td>
         </tr>
     </tbody>
@@ -244,63 +240,6 @@
     <li>Better matching of agents to customer characteristics</li>
 </ul>
 
-<p><strong>The questions you must ask:</strong></p>
-<ol>
-    <li>"Is that uncertainty or variability?"</li>
-    <li>"Does the presenter even know what they mean?"</li>
-</ol>
-
-<p>When someone presents a range and can't answer these questions, the number is not just uncertain—it's <em>uninterpretable</em>.</p>
-
-<hr>
-
-<h2>One Agent, Many Customers</h2>
-
-<p>So far in Part 2 we discussed M agents for one customer. But there's another dimension: deploying one agent across N customers.</p>
-
-<p>This introduces a different kind of uncertainty — one that better measurement can <em>reveal</em> but cannot <em>reduce</em>.</p>
-
-<p>You have one agent — say, Incident Auto-Resolution — and 10 customers considering deployment. You've evaluated thoroughly and you're confident: E[V] = +8, range [+5, +11].</p>
-
-<p>Should you deploy to all 10 customers?</p>
-
-<p>Your evaluation was done on some dataset — maybe a mix of data from several customers, maybe synthetic data, maybe data from your most engaged pilot customer.</p>
-
-<p>But each customer's data is different:</p>
-<ul>
-    <li>Customer A has clean, well-structured tickets with consistent formatting</li>
-    <li>Customer B has messy tickets with lots of jargon and abbreviations</li>
-    <li>Customer C has tickets in multiple languages</li>
-    <li>Customer D has a ticket system that truncates long descriptions</li>
-</ul>
-
-<p>The agent might perform very differently across these environments. Your confident E[V] = +8 might actually be:</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Customer</th>
-            <th>True E[V]</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><td>A</td><td>+15</td></tr>
-        <tr><td>B</td><td>+2</td></tr>
-        <tr><td>C</td><td>−5</td></tr>
-        <tr><td>D</td><td>+12</td></tr>
-        <tr><td>E</td><td>+8</td></tr>
-        <tr><td>F</td><td>−3</td></tr>
-        <tr><td>G</td><td>+10</td></tr>
-        <tr><td>H</td><td>+6</td></tr>
-        <tr><td>I</td><td>+1</td></tr>
-        <tr><td>J</td><td>−8</td></tr>
-    </tbody>
-</table>
-
-<p>Your aggregate evaluation gave you confidence, but the reality is: 3 out of 10 customers would be harmed.</p>
-
-<hr>
-
 <h3>This uncertainty is different</h3>
 
 <p>With measurement uncertainty, better evaluation narrows your range. You become more confident about the true E[V].</p>
@@ -315,7 +254,7 @@
 
 <hr>
 
-<h3>What can you do?</h3>
+<h3>What can you do to address variability?</h3>
 
 <ol>
     <li><strong>Improve the system:</strong> Make the agent more robust to different data distributions. This actually reduces the variance.</li>

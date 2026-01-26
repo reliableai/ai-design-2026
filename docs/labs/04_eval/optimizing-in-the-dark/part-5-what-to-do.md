@@ -25,86 +25,123 @@ The solutions must address all three. But first, let's be clear about what doesn
 
 ### Mandates and Best Practices on AI Evaluation
 
-Every org on the planet is probably sending out best practices, guidelines and mandates on AI evaluation. 
+Every org on the planet is probably sending out best practices, guidelines and mandates on AI evaluation.
 I do too - with this series.
 
 A common mandate is "you shall have at least 100 ground truth examples", or "you shall use the standard rubric", or "you shall pass the evaluation checklist" (I do suggest a checklist, by the way).
 
-Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them properly. 
+Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them properly.
 
-What is wrong - and counterproductive - is 1. when we give the impression - in emails, in meetings, in dashboards - that  following the mandates is sufficient to deliver reliable results and 2. when we relieve the dev team from accountability for the quality of their eval.
+What is wrong - and counterproductive - is 1. when we give the impression - in emails, in meetings, in dashboards - that following the mandates is sufficient to deliver reliable results and 2. when we relieve the dev team from accountability for the quality of their eval.
 
-
-You need to make the dev team (or QA, if you so decide) accountable for **the quality of their eval**, you need a team that can stand by what they report, not because they follow a mandate but because they are aware of how good evals are done and reported and are clearly outlining what they know and what is uncertain. 
+You need to make the dev team (or QA, if you so decide) accountable for **the quality of their eval**, you need a team that can stand by what they report, not because they follow a mandate but because they are aware of how good evals are done and reported and are clearly outlining what they know and what is uncertain.
 
 Without this, the mandate becomes a shield: "We followed the process." Accountability shifts from *delivering reliable results* to *complying with requirements*. And compliance is much easier to game than reliability.
-
-If you make presentations easier for people who followed your mandates with respect to teams that don't, you are relieving them from accountability for the quality of their eval and you are responsible, as an executive, for the resulting failure to deliver.
 
 Best practices have the same failure mode. They are useful as starting points. They become harmful when they replace judgment and accountability — when teams stop asking "is this right?" and start asking "did we follow the steps?"
 
 
+### Collecting Ground Truth
 
-### Make RACI Clear
+Nothing against ground truth - but I want to put this in the "what does not work" section, because **in practice** what happens is that teams both overfit and test multiple hypotheses on the same ground truth.
+
+There are few alternatives to testing solutions at scale on actual customer data, and we often don't have the chance to do so.
+
+An additional danger of ground truth is that it brings a "test case" and regression test culture. AI "eval" is not testing.
+
+If a team uses ground truth, that's fine, but do make sure to ask hard questions.
+
+---
+
+## The Solutions
+
+Here's what actually works. Each solution addresses one or more of the three problems:
+
+| Solution | Visibility | Culture | Action |
+|----------|:----------:|:-------:|:------:|
+| 1. Name things right | ✓ | ✓ | |
+| 2. Ask the right questions | ✓ | ✓ | |
+| 3. Make RACI clear | | ✓ | ✓ |
+| 4. Show, don't tell | ✓ | ✓ | |
+| 5. Report uncertainty by default | ✓ | ✓ | |
+| 6. Reduce uncertainty at the source | ✓ | | ✓ |
+| 7. Build observability | ✓ | | ✓ |
+| 8. Use worksheets as thinking tools | ✓ | | ✓ |
+| 9. AI methodology assistants | ✓ | | ✓ |
+
+---
+
+## Solution 1: Name Things Right
+
+This is an *instant* way to address the issue. Naming always gets you a third of the way there.
+
+If we stop calling this "eval" and start calling it **"estimation of a random variable"** or **"estimating the distribution of value"**, by itself this will cause teams and executives to put attention in the right place.
+
+"Eval" brings a test-case culture: pass/fail, green/red, 89%. It implies there's a right answer and we're checking if we got it.
+
+"Estimation" brings uncertainty thinking: confidence intervals, sample size, measurement error. It implies we're trying to learn something we don't fully know.
+
+The shift is immediate. When someone says "our eval shows 85%", it sounds like a fact. When someone says "our estimate of accuracy is 85%", the next question is naturally "how confident are you in that estimate?"
+
+**Addresses:** Visibility (frames the problem correctly), Culture (sets expectations)
+
+---
+
+## Solution 2: Ask the Right Questions
+
+In every presentation, every review, every decision, train yourself to ask:
+
+1. **"Can you stand behind these numbers?"** — Not "are they good" but "would you bet on them?"
+
+2. **"Are you giving me a number or a range?"** — A point estimate without uncertainty is not information.
+
+3. **"How did you reduce uncertainty?"** — What did you do to make this measurement reliable? More samples? Better judges? Multiple evaluators?
+
+4. **"What measures have you taken against bias?"** — How do you know your eval isn't systematically optimistic? Have you checked for overfitting? For multiple hypothesis testing—picking the best of many runs?
+
+5. **"Is that range uncertainty or variability?"** — Are we unsure about the average, or certain that it varies across customers?
+
+Today, most presenters cannot answer these questions. That's the problem. But you don't need to understand all the sources of error to start asking. **Start asking.**
+
+Having executives ask these questions gets you another third of the way there. It instantly creates the right culture. **Instantly.**
+
+**Addresses:** Visibility (surfaces hidden uncertainty), Culture (makes it safe and expected to discuss)
+
+---
+
+## Solution 3: Make RACI Clear
 
 For every evaluation, someone must be **Accountable**—not for following the process, but for the *reliability of the statement they make about their agent and system*. This person should be able to answer:
 
 - Would you stand behind these metrics, numbers or ranges?
-- How did you estimate the uncertainty, and account for biases? how did you prevent overfitting to a set of ground truth examples or manage the testing of multiple hypotheses?
+- How did you estimate the uncertainty, and account for biases? How did you prevent overfitting to a set of ground truth examples or manage the testing of multiple hypotheses?
 
-When accountability is clear, mandates become tools rather than shields. "We have 100 ground truth examples" becomes "We have 100 ground truth examples, and here's why I believe they're representative and here is how we translate the evals over these 100 examples into a uncertainty window." The checklist becomes a starting point, not an endpoint.
+When accountability is clear, mandates become tools rather than shields. "We have 100 ground truth examples" becomes "We have 100 ground truth examples, and here's why I believe they're representative and here is how we translate the evals over these 100 examples into an uncertainty window." The checklist becomes a starting point, not an endpoint.
 
 **Mandate the questions, not the answers.** Require teams to answer "what's your uncertainty window?" and "how do you know your data is representative?"—but let them own the answers.
 
+**Addresses:** Culture (accountability), Action (who acts on what)
+
 ---
 
-## Addressing the Visibility Problem
+## Solution 4: Show, Don't Tell
 
-The visibility problem has three parts: we are not **aware** of uncertainty, we don't **estimate** it, and we don't **report** it. Each must be addressed in turn.
+Let people see the variability in their own work. One demonstration on your own data is worth ten explanations of the theory.
 
-### Awareness
+**Run experiments:**
+- Take an existing eval. Run it with three reasonable variations of the eval prompt. Show the team the spread.
+- If the scores are stable, that's reassuring. If they diverge by 15 points, that's a lesson no lecture can match.
+- The same can be done with different samples from the same dataset, or with different judges.
 
-Before we can estimate or report uncertainty, people must understand that it exists—and that it matters. This requires education on several fronts:
+When teams see their own numbers wobble, uncertainty stops being an abstract concept. It becomes visceral.
 
-- The many sources of bias and variability
-- The impact of each on the final uncertainty window
-- The impact that this in turn has on our ability to iterate and take decisions
+**Addresses:** Visibility (see variability firsthand), Culture (builds intuition)
 
-Several approaches can help:
+---
 
-**Ask teams to quantify it, even as ballpark.** This by itself will start creating awareness.
+## Solution 5: Report Uncertainty by Default
 
-**Show, don't tell.** Let people see the variability in their own work. Take an existing eval. Run it with three reasonable variations of the eval prompt. Show the team the spread. If the scores are stable, that's reassuring. If they diverge by 15 points, that's a lesson no lecture can match. The same can be done with different samples from the same dataset, or with different judges. One demonstration on your own data is worth ten explanations of the theory.
-
-**Use thinking tools.** Worksheets can act as "thinking" tools that confront questions they might otherwise skip: "How do you know your data is representative?" "What's your confidence interval?" "How many variants did you test on this dataset?" The act of answering—or discovering you cannot answer—creates awareness.
-
-**Leverage AI assistants.** An AI "Center of Excellence" agent, grounded in evaluation best practices, can ask the probing questions that busy teams forget to ask themselves. "You're reporting 85% on 50 samples—are you comfortable that the true accuracy might be 75%?" This scales the function of a skeptical reviewer to every team.
-
-**Make uncertainty visible by default.** When dashboards and reports show confidence intervals rather than point estimates, awareness becomes unavoidable. People cannot ignore what is in front of them. Changing the defaults changes the culture.
-
-None of these require teams to become statisticians. They require only that teams see the variability that was always there but hidden—and that they see it often enough that it shapes how they think.
-
-Awareness is a precondition for everything else. You cannot estimate what you don't know exists, and you will not report what you haven't estimated.
-
-### Estimation
-
-Once aware, the next step is to quantify—or at least bound—the uncertainty. For some sources, standard methods exist (confidence and credibility intervals, impact of noisy judges, bias created by multiple hypotheses testing...).
-
-For other sources, precise quantification is harder. For example, **data representativeness**: How different is your test set from production? Often we cannot know precisely, but we can ask: Is this synthetic or real data? Does it cover the diversity of inputs we expect? Are there known gaps?
-
-In these cases we often cannot produce a number. We can only probably go by experience and "ballpark it"—this is better than nothing and we will get better over time at estimating this.
-
-### Reporting Uncertainty
-
-Once uncertainty has been estimated—even approximately—it must be communicated.
-
-The only exception is when the magnitude of uncertainty is irrelevant to the decision at hand. This is rare. For most ship/no-ship decisions, for most comparisons between system variants, uncertainty matters.
-
-**A common objection is that "executives would not understand it."** This is not true. Executives routinely deal with uncertainty in financial forecasts, market projections, and risk assessments. They may ask hard questions—"Why is the range so wide?" or "What would it take to narrow it?"—but these are exactly the questions that should be asked. Discomfort with the questions is not a reason to hide the answers.
-
-In fact, once one team begins reporting uncertainty, something important happens: decision-makers start asking why *other* teams aren't doing the same. Reporting uncertainty is contagious in a way that benefits everyone.
-
-### What Should Reporting Look Like?
+When dashboards and reports show confidence intervals rather than point estimates, awareness becomes unavoidable. People cannot ignore what is in front of them. Changing the defaults changes the culture.
 
 **Instead of this:**
 
@@ -124,13 +161,13 @@ In fact, once one team begins reporting uncertainty, something important happens
 
 The second table says less with false precision and more with honest information. It invites the right conversations: "Can we get more data to narrow the Technical Accuracy range?" "What would it take to validate on real production samples?"
 
-**Exposing uncertainty to decision-makers is one of the two easiest and fastest ways to improve the situation.** It requires no new tools, no new methods—only the willingness to show what we actually know.
+**A common objection is that "executives would not understand it."** This is not true. Executives routinely deal with uncertainty in financial forecasts, market projections, and risk assessments. They may ask hard questions—"Why is the range so wide?" or "What would it take to narrow it?"—but these are exactly the questions that should be asked.
+
+**Addresses:** Visibility (uncertainty is visible), Culture (normalizes uncertainty discussions)
 
 ---
 
-## Addressing the Action Problem
-
-### Reducing Uncertainty
+## Solution 6: Reduce Uncertainty at the Source
 
 Some uncertainty is actually avoidable. Before accepting bias and uncertainty, ask: can we reduce them? The answer is that in most cases—yes, we can.
 
@@ -138,21 +175,21 @@ Some uncertainty is actually avoidable. Before accepting bias and uncertainty, a
 
 This is a false belief: I am yet to see a case where humans are consistently better than LLMs in assessing an <input, output> pair. When that happens, it is likely that eval guidelines are not well specified, or that the eval is subjective.
 
-I am also yet to see a case where synthetic data is as nuanced as actual, production data. It may be—but that is a feat hard to achieve (not to mention that each use case, each domain, each customer is different).
+I am also yet to see a case where synthetic data is as nuanced as actual, production data. It may be—but that is a feat hard to achieve.
 
 Notice that if we eval at scale, we also greatly reduce the multiple hypotheses testing problem. If we have data at scale, we can have many holdout datasets, but in general a large and diverse test set by itself reduces the problem.
 
+**Calibrate LLM judges:** We can spend more cycles on calibrating an LLM judge so that the noise due to errors in the eval judge is reduced. This implies effort and dedicated, qualified resources.
+
 **Doing this takes effort—and if the impact of uncertainty and bias is recognized, then leadership can ask to put more resources on this.**
 
-As another example, we can spend more cycles on **calibrating an LLM judge** so that the noise due to errors in the eval judge is reduced. This, again implies effort and dedicated, qualified resources.
+**Addresses:** Visibility (understand how much uncertainty remains), Action (direct methods to reduce error)
 
-None of these eliminate uncertainty. But they can reduce it meaningfully—and just as importantly, they help you understand *how much* uncertainty remains. The really important shift is to begin asking the question: **how can we reduce it?** And—the awareness for how important it is to do so.
+---
 
-### Develop Observability Concepts, Abstractions and Tools
+## Solution 7: Build Observability
 
-We can borrow lessons from software engineering and apply them to AI systems to understand where low quality, unexpected behaviors occur.
-
-This can be done by thinking from first principles and identifying concepts and abstractions that facilitate this. Here are some examples, based on needs emerged from actual production cases:
+We can borrow lessons from software engineering and apply them to AI systems to understand where low quality and unexpected behaviors occur.
 
 **Agentic Assertions on inputs and outputs:**
 - Define expectations for what an agent or tool should receive and produce
@@ -168,25 +205,26 @@ This can be done by thinking from first principles and identifying concepts and 
 - What should happen when an agent encounters something unexpected?
 - Define fallback behaviors. Make failures visible rather than silent.
 
-This layer doesn't directly improve your eval scores. But it gives you ongoing visibility into whether your system is behaving as expected—and helps you catch problems that offline evaluation might miss. Based on this, we iterate and improve the system to reduce sources of undesired variability.
-
 **Logging with appropriate granularity:**
-
-Everything above depends on logging. For AI agents, capture inputs, decisions, tool interactions, outputs, and metadata. Consider log levels that reflect agent concerns:
-
 - **TRACE**: Full chain-of-thought (debugging only)
 - **EXECUTION**: Key decision points and tool calls (standard production)
 - **OUTCOME**: Final result and assertion violations
 - **EXCEPTION**: Errors, fallbacks, undesirable paths
 - **AUDIT**: Security-relevant events
 
-And respect access controls—AI agent logs are sensitive, containing user queries and business data.
+This layer doesn't directly improve your eval scores. But it gives you ongoing visibility into whether your system is behaving as expected—and helps you catch problems that offline evaluation might miss.
 
-### Use Worksheets as Thinking Tools
+**Addresses:** Visibility (ongoing production insight), Action (feedback loops for improvement)
+
+---
+
+## Solution 8: Use Worksheets as Thinking Tools
 
 ![](./images/image17.png)
 
-Worksheets are great tools to help thinking. They do not shift accountability or responsibility, but they help teams think about how the evaluation has been done. I believe a good worksheet has three "columns": a question, an answer, and a request for evidence about the answer: **how do we know?**
+Worksheets are great tools to help thinking. They do not shift accountability or responsibility, but they help teams think about how the evaluation has been done. A good worksheet has three "columns": a question, an answer, and a request for evidence: **how do we know?**
+
+**[Download the AI Evaluation Worksheet](./worksheet.md)** — a template covering experiment definition, datasets, ground truth, metrics, execution, and reporting.
 
 It is ok to answer questions with an "I don't know" or "it's just my best guess"—but at least we know what we don't know.
 
@@ -196,7 +234,11 @@ This isn't about catching people out. It's about making the gaps visible—to yo
 
 ![](./images/image18.png)
 
-### AI "Center of Excellence" Agents
+**Addresses:** Visibility (forces estimation), Action (structured approach)
+
+---
+
+## Solution 9: AI Methodology Assistants
 
 A Center of Excellence is valuable: experts who can review evaluation methodology, ask hard questions, and catch blind spots. But a small team of experts cannot review hundreds of evaluations across a large organization. The expertise becomes a bottleneck.
 
@@ -212,38 +254,21 @@ This is not a replacement for human judgment. But it can scale the *questioning*
 
 Think of it as a **Center of Excellence at your fingertips**. Not a rubber stamp, but a thinking partner that helps teams be more rigorous than they would be on their own.
 
+**Addresses:** Visibility (surfaces issues), Action (helps estimate and improve)
+
 ---
 
-## Addressing the Culture Problem
+## Why This All Matters
 
-Everything above—the techniques, the tools, the processes—requires a cultural foundation.
+Better eval gives you two things:
 
-Teams need to feel safe saying "we don't know." Executives need to accept that "82% (95% CI: 74%–90%)" is more valuable than "82%"—even though it feels less confident.
+**1. Better decisions.** Deploy what works, hold what's uncertain, disable what harms. This improves value immediately, without touching the agents.
 
-This is perhaps the hardest part. Organizations prefer harmony. Point estimates feel decisive. Uncertainty feels like weakness.
+**2. Effective improvement cycles.** You know the gradient—which dimensions to optimize, which agents need work, which customers are underserved. Your iterations move in the right direction, and you waste fewer cycles on changes that don't matter.
 
-**But uncertainty isn't weakness. Pretending certainty where none exists—*that's* weakness.** It leads to false belief, bad decisions, and eroded trust when reality catches up.
+This is analogous to knowing the gradient in ML: you can always iterate, but without the gradient you're doing random search.
 
-The goal isn't to eliminate uncertainty. It's to see it clearly, communicate it honestly, and make good decisions despite it.
-
-### Three Things That Can Shift Culture Quickly
-
-**1. Naming things right**
-
-This is an *instant* way to address the issue. Naming always gets you a third of the way there. If we stop calling this "eval" and start calling it **"estimation of random variables"**, by itself this will create teams and execs to put the attention in the right place.
-
-**2. Asking the questions**
-
-Having executives asking the questions gets us another third of the way there. It instantly creates the right culture. **Instantly.**
-
-**3. Make accountability explicit**
-
-Every evaluation should have clear ownership—not for producing a good-looking number, but for the *reliability* of the number. Someone should be accountable for:
-
-- Why these metrics matter
-- Whether the methodology is sound
-- What the uncertainty range is and why
-- Whether the result is ready to inform decisions
+And here's why this matters even more now: **AI can write the code.** The engineering bottleneck is dissolving. What remains is knowing *what* to build. The teams with better eval will compound improvements. The teams without it will spin, whether they have 2 engineers or 20.
 
 ---
 

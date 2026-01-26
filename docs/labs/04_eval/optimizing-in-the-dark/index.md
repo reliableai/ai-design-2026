@@ -33,6 +33,10 @@ The M×C matrix and the critical distinction between uncertainty (reducible via 
 
 The value of better measurement. Why better eval leads to better quality even without touching the system.
 
+### [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md)
+
+Knowing where to improve. Breaking down value into scorecard dimensions, directed improvement, and discovering what matters empirically.
+
 ### [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md)
 
 The technical deep dive. From sample size effects to multiple hypothesis testing, from developer-induced overfitting to noisy LLM judges, from rubric mapping artifacts to prompt sensitivity. Each source alone can flip your decisions. Together, they compound.

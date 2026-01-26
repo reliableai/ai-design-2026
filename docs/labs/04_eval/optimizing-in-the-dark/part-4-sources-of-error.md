@@ -1,15 +1,15 @@
-# Sources of Bias and Uncertainty
+# Understanding the Sources of Uncertainty - and Why Our Evals are Biased
 
 Part 4 of *Optimizing in the Dark:
 Organizational Blindness in AI Evaluations*
 
 *The technical deep dive into what makes evaluation unreliable*
 
-← [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md) | [Series Index](./index.md)
+← [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md) | [Series Index](./index.md)
 
 ---
 
-## Bias and Noise: Two Ways to Be Wrong
+## Preliminary: Bias and Noise - Two Ways to Be Wrong
 
 Before diving into sources of error, let's be precise about terminology.
 
@@ -41,7 +41,7 @@ Worse: noise creates *the illusion* of signal. When you compare System A vs Syst
 
 ---
 
-## The Sources: A Map
+## Let's go through the sources of error one by one
 
 There are many sources of error in AI evaluation. Some contribute to bias, some to noise, some to both. Here's the landscape:
 
@@ -63,7 +63,7 @@ We'll walk through each in detail. The goal is not to memorize them, but to deve
 
 ---
 
-## Small Test Sets: The Baseline Uncertainty
+## 1. Small Test Sets: The Baseline Uncertainty
 
 You run your evaluation on 100 test cases and get 82%. How confident should you be in that number?
 
@@ -83,7 +83,7 @@ This begins to show that the report may not just be meaningless, but also **misl
 
 ---
 
-## Multiple Hypothesis Testing: How Noise Becomes Bias
+## 2. Multiple Hypothesis Testing: How Noise Becomes Bias
 
 In Software 3.0, improvement is usually not a single leap, but a search process. You try a prompt tweak. You change the retrieval strategy. You reorder steps in the pipeline. You swap the judge prompt. You run the same evaluation suite again. Repeat.
 
@@ -159,7 +159,7 @@ When you see a crisp green number, three context questions often unlock most of 
 
 ---
 
-## Developer-Induced Overfit: The Invisible Gap
+## 3. Developer-Induced Overfit: The Invisible Gap
 
 *Note: This section focuses specifically on bias introduced when developers tune prompts based on observing test cases—a distinct contribution to the gap between test and production performance.*
 
@@ -261,7 +261,7 @@ When multiple overfitting mechanisms operate together, their effects partially o
 
 ---
 
-## Rubric Mapping: When Numbers Hide Reality
+## 4. Rubric Mapping: When Numbers Hide Reality
 
 Even when we have collected our data, run our evaluations, and obtained raw results from our LLM-as-judge or human raters, we still have to *map* those results to scores—and this mapping is far more arbitrary than most teams realize.
 
@@ -302,7 +302,7 @@ And note: every one of these mappings is *reasonable*. The choice between them i
 
 ---
 
-## Noisy Ground Truth, Noisy Judges, and Subjectivity
+## 5. Noisy Ground Truth, Noisy Judges, and Subjectivity
 
 Most evaluation pipelines for Software 3.0 quietly assume something that feels 'Software 1.0-ish':
 - There is a correct answer (ground truth), or
@@ -358,7 +358,7 @@ Even if 80% of real users would approve, a 5-person panel will still end up majo
 
 ---
 
-## Judge Prompt Sensitivity: Small Edits, Big Swings
+## 6. Judge Prompt Sensitivity: Small Edits, Big Swings
 
 This section focuses on a specific and surprisingly large source of variability: **small variations in the LLM judge prompt**. Even with a deterministic judge (temperature 0), changing a few words in the rubric can move headline metrics by many points—sometimes enough to flip decisions or reverse model rankings.
 
