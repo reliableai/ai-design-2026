@@ -211,7 +211,7 @@
 
 <p>When we evaluate an agent to choose whether to deploy for a customer (or across the board), ideally we want to know the distribution of values we expect it to generate. Doing so means deciding on what distributions are acceptable. Both measuring / estimating the distribution and deciding on what distributions are acceptable are hard problems.</p>
 
-<p>So lets make some simplifying assumptions and decisions. Consider the following possible decision rules:</p>
+<p>So let's make some simplifying assumptions and decisions. Consider the following possible decision rules:</p>
 
 <table>
     <thead>
@@ -259,7 +259,7 @@
 
 <p>In practice, you have some measures obtained in some way by your team on some dataset. Based on this, you will form a belief about V. Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V &gt; 0), the probability that V is positive.</p>
 
-<p>Remember that figure with the metric of 85%? that implicitly states that the agent is expected to generate a positive value 85% of the time.</p>
+<p>Remember that figure with the metric of 89%? That implicitly states that the agent is expected to generate a positive value 89% of the time.</p>
 
 <p>Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on <em>how wrong</em> you are — not on why.</p>
 
@@ -745,7 +745,7 @@
 
 <h3>What bias looks like</h3>
 
-<p>Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Error):</p>
+<p>Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Bias and Uncertainty):</p>
 
 <ul>
     <li>Your test set is easier than production</li>

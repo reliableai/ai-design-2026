@@ -106,8 +106,8 @@
 
 ## Files
 
-- **Draft markdown**: `part-2-cost-of-ignorance-draft.md`
-- **Draft HTML**: `part-2-cost-of-ignorance-draft.html`
+- **Markdown**: `part-2-cost-of-ignorance.md`
+- **HTML**: `part-2-cost-of-ignorance.html`
 - **Working notes**: `part-2-working-notes.md` (this file)
 
 ---

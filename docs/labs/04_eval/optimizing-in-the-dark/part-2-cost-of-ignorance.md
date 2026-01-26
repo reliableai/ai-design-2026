@@ -63,7 +63,7 @@ When we evaluate an agent to choose whether to deploy for a customer (or across 
 Doing so means deciding on what distributions are acceptable.
 Both measuring / estimating the distribution and deciding on what distributions are acceptable are hard problems.
 
-So lets make some simplifying assumptions and decisions. Consider the following possible decision rules:
+So let's make some simplifying assumptions and decisions. Consider the following possible decision rules:
 
 
 | Decision Rule | Deploy if... | What it prioritizes |
@@ -86,7 +86,7 @@ Ideally you can run your agent at scale on the exact data it will see in product
 In practice, you have some measures obtained in some way by your team on some dataset. Based on this, you will form a belief about V.  
 Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V > 0), the probability that V is positive.
 
-Remember that figure with the metric of 85%? that implicity states that the agent is expected to generate a positive value 85% of the time. 
+Remember that figure with the metric of 89%? That implicitly states that the agent is expected to generate a positive value 89% of the time. 
 
 
 Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on *how wrong* you are — not on why.
@@ -143,9 +143,9 @@ But how can our estimates be wrong if we experiment? and are they wrong "by chan
 
 ---
 
-Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent will be correct between 60 and 90% of the time - and that's all i can say."
+Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent will be correct between 60 and 90% of the time - and that's all I can say."
 
-The second report is more informative and in many cases more honest than the first. it exposes our believed uncertainty, and invites questions about the basis of our belief.
+The second report is more informative and in many cases more honest than the first. It exposes our believed uncertainty, and invites questions about the basis of our belief.
 As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.
 
 
@@ -383,7 +383,7 @@ The last row is the problem: you feel confident, but you're wrong. And nothing i
 
 **What bias looks like**
 
-Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Error):
+Your evaluation pipeline might be systematically optimistic for many reasons (we'll explore sources in Part 4: Sources of Bias and Uncertainty):
 
 - Your test set is easier than production
 - Your test set over-represents cases where the system performs well

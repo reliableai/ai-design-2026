@@ -161,6 +161,12 @@
 
 <hr />
 
+<p><em>In Parts 2 and 3, we discussed uncertainty in terms of E[V]—expected value. Here, we'll often use "accuracy" as a concrete example. The same principles apply to any metric you use to estimate E[V].</em></p>
+
+<p><em>Note on terminology: In Part 3, we distinguished "uncertainty" (reducible via better measurement) from "variability" (real-world differences across customers). In this Part, "variance" refers to the statistical term for random measurement error—one source of uncertainty that can be reduced. Cross-customer variability, by contrast, is real and cannot be measured away.</em></p>
+
+<hr />
+
 <h2>The Sources: A Map</h2>
 
 <p>There are many sources of error in AI evaluation. Some contribute to bias, some to noise, some to both. Here's the landscape:</p>
@@ -688,11 +694,11 @@
 <tbody>
 <tr>
 <td>50%</td>
-<td>52.5%</td>
+<td>47.5%</td>
 </tr>
 <tr>
 <td>70%</td>
-<td>65.5%</td>
+<td>62.5%</td>
 </tr>
 <tr>
 <td>80%</td>
@@ -700,11 +706,11 @@
 </tr>
 <tr>
 <td>90%</td>
-<td>74.5%</td>
+<td>77.5%</td>
 </tr>
 </tbody>
 </table>
-<p>A system that truly improved from 70% to 90% (20 points) would only <em>appear</em> to improve from 65.5% to 74.5% (9 points). <strong>The ruler got compressed. Progress looks smaller than it is.</strong></p>
+<p>A system that truly improved from 70% to 90% (20 points) would only <em>appear</em> to improve from 62.5% to 77.5% (15 points). <strong>The ruler got compressed. Progress looks smaller than it is.</strong></p>
 <h3>Subjectivity: User Perception is a Distribution</h3>
 <p>For many gen AI features, the quality of an output is not a single value; it is a distribution over user judgments. Even if you could sample from your target population, different users will judge differently.</p>
 <p><strong>How much user-perceived quality varies depending on sample size:</strong></p>

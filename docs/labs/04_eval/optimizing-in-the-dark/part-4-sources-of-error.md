@@ -37,6 +37,8 @@ Worse: noise creates *the illusion* of signal. When you compare System A vs Syst
 
 *In Parts 2 and 3, we discussed uncertainty in terms of E[V]—expected value. Here, we'll often use "accuracy" as a concrete example. The same principles apply to any metric you use to estimate E[V].*
 
+*Note on terminology: In Part 3, we distinguished "uncertainty" (reducible via better measurement) from "variability" (real-world differences across customers). In this Part, "variance" refers to the statistical term for random measurement error—one source of uncertainty that can be reduced. Cross-customer variability, by contrast, is real and cannot be measured away.*
+
 ---
 
 ## The Sources: A Map
