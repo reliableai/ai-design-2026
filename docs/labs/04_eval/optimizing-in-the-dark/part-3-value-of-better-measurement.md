@@ -1,7 +1,7 @@
-# Optimizing in the Dark:
-Organizational Blindness in AI Evaluations
+# Better "Evals" Beats Better Dev
 
-## Part 3: Better "Evals" Beats Better Dev
+Part 3 of *Optimizing in the Dark:
+Organizational Blindness in AI Evaluations*
 
 *The value of knowing what you're measuring*
 

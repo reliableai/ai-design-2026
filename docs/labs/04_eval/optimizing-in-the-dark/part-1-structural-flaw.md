@@ -1,7 +1,7 @@
-# Optimizing in the Dark:
-Organizational Blindness in AI Evaluations
+# A Structural Flaw in Judgment
 
-## Part 1: A Structural Flaw in Judgment
+Part 1 of *Optimizing in the Dark:
+Organizational Blindness in AI Evaluations*
 
 *Iterating towards a random target*
 
@@ -14,24 +14,28 @@ Organizational Blindness in AI Evaluations
 You have all been in this room. A slide goes up. There's a *metric*—"Technical Accuracy", a *number*: 89%, and a *color*—green.
 
 Getting these metrics, numbers, and even the colors "right" are foundational to the success of a product.
+These numbers - and colors - are the final output of a complex process of decisions and actions.
 
-They are the final output of a complex process of decisions and actions. This output is very consequential. Not only do they determine ship/no-ship decisions, but they tell engineers where to focus their energy, where to improve.
-The metrics act like a *loss profile* and give us axes along which we need to improve our product. Unlike ML, this loss profile does not tell us how to improve, but it points us to what to work on.
+ This output is very consequential. Not only does it determine ship/no-ship decisions, but it tells engineers where to focus their energy, where to improve.
+The metrics act like a *loss profile* and give us axes along which we need to improve our product. 
 
 ![](../figs/loss_profile.jpg)
 
-And as AI takes more of a leading role, they also tell AI where to improve—helping us make the "AI code generation → Evaluation" loop effective. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.
+And as AI takes more of a leading role in development, getting the right metrics and the right measures is central to effective product improvement iterations - poissibly even automating the entire process. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.
 
 ![](./images/image3.png)
 
-As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: *how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room, know? Do we grasp what that means for the decision we're about to make?*
+As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: *how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room with me, know? Do we grasp what that means for the decision we're about to make?*
 
 ---
 
-Walter Lewin, the MIT physicist, in his first lecture of the course in basic Physics tells his students: "*Any measurement, without knowledge of the uncertainty, is meaningless.*" Not "less precise." Not "directionally useful." **Meaningless.** Then he adds: "*I want you to hear this at 3am tonight when you wake up.*" He says this *in the first lecture of the first course* on Physics, not at some random point.
+Walter Lewin, the MIT physicist, in his first lecture of the course in basic Physics tells his students: "*Any measurement, without knowledge of the uncertainty, is meaningless.*" Not "less precise." Not "directionally useful." **Meaningless.** 
+
+Then he adds: "*I want you to hear this at 3am tonight when you wake up.*" He says this *in the first lecture of the first course* on Physics, not at some random point.
 
 And **he was talking to people who live in the science of measurement**. 
-We are not in that world. In enterprise AI we evaluate and report "at scale" across many use cases and teams, with vastly diverse audiences ranging from engineers to scientists to executives. It is a duty of the presenter to make sure that they convey information in a manner that enables the listeners to take the right action. 
+We are not in that world. In enterprise AI we evaluate and report "at scale" across many use cases and teams, with vastly diverse audiences ranging from engineers to scientists to executives. *It is the duty of the presenter to make sure that they convey information in a manner that enables the listeners to take the right action.* 
+
 
 I posit that while the number in itself may be *meaningless*, the act of **reporting** without knowledge and indication of its uncertainty makes it **misleading**.
 
@@ -39,12 +43,18 @@ I posit that while the number in itself may be *meaningless*, the act of **repor
 A common tendency in organizations is to wash this question away based on the idea that "*we are engineers, we are so cool because we approximate, and iterate. Dwelling on uncertainty is for theorists. A measure may not be perfect, we know, but it's a hint, and we will improve over time. We crawl, walk, run.*"
 How many time have you heard this argument? Or how often do you hear that "yeah, it would be great to discuss uncertainty but executives won't understand, they need a simple number"?
 
-
-But having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". More specifically:
+These are scarily naive and dangerous arguments. 
+Having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". More specifically:
 
 > *A measurement - and a report of a measurement - is harmful if it leads me to make the wrong decision, or take the wrong action on a system.*
 
-Now, this is an issue only if it is true that 1. AI measures and reports are characterized by significant uncertainty, and 2. we don't communicate it or, even worse, we are not even aware that this is something to worry about.
+There are only two conditions under which ignoring and not reporting on uncertainty is not a problem:
+
+1. The measurement is so precise that it is not subject to any meaningful uncertainty
+2. The measurement doesnt matter that much
+
+If the second condition is true, then stop reading - and stop measuring. 
+If metrics matter, then reporting without knowledge of uncertainty should be a fireable offense. Maybe we need one more "[Jeff Bezos memo](https://github.com/victorvalentee/bezos_api_mandate)" moment...
 
 
 
@@ -69,7 +79,7 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 
 ---
 
-# Kahneman's "Noise" and Organizational Blindness
+## Kahneman's "Noise" and Organizational Blindness
 
 Around the same time, I came across Kahneman, Sibony, and Sunstein's book "*Noise: A Flaw in Human Judgment*."
 
@@ -79,11 +89,11 @@ This book resonated well with my experience working with many companies and syst
 
 ![](./images/image6.jpeg)
 
-I've had this conversation a dozen times with engineers at AI companies. The response is remarkably consistent: "*Yeah, we know there's variance.*" But when I ask follow-up questions—*how much* variance? *where* does it come from? how does it affect your ship decisions?—the conversation usually stops.
+I've had this conversation a dozen times with engineers at AI companies. The response is remarkably consistent: "*Yeah, we know there's variance. Big deal.*" 
 
-The point the book is making is not that assessments are subject to errors, but that such errors are large, and largely ignored by organizations. The book dwells on how orgs are especially insensitive to noise even more so than bias—for us, both are relevant and need to be addressed.
+But the point the book is making is not that assessments are subject to errors and variability, but that such errors are *large*, and *largely ignored* by organizations. The book dwells on how orgs are especially insensitive to noise even more so than bias. For us, both are present, relevant, and need to be addressed.
 
-So yes, there's noise and variance—but we don't know:
+So yes, there's noise and variance—and we don't know:
 
 - How large it is,
 - Where it comes from,
@@ -91,14 +101,15 @@ So yes, there's noise and variance—but we don't know:
 - How to reduce it
 - *Or even how to talk about it*
 
-And - noise and variance are only part of the problem. In most of the companies I have worked with, Measurement processes can be—and typically are—*systematically* biased: consistently producing results that are too optimistic or simply measuring the wrong thing. 
+And - noise and variance are only part of the problem. In most of the customers I have worked with, measurement processes can be—and typically are—*systematically* biased: consistently producing results that are too optimistic or simply measuring the wrong thing. 
 
 What Kahneman helped me see is that this isn't just a skills gap. It's **structural**. Organizations have never had to rigorously measure the quality of machine judgment and have never had to deal with measurements that have so much uncertainty and this level of complexity. And to do so at scale.
+
 The muscle doesn't exist—and it is unclear even if the right incentives to develop it are in place.
 
 ---
 
-## Who bears responsibility?
+# What's the core of the proglem, and who bears responsibility?
 
 We are building highly consequential AI systems, making decisions based on evaluation numbers, and we are systematically both *underestimating* and *ignoring* the uncertainty in those numbers.
 

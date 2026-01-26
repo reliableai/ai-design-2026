@@ -1,7 +1,7 @@
-# Optimizing in the Dark:
-Organizational Blindness in AI Evaluations
+# Sources of Bias and Uncertainty
 
-## Part 4: Sources of Bias and Uncertainty
+Part 4 of *Optimizing in the Dark:
+Organizational Blindness in AI Evaluations*
 
 *The technical deep dive into what makes evaluation unreliable*
 

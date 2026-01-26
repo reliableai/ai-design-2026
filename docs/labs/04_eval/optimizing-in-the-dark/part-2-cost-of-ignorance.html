@@ -153,28 +153,28 @@
 </head>
 <body>
 
-<p class="series-title">Optimizing in the Dark: Organizational Blindness in AI Evaluations</p>
-<h1>Part 2: The Cost of Ignorance</h1>
+<h1>The Cost of Ignorance</h1>
+<p class="series-title">Part 2 of <em>Optimizing in the Dark:<br>Organizational Blindness in AI Evaluations</em></p>
+
+<hr>
+
+<p><strong>Uncertainty is expensive, ignoring uncertainty is even more expensive, causing uncertainty is... [add your adjectives]</strong></p>
+
 <p>&larr; <a href="./part-1-structural-flaw.html">Part 1: A Structural Flaw in Judgment</a> | <a href="./index.html">Series Index</a></p>
-<p><em>Ignoring uncertainty is expensive</em></p>
 
 <hr>
 
 <h2>The Shape of Value</h2>
 
-<p>Let's frame our evaluation problem as follows: we have N AI systems to evaluate. Each could go to production — or not, based on what we decide given our eval results.</p>
+<p>Let's frame our evaluation problem as follows: we have <em>M</em> AI systems to evaluate. Each could go to production — or not, based on what we decide given our eval results. Lets assume for now we are deploying internally or at one customer - so lets not worry about variabilities across customers.</p>
 
-<p>If deployed, each system can generate positive value — or it can harm (generate negative value). For example, consider an <strong>Incident Auto-Resolution</strong> agent that attempts to fix IT tickets automatically. Each execution might solve the problem completely (high positive value), give useful hint or workaround (still some positive value), do nothing useful (or say "i don't know" and do nothing - probably value around zero or slightly negative), or take a wrong action that makes things worse (high negative value). Or consider an <strong>Incident Summarization</strong> agent — each summary might accelerate triage, add nothing, or mislead the analyst (high negative value). The value generated varies, execution by execution.</p>
+<p>If deployed, each system can generate positive value — or it can harm (generate negative value). For example, consider an <strong>Incident Auto-Resolution</strong> agent that attempts to fix IT tickets automatically. Each execution might solve the problem completely (high positive value), give useful hint or workaround (still some positive value), do nothing useful (or say "i don't know" and do nothing - probably value around zero or slightly negative), or take a wrong action that makes things worse (high negative value).</p>
 
-<p>For now, assume we have a magic function Vf that captures the value that one execution of an AI system generates. In reality this metric is hard to define and hard to measure, but let's assume we have it.</p>
+<p>Or, consider an <strong>Incident Summarization</strong> agent — each summary might accelerate triage, add nothing, or mislead the analyst (high negative value). The value generated varies, execution by execution. For now, assume we have a magic function <em>Vf</em> that captures the value that one execution of an AI system generates. In reality this metric is hard to define and hard to measure, but let's assume we have it.</p>
 
-<p>If we pick a random execution and apply Vf to it, we get a number — the value of that execution. The number we get depends on which execution we picked. Different executions yield different values.</p>
+<p>If we pick a random execution and apply Vf to it, we get a number — the <em>value</em> of that execution. The number we get depends on which execution we picked. Different executions yield different values.</p>
 
-<p>We therefore conceptualize our understanding of value for this use case as a <em>random variable</em> V. Each time the system runs, V takes a value — sometimes positive, sometimes negative, sometimes large, sometimes small.</p>
-
-<p>If we could observe many executions and record Vf for each, we'd see a <em>distribution</em> of values emerge.</p>
-
-<p>For example, consider the Incident Auto-Resolution agent: Imagine we deploy it and observe 1,000 executions. For each, we record Vf — the value generated. We might see:</p>
+<p>If we could observe many executions and record Vf for each, we'd see a <em>distribution</em> of values emerge. For example, consider the Incident Auto-Resolution agent: Imagine we deploy it and observe 1,000 executions. For each, we record Vf — the value generated. We might see:</p>
 
 <ul>
     <li>400 executions where the agent solved the problem correctly: Vf ranging from +5 to +50</li>
@@ -186,38 +186,17 @@
 
 <p>Plot these 1,000 values as a histogram. That's the distribution of V for this agent.</p>
 
-<img src="./images/histogram-auto-resolution-v3.png" alt="Distribution of V: Incident Auto-Resolution Agent">
+<img src="./images/histogram-auto-resolution-v3.png" alt="Distribution of V: Incident Auto-Resolution Agent" style="max-width: 100%;">
 
-<p>The agent <strong>Value</strong> doesn't have <em>one</em> value. It has a <em>shape</em> — a distribution of outcomes, shaped by the mix of incidents it encounters, the actions it takes, and how those actions land in context.</p>
+<p>We therefore conceptualize our understanding of value for this use case as a <em>random variable</em> V, described by a distribution of values, which in this case we obtain empirically. Each time the system runs, V takes a value — sometimes positive, sometimes negative, sometimes large, sometimes small. The <strong>Value</strong> random variable doesn't have <em>one</em> value. It has a <em>shape</em> — a distribution of outcomes, shaped by the mix of incidents it encounters, the actions it takes, and how those actions land in context.</p>
 
 <p>The same holds for any agentic system.</p>
 
-<p>An <strong>Incident Summarization</strong> agent reads tickets and produces summaries for L1 analysts. Observe 1,000 summaries:</p>
+<h1>Taking decisions</h1>
 
-<ul>
-    <li>Some capture the key facts and accelerate triage (<em>positive Vf</em>)</li>
-    <li>Some are accurate but add nothing the analyst wouldn't have seen anyway (<em>Vf near zero</em>)</li>
-    <li>Some omit a critical detail, sending the analyst down the wrong path (<em>negative Vf</em>)</li>
-    <li>A few hallucinate a symptom that triggers an unnecessary escalation (<em>high negative Vf</em>)</li>
-</ul>
+<p>When we evaluate an agent to choose whether to deploy for us (or across the board for a set of customers), ideally we want to know the distribution of values we expect it to generate, or at least have a ballpark idea. Doing so means deciding on what distribution shapes are acceptable.</p>
 
-<p>A <strong>KB Deduplication Detector</strong> scans a knowledge base and flags redundant articles. Observe 1,000 flags:</p>
-
-<ul>
-    <li>Some correctly identify duplicates, enabling cleanup (<em>positive Vf</em>)</li>
-    <li>Some flag near-duplicates that are actually distinct edge cases, leading to deletions that create gaps (<em>negative Vf</em>)</li>
-    <li>Some miss true duplicates, leaving the KB cluttered (<em>Vf slightly negative or zero</em>)</li>
-</ul>
-
-<p>In each case, V (the value) is not a number. It's a distribution — the shape of outcomes that the system generates, execution by execution.</p>
-
-<p>The way we model our knowledge of V is to state that V, the Value of the agent is a random variable with a certain distribution of outcome. In the example above we estimate the distribution empirically, by running the agent many times and observing the outcome, that is, the value of each execution (which is a number, as opposed to the Value of the agent, which is a random variable, characterized by a distribution of values).</p>
-
-<hr>
-
-<h2>Taking decisions</h2>
-
-<p>When we evaluate an agent to choose whether to deploy for a customer (or across the board), ideally we want to know the distribution of values we expect it to generate. Doing so means deciding on what distributions are acceptable. Both measuring / estimating the distribution and deciding on what distributions are acceptable are hard problems.</p>
+<p>Both measuring / estimating the distribution and deciding on what distributions are acceptable are <strong>hard</strong> problems.</p>
 
 <p>So let's make some simplifying assumptions and decisions. Consider the following possible decision rules:</p>
 
@@ -233,154 +212,47 @@
         <tr>
             <td>Positive expected value</td>
             <td>E[V] &gt; 0</td>
-            <td>Average outcome is good</td>
+            <td>On average, the outcome is good</td>
         </tr>
         <tr>
             <td>High success rate</td>
             <td>P(V &gt; 0) &gt; 80%</td>
-            <td>Most executions are wins</td>
+            <td>Most executions generate value</td>
         </tr>
         <tr>
             <td>Bounded downside</td>
             <td>E[V] &gt; 0 AND P(V &lt; −L) &lt; 5%</td>
-            <td>Positive average, rare catastrophes</td>
+            <td>Executions on average generate value and the probability of very adverse outcomes are small</td>
         </tr>
         <tr>
             <td>Median positive</td>
             <td>median(V) &gt; 0</td>
-            <td>Typical execution is good</td>
+            <td>The majority of executions generate value</td>
         </tr>
     </tbody>
 </table>
 
-<p>A risk-tolerant organization might deploy if expected value is positive, even if 30% of executions cause minor harm. A safety-critical deployment might require that catastrophic outcomes (V &lt; −L) are rare, regardless of the mean.</p>
-
-<p>For the analysis that follows, we'll use the simplest rule: <strong>deploy if E[V] &gt; 0</strong>. Expected value is positive — on average, the system helps more than it hurts.</p>
-
-<p>At the end, we'll revisit what changes if you care about tails or success rates instead.</p>
-
-<hr>
+<p>If this sounds too complex for you and you are ignoring it, you are not a smart executive that compresses knowledge, you are not a smart engineer that approximates. You are simply picking an option without knowing you are doing so.</p>
 
 <h2>Every Decision Is an Estimation under Uncertainty — Whether you are aware of it or not</h2>
 
 <p>Ideally you can run your agent at scale on the exact data it will see in production and get the distribution of V, which will in turn enable to you make informed decisions.</p>
 
-<p>In practice, you have some measures obtained in some way by your team on some dataset. Based on this, you will form a belief about V. Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V &gt; 0), the probability that V is positive.</p>
+<p>For example, a risk-tolerant organization might deploy if expected value is positive, even if 30% of executions cause minor harm. A safety-critical deployment might require that catastrophic outcomes (V &lt; −L) are rare, regardless of the mean.</p>
 
-<p>Remember that figure with the metric of 89%? That implicitly states that the agent is expected to generate a positive value 89% of the time.</p>
+<p>In practice, you have some measures obtained in some way by your team on some dataset. Based on this, you will form a <strong>belief</strong> about V. Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V &gt; 0), the probability that V is positive, or whatever is your target metric. (Remember that figure with the metric of 89%? That implicitly states that the agent is expected to generate a positive value 89% of the time).</p>
 
 <p>Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on <em>how wrong</em> you are — not on why.</p>
 
 <hr>
 
-<h3>Two types of errors</h3>
+<h3>The cost of being wrong</h3>
 
-<p>If your estimate is off, you make one of two errors:</p>
+<p>If your estimate is off, you either deploy a bad system (harm in production) or miss a good one (opportunity cost). The cost scales with how wrong you are.</p>
 
-<table>
-    <thead>
-        <tr>
-            <th>Error</th>
-            <th>What happened</th>
-            <th>Cost</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Deploy a bad system</td>
-            <td>True E[V] &lt; 0 but you estimated E[V] &gt; 0</td>
-            <td>You incur harm in production</td>
-        </tr>
-        <tr>
-            <td>Miss a good system</td>
-            <td>True E[V] &gt; 0 but you estimated E[V] ≤ 0</td>
-            <td>You forgo value — opportunity cost</td>
-        </tr>
-    </tbody>
-</table>
+<p>Take our Incident Auto-Resolution agent. Suppose the true distribution has E[V] = −5 — on average, it hurts slightly more than it helps. But your evaluation estimates Ê[V] = +8.</p>
 
-<p>If we have the luxury of having our magic function Vf, then once in production we can measure the true value of the agent and compare it to our estimate. Indeed, not all errors are equal. The cost scales with how far off the actual average value is from our estimate:</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Your estimate Ê[V]</th>
-            <th>True E[V]</th>
-            <th>Gap</th>
-            <th>Your decision</th>
-            <th>Correct decision</th>
-            <th>Outcome</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>+8</td>
-            <td>+10</td>
-            <td>−2</td>
-            <td>Deploy ✓</td>
-            <td>Deploy</td>
-            <td>Good — slight underestimate, no harm</td>
-        </tr>
-        <tr>
-            <td>+8</td>
-            <td>+2</td>
-            <td>+6</td>
-            <td>Deploy ✓</td>
-            <td>Deploy</td>
-            <td>Fine — you over-prioritized but still net positive</td>
-        </tr>
-        <tr>
-            <td>+8</td>
-            <td>−5</td>
-            <td>+13</td>
-            <td>Deploy ✗</td>
-            <td>Don't deploy</td>
-            <td><strong>Bad</strong> — you deployed a harmful system</td>
-        </tr>
-        <tr>
-            <td>+8</td>
-            <td>−30</td>
-            <td>+38</td>
-            <td>Deploy ✗</td>
-            <td>Don't deploy</td>
-            <td><strong>Disaster</strong> — significant harm in production</td>
-        </tr>
-        <tr>
-            <td>−3</td>
-            <td>+5</td>
-            <td>−8</td>
-            <td>Don't deploy ✗</td>
-            <td>Deploy</td>
-            <td><strong>Missed opportunity</strong> — you left value on the table</td>
-        </tr>
-        <tr>
-            <td>−3</td>
-            <td>+50</td>
-            <td>−53</td>
-            <td>Don't deploy ✗</td>
-            <td>Deploy</td>
-            <td><strong>Strategic blunder</strong> — you missed a big win</td>
-        </tr>
-        <tr>
-            <td>−3</td>
-            <td>−10</td>
-            <td>+7</td>
-            <td>Don't deploy ✓</td>
-            <td>Don't deploy</td>
-            <td>Good — you avoided harm</td>
-        </tr>
-    </tbody>
-</table>
-
-<hr>
-
-<h3>A worked example</h3>
-
-<p>Take our Incident Auto-Resolution agent. Suppose the true distribution has E[V] = −5 — on average, it hurts slightly more than it helps (the occasional critical failures outweigh the routine wins).</p>
-
-<p>But your evaluation estimates Ê[V] = +8.</p>
-
-<p>You deploy. Over the next quarter, the system runs 10,000 times in production. Each execution draws from the true distribution. The expected total harm: 10,000 × (−5) = −50,000 value points.</p>
+<p>You deploy. Over the next quarter, the system runs 10,000 times. The expected total harm: 10,000 × (−5) = −50,000 value points.</p>
 
 <p>You were off by 13 points. That error, multiplied by production volume, became a quarter's worth of accumulated harm.</p>
 
@@ -388,18 +260,24 @@
 
 <hr>
 
-<h2>Measurements Without Uncertainty Are Meaningless</h2>
+<h1>Measurements Without Uncertainty Are Meaningless</h1>
+
+<p>Just a reminder:</p>
 
 <blockquote>
-    <p>"Any measurement without knowledge of the uncertainty is meaningless."<br>— Walter Lewin</p>
-    <p>"And when it is reported on presentation to executives, it is harmful."<br>— Fabio Casati</p>
+    <p><em>"Any measurement without knowledge of the uncertainty is meaningless."</em><br>— Walter Lewin</p>
+    <p><em>"And when it is reported on presentation to executives, it is harmful."</em><br>— Fabio Casati</p>
 </blockquote>
 
 <hr>
 
 <p>Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent will be correct between 60 and 90% of the time - and that's all I can say."</p>
 
-<p>The second report is more informative and in many cases more honest than the first. It exposes our believed uncertainty, and invites questions about the basis of our belief. As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.</p>
+<p>The second report is more informative and in many cases more honest than the first. It exposes our believed uncertainty, and invites questions about the basis of our belief.</p>
+
+<p><strong>You rarely hear that.</strong> It makes the team look unprepared and executives are likely to object and complain - which by itself simply results in this kind of reports being rare and in an increase of reports that give a false sense of confidence. As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.</p>
+
+<p>Every time as a manager or executive you punish the communication of uncertainty, you are setting up your org up for failure. The AI industry should learn from airline safety and similar industry where a lot of effort is spent on making sure that report of issues (eg, pilot tiredness) are communicated and not "retaliated" against.</p>
 
 <h3>What decisions look like without uncertainty</h3>
 
@@ -471,30 +349,9 @@
 
 <hr>
 
-<h3>The cost of hiding uncertainty</h3>
+<h1>The cost of hiding uncertainty - and the benefits of uncovering it</h1>
 
-<p>When you report without uncertainty:</p>
-
-<ul>
-    <li>You cannot distinguish "confident yes" from "uncertain yes"</li>
-    <li>You cannot distinguish "confident no" from "uncertain no"</li>
-    <li>You never ask "should we get more data before this decision?"</li>
-    <li>You never prioritize measurement improvement over shipping</li>
-</ul>
-
-<p>Every decision becomes binary. Deploy or don't. The option to <em>learn more first</em> vanishes.</p>
-
-<hr>
-
-<h3>Back to our Incident Auto-Resolution agent</h3>
-
-<p>Your team reports: "Expected value is +8."</p>
-
-<p>You deploy.</p>
-
-<p>But what if they had reported: "I believe expected value is somewhere between −7 and +23. Our best guess is around +8, but I wouldn't be surprised if it's anywhere in that range."</p>
-
-<p>Now you see the situation differently. The range includes negative values. You might ask:</p>
+<p>When you start the practice of talking about uncertainty and reporting about it, you instantly get a lot of benefits. As an executive - or a scientist - You might ask:</p>
 
 <ul>
     <li>Can we run more test cases to narrow the range?</li>
@@ -504,11 +361,9 @@
 
 <p>These questions never get asked when you only hear "+8".</p>
 
-<hr>
-
 <h2>The Value of Uncertainty Awareness</h2>
 
-<p>We've established that measurements without uncertainty are meaningless. But let's be concrete: what is the <em>value</em> of being aware of uncertainty — even before you do anything to reduce it?</p>
+<p>We've established that measurements without uncertainty are meaningless. But let's be concrete: what is the <em>value</em> of being aware of uncertainty — <em>even before you do anything to reduce it?</em></p>
 
 <p>Consider the <em>visibility problem</em> we introduced in Part 1: people don't see the uncertainty. It's not reported, not computed, not surfaced. The green 89% looks solid. Decision-makers can't account for what they don't know exists.</p>
 
@@ -518,9 +373,9 @@
 
 <h3>Setup: N agents, one customer</h3>
 
-<p>You have 10 agents to evaluate for one customer. Your goal: deploy only where you're confident the agent will help more than harm. Specifically, you want P(E[V] &gt; 0) &gt; 90% — you want to be at least 90% confident that expected value is positive before deploying.</p>
+<p>You have 10 agents to evaluate for your company. Your goal: deploy only where you're confident the agent will help more than harm. Ideally, you want most of the agent to be valuable. You know you can't be perfect, but you want, as a ballpark, around 90% of the agents to be valuable on average.</p>
 
-<p>We'll make one key assumption explicit: <strong>the cost of deploying a harmful agent is much greater than the cost of missing a good one.</strong> In enterprise AI, a bad deployment erodes customer trust, triggers escalations, and can lose the account. A delayed good deployment costs opportunity — but the customer doesn't know what they're missing.</p>
+<p>In enterprise AI, a bad deployment erodes customer trust, triggers escalations, and can lose the account. A delayed good deployment costs opportunity — but the customer doesn't know what they're missing.</p>
 
 <hr>
 
@@ -637,16 +492,6 @@
 </ul>
 
 <p>This is the epistemic value of uncertainty — the value of simply <em>knowing what you don't know</em>.</p>
-
-<hr>
-
-<h2>The Value of Reducing Uncertainty</h2>
-
-<p>Awareness tells you <em>which</em> agents are uncertain. But what happens when you invest in reducing that uncertainty — through better measurement, larger test sets, more representative data?</p>
-
-<p>The key insight: <strong>reducing uncertainty creates value even if the system doesn't improve.</strong></p>
-
-<hr>
 
 <h3>Continuing the example</h3>
 
@@ -976,11 +821,7 @@
 
 <hr>
 
-<p><strong>Try it yourself:</strong> <a href="./part-2-portfolio-simulator.html">Interactive Portfolio Simulator</a> — Experience how uncertainty and bias affect decisions at portfolio scale.</p>
-
-<hr>
-
-<p><em>Next: <a href="./part-3-value-of-better-measurement.html">Part 3: Better "Evals" Beats Better Dev</a> — The value of knowing what you are measuring</em></p>
+<p><em>Next: <a href="./part-3-value-of-better-measurement.html">Part 3: Better "Evals" Beats Better Dev</a> — The value of knowing what you're measuring</em></p>
 
 <hr>
 

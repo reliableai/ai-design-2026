@@ -1,7 +1,7 @@
-# Optimizing in the Dark:
-Organizational Blindness in AI Evaluations
+# What To Do, and What Not To Do
 
-## Part 5: What To Do, and What Not To Do
+Part 5 of *Optimizing in the Dark:
+Organizational Blindness in AI Evaluations*
 
 *Practical solutions for visibility, action, and culture*
 
