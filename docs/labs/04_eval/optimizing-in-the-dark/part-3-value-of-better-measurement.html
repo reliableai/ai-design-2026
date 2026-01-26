@@ -392,6 +392,60 @@
 
 <hr />
 
+<h2>The Value of Reducing Uncertainty</h2>
+
+<p>In Part 2, we saw the value of <em>awareness</em>—knowing that uncertainty exists. But what happens when you invest in <em>reducing</em> that uncertainty?</p>
+
+<p><strong>Continuing the example from Part 2:</strong></p>
+
+<p>You held agents B, D, and G because their uncertainty was too high. Now you invest in better evaluation—more test cases, better judges, more representative data.</p>
+
+<p>The systems don't change. But your knowledge improves:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Agent</th>
+            <th>Before</th>
+            <th>After better measurement</th>
+            <th>True E[V]</th>
+            <th>Decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>B</td><td>+3 [−8, +14]</td><td>−2 [−5, +1]</td><td>−4</td><td>Don't deploy ✓</td></tr>
+        <tr><td>D</td><td>+6 [−15, +27]</td><td>+9 [+6, +12]</td><td>+8</td><td>Deploy ✓</td></tr>
+        <tr><td>G</td><td>+1 [−12, +14]</td><td>−4 [−7, −1]</td><td>−6</td><td>Don't deploy ✓</td></tr>
+    </tbody>
+</table>
+
+<p>With better measurement:</p>
+<ul>
+    <li><strong>Agent B:</strong> The range narrowed and shifted. You now see it's likely negative. You confirm the hold—correct decision.</li>
+    <li><strong>Agent D:</strong> The range narrowed dramatically. You now see it's confidently positive. You can deploy—you've unlocked value that was always there.</li>
+    <li><strong>Agent G:</strong> The range narrowed and you see it's clearly negative. You confirm the hold—correct decision.</li>
+</ul>
+
+<p><strong>What reducing uncertainty gives you:</strong></p>
+
+<ol>
+    <li><strong>Confident deploys:</strong> Agent D was a good system all along. You just didn't know it. Better measurement gave you the confidence to ship.</li>
+    <li><strong>Confident rejects:</strong> Agents B and G were bad systems. Better measurement confirmed you should hold back, and now you can stop investigating them.</li>
+    <li><strong>No wasted effort:</strong> Without better measurement, you might have kept investigating all three forever—or eventually deployed them out of impatience.</li>
+</ol>
+
+<p>The system didn't improve. Your <em>knowledge</em> improved. And that knowledge has direct business value: you shipped a good agent you were holding back, and you stopped wasting effort on bad ones.</p>
+
+<p><strong>The investment case for better measurement:</strong></p>
+
+<p>Traditional framing: "We need better evals to improve our systems."</p>
+
+<p>Better framing: "We need better evals to <em>know which systems are already good enough to ship</em>—and which ones aren't worth further investment."</p>
+
+<p>Reducing uncertainty doesn't just help you improve. It helps you <em>decide</em>—faster, with more confidence, and with fewer mistakes.</p>
+
+<hr />
+
 <h2>From Value to Scorecard: Knowing Where to Improve</h2>
 
 <p>So far we've talked about V (value) as a single number. But in practice, value is composed of multiple factors.</p>

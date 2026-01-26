@@ -130,11 +130,52 @@ The $110 improvement came entirely from better *decisions*, not better *agents*.
 
 **Notice the asymmetry:** harmful deploys cost 5× more than the value of good deploys. This is typical in enterprise settings where trust, once lost, is hard to regain. This asymmetry makes the value of better eval even higher—avoiding one harmful deploy is worth more than making five good ones.
 
-**If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way around.**
+**If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way
 
 The 2 engineers can iterate fast—AI helps them write code, test variants, try new approaches. But without the 8 people building reliable measurement, the 2 engineers have no idea if their iterations are improvements. They're spinning.
 
 (Also, you probably shouldn't have teams of 10 people working on one thing. But that's a different article.)
+
+---
+
+## The Value of Reducing Uncertainty
+
+In Part 2, we saw the value of *awareness*—knowing that uncertainty exists. But what happens when you invest in *reducing* that uncertainty?
+
+**Continuing the example from Part 2:**
+
+You held agents B, D, and G because their uncertainty was too high. Now you invest in better evaluation—more test cases, better judges, more representative data.
+
+The systems don't change. But your knowledge improves:
+
+| Agent | Before | After better measurement | True E[V] | Decision |
+|-------|--------|--------------------------|-----------|----------|
+| B | +3 [−8, +14] | −2 [−5, +1] | −4 | Don't deploy ✓ |
+| D | +6 [−15, +27] | +9 [+6, +12] | +8 | Deploy ✓ |
+| G | +1 [−12, +14] | −4 [−7, −1] | −6 | Don't deploy ✓ |
+
+With better measurement:
+- **Agent B:** The range narrowed and shifted. You now see it's likely negative. You confirm the hold—correct decision.
+- **Agent D:** The range narrowed dramatically. You now see it's confidently positive. You can deploy—you've unlocked value that was always there.
+- **Agent G:** The range narrowed and you see it's clearly negative. You confirm the hold—correct decision.
+
+**What reducing uncertainty gives you:**
+
+1. **Confident deploys:** Agent D was a good system all along. You just didn't know it. Better measurement gave you the confidence to ship.
+
+2. **Confident rejects:** Agents B and G were bad systems. Better measurement confirmed you should hold back, and now you can stop investigating them.
+
+3. **No wasted effort:** Without better measurement, you might have kept investigating all three forever—or eventually deployed them out of impatience.
+
+The system didn't improve. Your *knowledge* improved. And that knowledge has direct business value: you shipped a good agent you were holding back, and you stopped wasting effort on bad ones.
+
+**The investment case for better measurement:**
+
+Traditional framing: "We need better evals to improve our systems."
+
+Better framing: "We need better evals to *know which systems are already good enough to ship*—and which ones aren't worth further investment."
+
+Reducing uncertainty doesn't just help you improve. It helps you *decide*—faster, with more confidence, and with fewer mistakes.
 
 ---
 
