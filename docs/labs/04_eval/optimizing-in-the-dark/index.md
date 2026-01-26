@@ -15,6 +15,8 @@ But how reliable is that number? What if the true accuracy were 10+ points away 
 
 This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both *underestimating* and *ignoring* the bias and uncertainty in those numbers.
 
+**[Glossary](./glossary.md)** — Key terms used throughout this series.
+
 ## The Series
 
 ### [Part 1: A Structural Flaw in Judgment](./part-1-structural-flaw.md)

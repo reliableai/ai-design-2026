@@ -43,8 +43,8 @@ I posit that while the number in itself may be *meaningless*, the act of **repor
 A common tendency in organizations is to wash this question away based on the idea that "*we are engineers, we are so cool because we approximate, and iterate. Dwelling on uncertainty is for theorists. A measure may not be perfect, we know, but it's a hint, and we will improve over time. We crawl, walk, run.*"
 How many time have you heard this argument? Or how often do you hear that "yeah, it would be great to discuss uncertainty but executives won't understand, they need a simple number"?
 
-These are scarily naive and dangerous arguments. 
-Having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". More specifically:
+These are scarily naive and dangerous arguments.
+Having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". (See **[Glossary](./glossary.md)** for key terms used throughout this series.) More specifically:
 
 > *A measurement - and a report of a measurement - is harmful if it leads me to make the wrong decision, or take the wrong action on a system.*
 
