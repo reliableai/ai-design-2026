@@ -54,7 +54,7 @@ There are only two conditions under which ignoring and not reporting on uncertai
 2. The measurement doesnt matter that much
 
 If the second condition is true, then stop reading - and stop measuring. 
-If metrics matter, then reporting without knowledge of uncertainty should be a fireable offense. Maybe we need one more "[Jeff Bezos memo](https://github.com/victorvalentee/bezos_api_mandate)" moment...
+If metrics matter, then reporting without knowledge of uncertainty should be actively discouraged—a quality gate, not an afterthought. Maybe we need one more "[Jeff Bezos memo](https://github.com/victorvalentee/bezos_api_mandate)" moment...
 
 
 

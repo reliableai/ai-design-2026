@@ -398,7 +398,7 @@
 
 <p><strong>Logging with appropriate granularity:</strong></p>
 <ul>
-    <li><strong>TRACE</strong>: Full chain-of-thought (debugging only)</li>
+    <li><strong>TRACE</strong>: Tool calls, retrieved docs, intermediate structured state, brief rationale summary (debugging only; never log secrets/PII—add redaction)</li>
     <li><strong>EXECUTION</strong>: Key decision points and tool calls (standard production)</li>
     <li><strong>OUTCOME</strong>: Final result and assertion violations</li>
     <li><strong>EXCEPTION</strong>: Errors, fallbacks, undesirable paths</li>

@@ -206,7 +206,7 @@ We can borrow lessons from software engineering and apply them to AI systems to 
 - Define fallback behaviors. Make failures visible rather than silent.
 
 **Logging with appropriate granularity:**
-- **TRACE**: Full chain-of-thought (debugging only)
+- **TRACE**: Tool calls, retrieved docs, intermediate structured state, brief rationale summary (debugging only; never log secrets/PII—add redaction)
 - **EXECUTION**: Key decision points and tool calls (standard production)
 - **OUTCOME**: Final result and assertion violations
 - **EXCEPTION**: Errors, fallbacks, undesirable paths

@@ -27,7 +27,7 @@ The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, 
 
 ### [Part 2b: Uncertainty vs Variability](./part-2b-uncertainty-vs-variability.md)
 
-The M×C matrix and the critical distinction between uncertainty (reducible via better measurement) and variability (real differences across customers). When you see a range, what does it mean?
+The critical distinction between uncertainty (reducible via better measurement) and variability (real differences across customers). When you see a range, what does it mean?
 
 ### [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md)
 
@@ -49,7 +49,7 @@ The path forward. Addressing visibility (awareness, estimation, reporting), acti
 
 ## Key Themes
 
-- **Every score has two error terms**: bias (systematic) and uncertainty (random). Bias is harder to see but often more dangerous.
+- **Every score has two error terms**: bias (systematic) and noise (random). Together they constitute the uncertainty we ignore. Bias is harder to see but often more dangerous.
 
 - **Selection turns noise into bias**: Even unbiased evaluations become optimistic when you pick winners. The math is real.
 
