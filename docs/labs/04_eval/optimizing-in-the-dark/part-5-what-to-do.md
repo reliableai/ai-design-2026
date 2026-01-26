@@ -175,7 +175,7 @@ Some uncertainty is actually avoidable. Before accepting bias and uncertainty, a
 
 **Eval at scale on customer data:** Uncertainty (and bias) in sample size and data representativeness can be reduced by running evaluations on customer data, and at scale. Sometimes this is not possible, but often this is not done as it may be time consuming, or due to the belief that we need human labelers to generate ground truth.
 
-This is a false belief: I am yet to see a case where humans are consistently better than LLMs in assessing an <input, output> pair. When that happens, it is likely that eval guidelines are not well specified, or that the eval is subjective.
+In practice, we have very rarely seen humans to be better judges than LLMs for evaluating ⟨input, output⟩ pairs. When that happens, it is likely that eval guidelines are not well specified, or that the eval is subjective.
 
 I am also yet to see a case where synthetic data is as nuanced as actual, production data. It may be—but that is a feat hard to achieve.
 
@@ -208,11 +208,13 @@ We can borrow lessons from software engineering and apply them to AI systems to 
 - Define fallback behaviors. Make failures visible rather than silent.
 
 **Logging with appropriate granularity:**
-- **TRACE**: Tool calls, retrieved docs, intermediate structured state, brief rationale summary (debugging only; never log secrets/PII—add redaction)
+- **TRACE**: Structured execution traces, including: inputs and outputs, tool calls and parameters, retrieved documents or context, intermediate structured state, and a brief rationale or decision summary when needed. (Debugging only; never log secrets/PII—add redaction.)
 - **EXECUTION**: Key decision points and tool calls (standard production)
 - **OUTCOME**: Final result and assertion violations
 - **EXCEPTION**: Errors, fallbacks, undesirable paths
 - **AUDIT**: Security-relevant events
+
+*Raw chain-of-thought should not be logged by default due to safety, privacy, and compliance concerns.*
 
 This layer doesn't directly improve your eval scores. But it gives you ongoing visibility into whether your system is behaving as expected—and helps you catch problems that offline evaluation might miss.
 

@@ -435,6 +435,12 @@ If you are comparing two prompt variations: System A scores 79%, System B scores
 
 ![](./images/image13.png)
 
+**Note:** The discussion above assumes independent measurements. In many evaluations, systems can be compared on the same inputs, using the same judges. In such *paired* evaluations, much of the noise cancels out, and the uncertainty of the difference can be dramatically smaller.
+
+This is why evaluation design choices—such as pairing, shared inputs, and controlled judging—often reduce uncertainty more effectively than simply collecting more data.
+
+*Whenever possible, prefer paired comparisons over independent ones.*
+
 ---
 
 *Next: [Part 5: What To Do, and What Not To Do](./part-5-what-to-do.md) — Practical solutions for visibility, action, and culture*
