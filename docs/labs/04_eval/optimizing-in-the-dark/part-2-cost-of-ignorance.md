@@ -1,4 +1,7 @@
-# Optimizing in the Dark - Part 2: The Cost of Ignorance
+# Optimizing in the Dark:
+Organizational Blindness in AI Evaluations
+
+## Part 2: The Cost of Ignorance
 
 *Ignoring uncertainty is expensive*
 
@@ -126,7 +129,7 @@ You deploy. Over the next quarter, the system runs 10,000 times in production. E
 
 You were off by 13 points. That error, multiplied by production volume, became a quarter's worth of accumulated harm.
 
-But how can our estimates be wrong if we experiment? and are they wrong "by chance", occasionally, or are they structurally wrong? and wnat can we do about it?
+But how can our estimates be wrong if we experiment? and are they wrong "by chance", occasionally, or are they structurally wrong? and what can we do about it?
 
 ---
 
@@ -140,10 +143,10 @@ But how can our estimates be wrong if we experiment? and are they wrong "by chan
 
 ---
 
-Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent is will be correct between 60 and 90% of the time - and that's all i can say."
+Consider a presentation that tells you that an agent is 85% correct. Then consider another presentation where somebody tells you: "I am fairly sure that the agent will be correct between 60 and 90% of the time - and that's all i can say."
 
 The second report is more informative and in many cases more honest than the first. it exposes our believed uncertainty, and invites questions about the basis of our belief.
-As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertinaty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.
+As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.
 
 
 

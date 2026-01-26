@@ -5,7 +5,7 @@ Organizational Blindness in AI Evaluations
 
 *Iterating towards a random target*
 
-[Series Index](./index.md) | [Part 2 →](./part-2-cost-of-ignorance-draft.md)
+[Series Index](./index.md) | [Part 2 →](./part-2-cost-of-ignorance.md)
 
 ---
 
@@ -108,7 +108,7 @@ The question is hard also because the "problem" landscape has three distinct fac
 
 1. **The visibility problem** (epistemic): People don't see the uncertainty. It's not reported, not computed, not surfaced. The green 89% on the screen looks solid. Decision-makers can't account for what they don't know exists.
 
-2. **The culture problem** (organizational): The organization doesn't ask. We don't reward quantifying uncertainty. We don't penalize ignoring it. The question "how confident are we?" isn't part of the discussion process. Uncertainty stays invisible because making it visible has no upside and manypotential downsides (looking less confident, slowing things down, looking..... uncertain).
+2. **The culture problem** (organizational): The organization doesn't ask. We don't reward quantifying uncertainty. We don't penalize ignoring it. The question "how confident are we?" isn't part of the discussion process. Uncertainty stays invisible because making it visible has no upside and many potential downsides (looking less confident, slowing things down, looking..... uncertain).
 
 3. **The action problem** (methodological): Even when uncertainty is visible and the culture asks about it, people don't know what to do. How do you decide when the range is 77–95%? How do you reduce variance when you don't know which source dominates? The frameworks and practices are neither widely known nor well-established in modern AI.
 
@@ -116,7 +116,7 @@ Let's understand the cost of inaction—and then what to do about it.
 
 ---
 
-*Next: [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance-draft.md) — Why ignoring uncertainty is expensive*
+*Next: [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance.md) — Why ignoring uncertainty is expensive*
 
 ---
 

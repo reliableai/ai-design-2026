@@ -30,9 +30,9 @@ I do too - with this series.
 
 A common mandate is "you shall have at least 100 ground truth examples", or "you shall use the standard rubric", or "you shall pass the evaluation checklist" (I do suggest a checklist, by the way).
 
-Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them proprely. 
+Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them properly. 
 
-What is wrong - and counterproductive - is 1. when we give the impression - in emails, in meetings, in dashboards - that  following the mandates is sufficient to deliver reliable results and 2. when we relieve the dev team from accountability for the quailty of their eval.
+What is wrong - and counterproductive - is 1. when we give the impression - in emails, in meetings, in dashboards - that  following the mandates is sufficient to deliver reliable results and 2. when we relieve the dev team from accountability for the quality of their eval.
 
 
 You need to make the dev team (or QA, if you so decide) accountable for **the quality of their eval**, you need a team that can stand by what they report, not because they follow a mandate but because they are aware of how good evals are done and reported and are clearly outlining what they know and what is uncertain. 

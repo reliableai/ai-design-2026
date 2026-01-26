@@ -1,8 +1,11 @@
-# Part 3: Better "Evals" Beats Better Dev
+# Optimizing in the Dark:
+Organizational Blindness in AI Evaluations
+
+## Part 3: Better "Evals" Beats Better Dev
 
 *The value of knowing what you're measuring*
 
-← [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance-draft.md) | [Series Index](./index.md)
+← [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance.md) | [Series Index](./index.md)
 
 ---
 
@@ -235,7 +238,7 @@ The next part explains *why*—where the bias, overfitting, and noise come from.
 
 ---
 
-*Next: [Part 4: Sources of Error](./part-4-sources-of-error.md) — Where evaluation uncertainty comes from*
+*Next: [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) — Where evaluation uncertainty comes from*
 
 ---
 

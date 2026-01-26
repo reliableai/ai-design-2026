@@ -224,7 +224,7 @@ A single biased or noisy scorecard can waste a sprint. A portfolio of biased and
 
 ---
 
-*Next: [Part 3: A Brief History of Evals](./part-3-history-of-evals.md) — How we got here, from Software 1.0 to 3.0*
+*Next: [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md) — The value of better measurement*
 
 ---
 

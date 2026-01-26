@@ -29,7 +29,7 @@ This series explores a structural problem in how organizations evaluate AI syste
 
 The problem statement. Why "89% accuracy" might be meaningless—or worse, misleading. The three facets of the problem: visibility, culture, and action.
 
-### [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance-draft.md)
+### [Part 2: The Cost of Ignorance](./part-2-cost-of-ignorance.md)
 
 The real costs of ignoring uncertainty: wasted cycles, misallocated portfolios, and production failures that were predictable all along. How bias and noise compound across organizations.
 
