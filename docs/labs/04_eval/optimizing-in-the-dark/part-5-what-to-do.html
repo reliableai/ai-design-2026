@@ -348,6 +348,8 @@
 
 <p><strong>A common objection is that "executives would not understand it."</strong> This is not true. Executives routinely deal with uncertainty in financial forecasts, market projections, and risk assessments. They may ask hard questions—"Why is the range so wide?" or "What would it take to narrow it?"—but these are exactly the questions that should be asked.</p>
 
+<p>To make this concrete, see the <strong><a href="#minimum-evaluation-reporting-standard">Minimum Evaluation Reporting Standard</a></strong> at the end of this document—a checklist of what every evaluation report should include.</p>
+
 <p class="addresses"><strong>Addresses:</strong> Visibility (uncertainty is visible), Culture (normalizes uncertainty discussions)</p>
 
 <hr>
@@ -450,6 +452,95 @@
 <p>Think of it as a <strong>Center of Excellence at your fingertips</strong>. Not a rubber stamp, but a thinking partner that helps teams be more rigorous than they would be on their own.</p>
 
 <p class="addresses"><strong>Addresses:</strong> Visibility (surfaces issues), Action (helps estimate and improve)</p>
+
+<hr>
+
+<h2 id="minimum-evaluation-reporting-standard">Minimum Evaluation Reporting Standard</h2>
+
+<p>To make the principles in this series actionable, we propose a <strong>Minimum Evaluation Reporting Standard</strong>.</p>
+
+<p>Any evaluation result used for comparison, optimization, or decision-making must report the information below. This standard is intentionally minimal: it does not guarantee correctness, but it makes uncertainty and risk visible by default.</p>
+
+<p><strong>The goal is not to block decisions, but to prevent decisions from being made on numbers whose reliability is unknown.</strong></p>
+
+<h3>Required Fields</h3>
+
+<p>Every evaluation report MUST include:</p>
+
+<p><strong>1. Metric and point estimate</strong></p>
+<ul>
+    <li>Metric name</li>
+    <li>Point estimate</li>
+    <li>Directionality (higher is better / lower is better)</li>
+</ul>
+
+<p><strong>2. Uncertainty</strong></p>
+<ul>
+    <li>Confidence or uncertainty interval (default: 95%)</li>
+    <li>Method used (e.g., binomial CI, bootstrap, repeated runs)</li>
+    <li>Assumptions, if any (e.g., independence)</li>
+</ul>
+
+<p><em>Rough uncertainty estimates are acceptable; absence of uncertainty is not.</em></p>
+
+<p><strong>3. Sample size and population</strong></p>
+<ul>
+    <li>Sample size (n)</li>
+    <li>How samples were obtained</li>
+    <li>Intended population (or acknowledgement that the sample is a proxy)</li>
+</ul>
+
+<p><strong>4. Comparison structure</strong></p>
+<ul>
+    <li>Paired or unpaired comparison</li>
+    <li>Whether the same inputs and judges were used</li>
+    <li>Any expected correlation between measurements</li>
+</ul>
+
+<p><strong>5. Optimization exposure (K)</strong></p>
+<ul>
+    <li>Number of variants evaluated on this dataset</li>
+    <li>Whether the reported result was selected as best-of-K</li>
+</ul>
+
+<p><em>If K is unknown, it must be stated explicitly.</em></p>
+
+<p><strong>6. Holdout and reuse discipline</strong></p>
+<ul>
+    <li>Dataset role (development / validation / test)</li>
+    <li>Whether the dataset has been reused across iterations</li>
+    <li>Any peeking or adaptive changes</li>
+</ul>
+
+<p><strong>7. Known risks and blind spots</strong></p>
+<ul>
+    <li>Known sources of bias or mismatch</li>
+    <li>Known failure modes not covered by the evaluation</li>
+</ul>
+
+<p><strong>8. Decision readiness</strong></p>
+<ul>
+    <li>One of:
+        <ul>
+            <li>☐ Exploratory signal</li>
+            <li>☐ Directional evidence</li>
+            <li>☐ Deployment-ready</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Why This Standard Works</h3>
+
+<p>This standard directly attacks the three systemic failures:</p>
+
+<table>
+    <tr><th>Failure</th><th>How the standard intervenes</th></tr>
+    <tr><td><strong>Opacity</strong></td><td>Forces uncertainty, population, and assumptions into the open</td></tr>
+    <tr><td><strong>Incentives</strong></td><td>Makes uncertainty a compliance item, not a personal choice</td></tr>
+    <tr><td><strong>Theater</strong></td><td>Forces disclosure of K, reuse, and holdout exposure</td></tr>
+</table>
+
+<p>This is not about statistical correctness. It's about making <strong>epistemic risk legible</strong>.</p>
 
 <hr>
 

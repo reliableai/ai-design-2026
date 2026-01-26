@@ -163,6 +163,8 @@ The second table says less with false precision and more with honest information
 
 **A common objection is that "executives would not understand it."** This is not true. Executives routinely deal with uncertainty in financial forecasts, market projections, and risk assessments. They may ask hard questions—"Why is the range so wide?" or "What would it take to narrow it?"—but these are exactly the questions that should be asked.
 
+To make this concrete, see the **[Minimum Evaluation Reporting Standard](#minimum-evaluation-reporting-standard)** at the end of this document—a checklist of what every evaluation report should include.
+
 **Addresses:** Visibility (uncertainty is visible), Culture (normalizes uncertainty discussions)
 
 ---
@@ -255,6 +257,75 @@ This is not a replacement for human judgment. But it can scale the *questioning*
 Think of it as a **Center of Excellence at your fingertips**. Not a rubber stamp, but a thinking partner that helps teams be more rigorous than they would be on their own.
 
 **Addresses:** Visibility (surfaces issues), Action (helps estimate and improve)
+
+---
+
+## Minimum Evaluation Reporting Standard
+
+To make the principles in this series actionable, we propose a **Minimum Evaluation Reporting Standard**.
+
+Any evaluation result used for comparison, optimization, or decision-making must report the information below. This standard is intentionally minimal: it does not guarantee correctness, but it makes uncertainty and risk visible by default.
+
+**The goal is not to block decisions, but to prevent decisions from being made on numbers whose reliability is unknown.**
+
+### Required Fields
+
+Every evaluation report MUST include:
+
+**1. Metric and point estimate**
+- Metric name
+- Point estimate
+- Directionality (higher is better / lower is better)
+
+**2. Uncertainty**
+- Confidence or uncertainty interval (default: 95%)
+- Method used (e.g., binomial CI, bootstrap, repeated runs)
+- Assumptions, if any (e.g., independence)
+
+*Rough uncertainty estimates are acceptable; absence of uncertainty is not.*
+
+**3. Sample size and population**
+- Sample size (n)
+- How samples were obtained
+- Intended population (or acknowledgement that the sample is a proxy)
+
+**4. Comparison structure**
+- Paired or unpaired comparison
+- Whether the same inputs and judges were used
+- Any expected correlation between measurements
+
+**5. Optimization exposure (K)**
+- Number of variants evaluated on this dataset
+- Whether the reported result was selected as best-of-K
+
+*If K is unknown, it must be stated explicitly.*
+
+**6. Holdout and reuse discipline**
+- Dataset role (development / validation / test)
+- Whether the dataset has been reused across iterations
+- Any peeking or adaptive changes
+
+**7. Known risks and blind spots**
+- Known sources of bias or mismatch
+- Known failure modes not covered by the evaluation
+
+**8. Decision readiness**
+- One of:
+  - ☐ Exploratory signal
+  - ☐ Directional evidence
+  - ☐ Deployment-ready
+
+### Why This Standard Works
+
+This standard directly attacks the three systemic failures:
+
+| Failure | How the standard intervenes |
+|---------|----------------------------|
+| **Opacity** | Forces uncertainty, population, and assumptions into the open |
+| **Incentives** | Makes uncertainty a compliance item, not a personal choice |
+| **Theater** | Forces disclosure of K, reuse, and holdout exposure |
+
+This is not about statistical correctness. It's about making **epistemic risk legible**.
 
 ---
 
