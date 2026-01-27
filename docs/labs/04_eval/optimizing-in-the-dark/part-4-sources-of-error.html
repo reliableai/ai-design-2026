@@ -362,6 +362,17 @@
 </tbody>
 </table>
 <p>This explains a common experience in prompt engineering: you can "find" a 4-8 point improvement surprisingly easily when the test set is small and you iterate a lot—even if the underlying system has not improved.</p>
+
+<p>The best-of-K inflation is real, but it compounds with two more fundamental problems:</p>
+
+<p><strong>Small sample sizes:</strong> If you're evaluating K variants on 100 examples, your confidence interval is already ~16 points wide before accounting for selection effects. Best-of-K adds optimism on top of already massive uncertainty.</p>
+
+<p><strong>Non-representative test data:</strong> Your test set is almost never IID with production. It's curated examples someone thought were representative, synthetic data that's "close enough," or historical data from a shifted distribution. This isn't noise—it's bias. Your evaluation could be perfectly precise and still systematically wrong because you're measuring on the wrong distribution.</p>
+
+<p><em>If your 100-example test set doesn't reflect production, no statistical correction will save you.</em></p>
+
+<p>A technical note: the standard best-of-K analysis assumes independent noise across variants. In practice, when variants share the same test set and judge, noise is partially correlated—which reduces but does not eliminate the inflation. The core insight holds: selection on noisy estimates produces optimistic results.</p>
+
 <h3>Three Context Questions</h3>
 <p>When you see a crisp green number, three context questions often unlock most of the uncertainty:</p>
 <ul>
@@ -578,6 +589,8 @@
 </table>
 <p>When multiple overfitting mechanisms operate together, their effects partially overlap but also partially compound. A test accuracy of 88% might translate to production accuracy anywhere from 60-78%.</p>
 <hr />
+<p><em>So far we have discussed uncertainty arising from limited measurement and selection effects. We now turn to a different class of problems: errors introduced by how we encode quality itself.</em></p>
+
 <h2>4. Rubric Mapping: When Numbers Hide Reality</h2>
 <p>Even when we have collected our data, run our evaluations, and obtained raw results from our LLM-as-judge or human raters, we still have to <em>map</em> those results to scores—and this mapping is far more arbitrary than most teams realize.</p>
 <p>Suppose we use a prompt that judges "completeness" on a qualitative 1-3 scale:<br />
@@ -866,9 +879,7 @@
 <p><em>Whenever possible, prefer paired comparisons over independent ones.</em></p>
 
 <hr />
-<p><em>Next: <a href="./part-5-what-to-do.html">Part 5: What To Do, and What Not To Do</a> — Practical solutions for visibility, action, and culture</em></p>
-<hr />
-<p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code></p>
+<p><strong>Next: <a href="./part-5-what-to-do.html">Part 5: What To Do, and What Not To Do</a></strong> — Practical solutions for visibility, action, and culture</p>
 <footer style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9em; color: #666;">
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
 </footer>

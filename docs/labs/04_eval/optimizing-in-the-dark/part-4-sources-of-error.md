@@ -149,6 +149,16 @@ If none of the variants are truly better, how often will the best one still look
 
 This explains a common experience in prompt engineering: you can "find" a 4-8 point improvement surprisingly easily when the test set is small and you iterate a lot—even if the underlying system has not improved.
 
+The best-of-K inflation is real, but it compounds with two more fundamental problems:
+
+**Small sample sizes:** If you're evaluating K variants on 100 examples, your confidence interval is already ~16 points wide before accounting for selection effects. Best-of-K adds optimism on top of already massive uncertainty.
+
+**Non-representative test data:** Your test set is almost never IID with production. It's curated examples someone thought were representative, synthetic data that's "close enough," or historical data from a shifted distribution. This isn't noise—it's bias. Your evaluation could be perfectly precise and still systematically wrong because you're measuring on the wrong distribution.
+
+*If your 100-example test set doesn't reflect production, no statistical correction will save you.*
+
+A technical note: the standard best-of-K analysis assumes independent noise across variants. In practice, when variants share the same test set and judge, noise is partially correlated—which reduces but does not eliminate the inflation. The core insight holds: selection on noisy estimates produces optimistic results.
+
 ### Three Context Questions
 
 When you see a crisp green number, three context questions often unlock most of the uncertainty:
@@ -260,6 +270,8 @@ Test accuracy improves from 83% to 89%. But in production, the correlation doesn
 When multiple overfitting mechanisms operate together, their effects partially overlap but also partially compound. A test accuracy of 88% might translate to production accuracy anywhere from 60-78%.
 
 ---
+
+*So far we have discussed uncertainty arising from limited measurement and selection effects. We now turn to a different class of problems: errors introduced by how we encode quality itself.*
 
 ## 4. Rubric Mapping: When Numbers Hide Reality
 
@@ -445,6 +457,3 @@ This is why evaluation design choices—such as pairing, shared inputs, and cont
 
 *Next: [Part 5: What To Do, and What Not To Do](./part-5-what-to-do.md) — Practical solutions for visibility, action, and culture*
 
----
-
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering`

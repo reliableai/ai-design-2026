@@ -124,7 +124,7 @@
             padding-left: 1.6em;
         }
         li {
-            margin: 0.6em 0;
+            margin: 0.25em 0;
         }
         hr {
             border: none;
@@ -194,6 +194,23 @@
 <p class="series-title">Part 3 of <em>Optimizing in the Dark:<br>Organizational Blindness in AI Evaluations</em></p>
 <p><em>The value of knowing what you're measuring</em></p>
 <p>← <a href="./part-2b-uncertainty-vs-variability.html">Part 2b: Uncertainty vs Variability</a> | <a href="./index.html">Series Index</a></p>
+<hr />
+
+<p><strong>Why are the errors so large?</strong> Because the problem is complex. Each evaluation requires many decisions—about data, judges, aggregation, selection, and reporting. Each decision significantly affects the outcome. And errors and uncertainties compound.</p>
+
+<p>The pipeline below shows how uncertainty compounds at each stage—and then gets hidden:</p>
+
+<pre style="font-family: 'DM Mono', monospace; font-size: 0.8em; background: #fff; padding: 1.5em; border-radius: 8px; overflow: visible; line-height: 1.5; border: 1px solid #e2e8f0;">
+Variants ══► Data ══► Judges ══► Aggregation ══► Selection ══► Reporting ══► Decision
+   │           │         │            │              │              │
+   ±          ±±        ±±±         ±±±±          ±±±±±±        [hidden]       ?
+              │         │            │              │              │
+           +noise    +bias       collapses       inflates        hides
+                                 structure      estimates     uncertainty
+</pre>
+
+<p><em>Each step adds uncertainty. Selection amplifies it. Reporting hides it.</em></p>
+
 <hr />
 
 <h2>Executive Summary</h2>
@@ -370,11 +387,7 @@
 
 <hr />
 
-<p><em>Next: <a href="./part-3b-from-value-to-scorecard.html">Part 3b: From Value to Scorecard</a> — Knowing where to improve</em></p>
-
-<hr />
-
-<p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code> <code>Uncertainty</code></p>
+<p><strong>Next: <a href="./part-3b-from-value-to-scorecard.html">Part 3b: From Value to Scorecard</a></strong> — Knowing where to improve</p>
 
 <footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>

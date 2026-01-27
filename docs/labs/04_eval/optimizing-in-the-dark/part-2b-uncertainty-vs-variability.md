@@ -9,9 +9,13 @@ Organizational Blindness in AI Evaluations*
 
 ---
 
+> **Orientation.** This section introduces a distinction used throughout the rest of the series: *variability* describes real differences in the world, while *uncertainty* describes limits in our measurement of a metric. Confusing the two leads to systematic evaluation errors.
+
+---
+
 ## The M×C Matrix: What You're Actually Optimizing
 
-You have **M agents** (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) and you are considering deploying them across **C customers** (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a *value distribution*: V<sub>m,c</sub> - in other words, each of these cell is a random variable.
+You have **M agents** (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) and you are considering deploying them across **C customers** (Customer A, Customer B, Customer C, ...) - or C domains, or C regions - whatever. Each cell in this matrix has a *value distribution*: V<sub>m,c</sub> - in other words, *each of these cell is a random variable*.
 
 <figure class="mxc-matrix">
 <!-- MxC Matrix visualization will go here -->
@@ -123,6 +127,3 @@ The key point: this is not a measurement problem. It's a real-world variability 
 
 *Next: [Part 3: Better "Evals" Beats Better Dev](./part-3-value-of-better-measurement.md) — The value of knowing what you're measuring*
 
----
-
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering`

@@ -7,26 +7,35 @@ Organizational Blindness in AI Evaluations*
 
 ***
 
-**Uncertainty is expensive, ignoring uncertainty is even more expensive, causing uncertainty is... [add your adjectives]**
+****
 
 
+---
 
 
 ← [Part 1: A Structural Flaw in Judgment](./part-1-structural-flaw.md) | [Series Index](./index.md)
 
 ---
 
-## The Shape of Value
+
+> *"Uncertainty is expensive. Ignoring uncertainty is negligent. Rewarding those who hide it is how organizations fail."*
+> — again, just me
+
+---
+
+# AI Evals are Estimations of Random Variables - let that sink in
 
 
-Let's frame our evaluation problem as follows: we have *M** AI systems to evaluate. Each could go to production — or not, based on what we decide given our eval results. Lets assume for now we are deploying internally or at one customer - so lets not worry about variabilities across customers.
+Let's frame our evaluation problem as follows: we have *M** AI systems to evaluate. 
+Each could go to production — or not, based on what we decide given our eval results (Let's assume for now we are deploying internally or at one customer - so let's not worry about variabilities across customers).
+If deployed, each system can generate *positive* value — or it can harm (generate *negative* value). 
 
-If deployed, each system can generate positive value — or it can harm (generate negative value). 
 For example, consider an **Incident Auto-Resolution** agent that attempts to fix IT tickets automatically. Each execution might solve the problem completely (high positive value), give useful hint or workaround (still some positive value), do nothing useful (or say "i don't know" and do nothing - probably value around zero or slightly negative), or take a wrong action that makes things worse (high negative value). 
 
 Or, consider an **Incident Summarization** agent — each summary might accelerate triage, add nothing, or mislead the analyst (high negative value). The value generated varies, execution by execution. 
-For now, assume we have a magic function *Vf* that captures the value that one execution of an AI system generates. In reality this metric is hard to define and hard to measure, but let's assume we have it.
 
+
+For now, assume we have a magic function *Vf* that captures the value that one execution of an AI system generates. In reality this metric is hard to define and hard to measure, but let's assume we have it.
 If we pick a random execution and apply Vf to it, we get a number — the *value* of that execution. The number we get depends on which execution we picked. Different executions yield different values.
 
 If we could observe many executions and record Vf for each, we'd see a *distribution* of values emerge.
@@ -47,7 +56,8 @@ Plot these 1,000 values as a histogram. That's the distribution of V for this ag
 We therefore conceptualize our understanding of value for this use case as a *random variable* V, described by a distribution of values, whch in this case we obtain empirically. Each time the system runs, V takes a value — sometimes positive, sometimes negative, sometimes large, sometimes small. 
 The **Value** random variable doesn't have *one* value. It has a *shape* — a distribution of outcomes, shaped by the mix of incidents it encounters, the actions it takes, and how those actions land in context.
 
-The same holds for any agentic system.
+If you take one thing from this series, let it be this: what you call "AI eval" in reality is **"estimating the distribution of a random variable"**. 
+
 
 <!-- An **Incident Summarization** agent reads tickets and produces summaries for L1 analysts. Observe 1,000 summaries:
 
@@ -67,35 +77,35 @@ The way we model our knowledge of V is to state that V, the Value of the agent i
 
 --- -->
 
-# Taking decisions
+## Taking decisions
 
 When we evaluate an agent to choose whether to deploy for a us (or across the board for a set of customers), ideally we want to know the distribution of values we expect it to generate, or at least have a ballpark idea. 
 Doing so means deciding on what distribution shapes are acceptable.
 
-Both measuring / estimating the distribution and deciding on what distributions are acceptable are **hard** problems.
+**Both measuring / estimating the distribution and deciding on what distributions are acceptable are hard problems.**
 
-So let's make some simplifying assumptions and decisions. Consider the following possible decision rules:
+So let's make some simplifying assumptions and decisions. Consider the following possible decision rules (E[V] is the expected value of V, take it as what we think the average value of the agent will be):
 
 
 | Decision Rule | Deploy if... | What it prioritizes |
 |---------------|--------------|---------------------|
 | Positive expected value | E[V] > 0 | On average, the outcome is good |
-| High success rate | P(V > 0) > 80% | Most executions generate value |
+| High success rate | P(V > 0) > 80% | The probability that a randomly chosen execution will have posiitive value is greater than 80% |
 | Bounded downside | E[V] > 0 AND P(V < −L) < 5% | Executions on average generate value and the probability of very adverse outcomes are small |
-| Median positive | median(V) > 0 | The majority of executions generate value |
+| Median positive | median(V) > 0 | The majority of executions generate value (this is different than the expected value) |
 
 
-If this sounds too complex for you and you are ingnoring it, you are not a smart executive that compresses knowledge, you are not a smart engineer that approximates. You are simply picking an option without knowing you are doing so.
+If this sounds too complex for you and you are ingnoring it, you should not be in the buiness of taking decisions on AI systems, not even as an executive. You are taking decisions by making choices and assumptions you don't know you are making.
 
 
 
-## Every Decision Is an Estimation under Uncertainty- Whether you are aware of it or not
+## "Eval" implies "forming a beleif about how the shape of value looks like"
 
 
 
 Ideally you can run your agent at scale on the exact data it will see in production and get the distribution of V, which will in turn enable to you make informed decisions.
 
-For example, a risk-tolerant organization might deploy if expected value is positive, even if 30% of executions cause minor harm. A safety-critical deployment might require that catastrophic outcomes (V < −L) are rare, regardless of the mean.
+<!-- For example, a risk-tolerant organization might deploy if expected value is positive, even if 30% of executions cause minor harm. A safety-critical deployment might require that catastrophic outcomes (V < −L) are rare, regardless of the mean. -->
 
 <!-- For the analysis that follows, we'll use the simplest rule: **deploy if E[V] > 0**. Expected value is positive — on average, the system helps more than it hurts.
 
@@ -105,35 +115,21 @@ In practice, you have some measures obtained in some way by your team on some da
 Or, more likely, you will form a belief about E[V], the expected value - or average value - of V, or, a belief about P(V > 0), the probability that V is positive, or whatever is your target metric.
 (remember that figure with the metric of 89%? That implicitly states that the agent is expected to generate a positive value 89% of the time).
 
-Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on *how wrong* you are — not on why.
+Your estimate can be wrong. Sometimes a little, sometimes a lot. The cost depends on *how you are wrong and how wrong you are* — not on why.
 
 
 ---
 
-**The cost of being wrong**
+# The cost of hiding uncertainty
 
 If your estimate is off, you either deploy a bad system (harm in production) or miss a good one (opportunity cost). The cost scales with how wrong you are.
 
 Take our Incident Auto-Resolution agent. Suppose the true distribution has E[V] = −5 — on average, it hurts slightly more than it helps. But your evaluation estimates Ê[V] = +8.
-
 You deploy. Over the next quarter, the system runs 10,000 times. The expected total harm: 10,000 × (−5) = −50,000 value points.
-
 You were off by 13 points. That error, multiplied by production volume, became a quarter's worth of accumulated harm.
 
-But how can our estimates be wrong if we experiment? and are they wrong "by chance", occasionally, or are they structurally wrong? and what can we do about it?
-
----
-
-# Measurements Without Uncertainty Are Meaningless
-
-Just a reminder:
-
-*"Any measurement without knowledge of the uncertainty is meaningless." 
-    — Walter Lewin*
-*
-"And when it is reported on presentation to executives, it is harmful " 
-    — Fabio Casati*
-
+*But how can our estimates be wrong if we experiment? and are they wrong "by chance", occasionally, or are they structurally wrong? and what can we do about it?*
+We'll come to this in a second. But for now let's focus on the cost of hiding uncertainty.
 
 ---
 
@@ -144,7 +140,8 @@ The second report is more informative and in many cases more honest than the fir
 **You rarely hear that.** It makes the team look unprepared and executives are likely to object and complain - which by itself simply results in this kind of reports being rare and in an increase of reports that give a false sense of confidence.
 As a decision maker - and as an engineer or scientist - once you hear that conclusion with indication of uncertainty you may decide that that's "good enough" or you may decide that we need some more investigations. Or, that we can move to prod, but cautioning the customer that our belief is as stated.
 
-Every time as a manager or executive you punish the communication of uncertainty, you are setting up your org up for failure. The AI industry should learn from airline safety and similar industry where a lot of effort is spent on making sure that report of issues (eg, pilot tiredness) are communicated and not "retaliated" against.
+Every time as a manager or executive you do not ask and reward the indication of unceratinty (or worse, you "punish" it by making negative considerations on the team),  you are setting up your org up for failure. 
+The AI industry should learn from airline safety and similar industry where a lot of effort is spent on making sure that report of issues (eg, pilot tiredness, even pilot errors) are communicated and not "retaliated" against.
 
 
 **What decisions look like without uncertainty**
@@ -174,7 +171,7 @@ When someone communicates their belief with a range, you have more options:
 The third option — *investigate further before deciding* — doesn't exist when you only hear a point estimate.
 
 ---
-
+<!-- 
 # The cost of hiding uncertainty - and the benefits of uncovering it
 
 When you start the practice of talking about uncertainty and reporting about it, you instantly get a lot of benefits.
@@ -184,16 +181,20 @@ As an executive - or a scientist - You might ask:
 - Can we do a limited production pilot before full rollout?
 - Why is the range so wide — is this use case unusually hard to evaluate?
 
-These questions never get asked when you only hear "+8".
+These questions never get asked when you only hear "+8". -->
 
 
-## The Value of Uncertainty Awareness
+## Computing the Value of Uncertainty Awareness
 
-We've established that measurements without uncertainty are meaningless. But let's be concrete: what is the *value* of being aware of uncertainty — *even before you do anything to reduce it?*
+Below is a simple model to compute the value of uncertainty awareness. If you are not interested in the math, you can skip this section and go to  [Part 2b: Uncertainty vs Variability](./part-2b-uncertainty-vs-variability.md)   
+
+
+
+<!-- We've established that measurements without uncertainty are meaningless. But let's be concrete: what is the *value* of being aware of uncertainty — *even before you do anything to reduce it?*
 Consider the *visibility problem* we introduced in Part 1: people don't see the uncertainty. It's not reported, not computed, not surfaced. The green 89% looks solid. Decision-makers can't account for what they don't know exists.
-Let's quantify what visibility alone is worth.
+Let's quantify what visibility alone is worth. -->
 
----
+<!-- --- -->
 
 **Setup: M agents, one customer**
 
@@ -363,6 +364,3 @@ The cost isn't one wrong call. It's a portfolio of wrong calls, all tilted the s
 
 *Next: [Part 2b: Uncertainty vs Variability](./part-2b-uncertainty-vs-variability.md) — When you see a range, what does it mean?*
 
----
-
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering`

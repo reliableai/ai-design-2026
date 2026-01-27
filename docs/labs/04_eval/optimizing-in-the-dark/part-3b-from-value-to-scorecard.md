@@ -74,6 +74,3 @@ Now you know: optimize German fluency, not latency. Without the correlation anal
 
 *Next: [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) — Where evaluation uncertainty comes from*
 
----
-
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering` `Uncertainty`

@@ -112,7 +112,7 @@
             padding-left: 1.6em;
         }
         li {
-            margin: 0.6em 0;
+            margin: 0.25em 0;
         }
         hr {
             border: none;
@@ -150,67 +150,66 @@
 <p><a href="./index.html">Series Index</a> | <a href="./part-2-cost-of-ignorance.html">Part 2 →</a></p>
 <hr />
 
-<img src="./images/image1.png" alt="Technical Accuracy 89%" style="max-width: 49%;" />
-
-<p>You have all been in this room. A slide goes up. There's a <em>metric</em>—"Technical Accuracy", a <em>number</em>: 89%, and a <em>color</em>—green.</p>
-
-<p>Getting these metrics, numbers, and even the colors "right" are foundational to the success of a product.
-These numbers - and colors - are the final output of a complex process of decisions and actions.</p>
-
-<p>This output is very consequential. Not only does it determine ship/no-ship decisions, but it tells engineers where to focus their energy, where to improve.
-The metrics act like a <em>loss profile</em> and give us axes along which we need to improve our product.</p>
-
-<img src="../figs/loss_profile.jpg" alt="Loss profile optimization landscape" />
-
-<p>And as AI takes more of a leading role in development, getting the right metrics and the right measures is central to effective product improvement iterations - possibly even automating the entire process. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.</p>
-
-<img src="./images/image3.png" alt="AI-Human loop" />
-
-<p>As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: <em>how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room with me, know? Do we grasp what that means for the decision we're about to make?</em></p>
+<blockquote>
+<p><em>"Any measurement, without knowledge of the uncertainty, is meaningless."</em><br />
+— Walter Lewin, MIT</p>
+</blockquote>
 
 <hr />
 
-<p>Walter Lewin, the MIT physicist, in his first lecture of the course in basic Physics tells his students: "<em>Any measurement, without knowledge of the uncertainty, is meaningless.</em>" Not "less precise." Not "directionally useful." <strong>Meaningless.</strong></p>
+<p>Walter Lewin, the MIT physicist, in his first lecture of the course in basic Physics, tells his students: "<em>Any measurement, without knowledge of the uncertainty, is meaningless.</em>" Not "less precise." Not "directionally useful." <strong>Meaningless.</strong></p>
 
-<p>Then he adds: "<em>I want you to hear this at 3am tonight when you wake up.</em>" He says this <em>in the first lecture of the first course</em> on Physics, not at some random point.</p>
+<p>Then he adds: "<em>I want you to hear this at 3am tonight when you wake up.</em>"</p>
 
 <p>And <strong>he was talking to people who live in the science of measurement</strong>.
 We are not in that world. In enterprise AI we evaluate and report "at scale" across many use cases and teams, with vastly diverse audiences ranging from engineers to scientists to executives. <em>It is the duty of the presenter to make sure that they convey information in a manner that enables the listeners to take the right action.</em></p>
 
 <p>I posit that while the number in itself may be <em>meaningless</em>, the act of <strong>reporting</strong> without knowledge and indication of its uncertainty makes it <strong>misleading</strong>.</p>
 
-<p>A common tendency in organizations is to wash this question away based on the idea that "<em>we are engineers, we are so cool because we approximate, and iterate. Dwelling on uncertainty is for theorists. A measure may not be perfect, we know, but it's a hint, and we will improve over time. We crawl, walk, run.</em>"
-How many time have you heard this argument? Or how often do you hear that "yeah, it would be great to discuss uncertainty but executives won't understand, they need a simple number"?</p>
-
-<p>These are scarily naive and dangerous arguments.
-Having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". (See <strong><a href="./glossary.html">Glossary</a></strong> for key terms used throughout this series.) More specifically:</p>
+<hr />
 
 <blockquote>
-<p><em>A measurement - and a report of a measurement - is harmful if it leads me to make the wrong decision, or take the wrong action on a system.</em></p>
+<p><em>"Any report that does not state the uncertainty of a measure is <strong>misleading</strong>."</em><br />
+— Just me</p>
+</blockquote>
+
+<hr />
+
+<p>The problem is not that teams are careless or statistically naïve; it is that most evaluation pipelines and reporting conventions systematically hide uncertainty and reward apparent progress.</p>
+
+<p>A common tendency in organizations is to wash uncertainty away based on the idea that "<em>we are engineers, we are so cool because we approximate, and iterate. Uncertainty is for theorists. A measure may not be perfect, we know, but it's a hint, and we will improve over time. We crawl, walk, run.</em>"
+How many times have you heard this argument? Or how often do you hear that "yeah, it would be great to discuss uncertainty but executives won't understand, they need a simple number"?</p>
+
+<p>These are scarily naive and dangerous arguments.
+Having a sense for how biased and noisy our measures can be is central to the notion of "engineering approximation". More specifically:</p>
+
+<blockquote>
+<p><em>A measurement - and a report of a measurement - is harmful if it leads to making the wrong decision, or taking the wrong action on a system.</em></p>
 </blockquote>
 
 <p>There are only two conditions under which ignoring and not reporting on uncertainty is not a problem:</p>
 
 <ol>
-<li>The measurement is so precise that it is not subject to any meaningful uncertainty</li>
+<li>The measurement is so precise that it is not subject to <em>any meaningful uncertainty</em></li>
 <li>The measurement doesn't matter that much</li>
 </ol>
 
 <p>If the second condition is true, then stop reading - and stop measuring.
-If metrics matter, then reporting without knowledge of uncertainty should be actively discouraged—a quality gate, not an afterthought. Maybe we need one more "<a href="https://github.com/victorvalentee/bezos_api_mandate">Jeff Bezos memo</a>" moment...</p>
+If metrics matter, then reporting without knowledge of uncertainty should be actively discouraged—a quality gate, not an afterthought.
+The industry here needs a "<a href="https://github.com/victorvalentee/bezos_api_mandate">Jeff Bezos memo</a>" moment, where leadership across companies send a clear message to their teams about making uncertainty and estimation of AI quality a first class citizen.</p>
 
 <hr />
 
-<h2>The Anthropic Paper and the Industry's Response</h2>
+<h1>Signs of Collective Blindmess</h1>
 
 <p>I started paying closer attention to this problem when Anthropic published a paper titled "<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a>." I thought: "It's about time people in this industry begin making this point."</p>
 
 <img src="./images/image4.png" alt="Anthropic paper" />
 
 <p>But..... no, I was wrong. Social media were telling a different story.
-Pedro Domingos said: "<em>Spectacular breakthrough in AI: Anthropic has discovered error bars!</em>" The sarcasm was widespread. "<em>What an unserious field</em>", people said, that needs to be told to add error bars.</p>
+Famous AI researchers said on X: "<em>Spectacular breakthrough in AI: Anthropic has discovered error bars!</em>" The sarcasm was widespread. "<em>What an unserious field</em>", people said, that needs to be told to add error bars.</p>
 
-<img src="./images/image5.png" alt="Social media reactions" />
+<!-- <img src="./images/image5.png" alt="Social media reactions" /> -->
 
 <p><strong>The mockery proved the paper's point.</strong> (the paper is on way more than "error bars" - and uncertainty is not synonymous with "error bars" - but it makes the point).
 If this was obvious and practiced, the paper wouldn't exist. The fact that a leading AI lab felt the need to write it—and the fact that the community's response was ridicule rather than embarrassment—tells us where we are.</p>
@@ -225,13 +224,13 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 
 <p>This book resonated well with my experience working with many companies and system integrators.</p>
 
-<img src="./images/image6.jpeg" alt="Noise book" />
+<img src="./images/image6.jpeg" alt="Noise book" style="max-width: 35%; float: right; margin: 0 0 1em 1.5em;" />
 
 <p>I've had this conversation a dozen times with engineers at AI companies. The response is remarkably consistent: "<em>Yeah, we know there's variance. Big deal.</em>"</p>
 
 <p>But the point the book is making is not that assessments are subject to errors and variability, but that such errors are <em>large</em>, and <em>largely ignored</em> by organizations. The book dwells on how orgs are especially insensitive to noise even more so than bias. For us, both are present, relevant, and need to be addressed.</p>
 
-<p>So yes, there's noise and variance—and we don't know:</p>
+<p style="clear: both;">So yes, there's noise and variance—and we don't know:</p>
 
 <ul>
 <li>How large it is,</li>
@@ -243,13 +242,13 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 
 <p>And - noise and variance are only part of the problem. In most of the customers I have worked with, measurement processes can be—and typically are—<em>systematically</em> biased: consistently producing results that are too optimistic or simply measuring the wrong thing.</p>
 
-<p>What Kahneman helped me see is that this isn't just a skills gap. It's <strong>structural</strong>. Organizations have never had to rigorously measure the quality of machine judgment and have never had to deal with measurements that have so much uncertainty and this level of complexity. And to do so at scale.</p>
+<p>What Kahneman helped me see is that this isn't just a skills gap. It's <strong>structural</strong>. Organizations have never had to develop the muscle for properly measuring the quality of AI systems and of machine judgment and have never had to deal with measurements that have so much uncertainty and this level of complexity. And to do so at scale.</p>
 
 <p>The muscle doesn't exist—and it is unclear even if the right incentives to develop it are in place.</p>
 
 <hr />
 
-<h1>What's the core of the problem, and who bears responsibility?</h1>
+<h1>The Three Problems - and who bears responsibility</h1>
 
 <p>We are building highly consequential AI systems, making decisions based on evaluation numbers, and we are systematically both <em>underestimating</em> and <em>ignoring</em> the uncertainty in those numbers.</p>
 
@@ -258,7 +257,7 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 <p>The question is hard also because the "problem" landscape has three distinct facets:</p>
 
 <ol>
-<li><p><strong>The visibility problem</strong> (epistemic): People don't see the uncertainty. It's not reported, not computed, not surfaced. The green 89% on the screen looks solid. Decision-makers can't account for what they don't know exists.</p></li>
+<li><p><strong>The visibility problem</strong> (epistemic): People are not aware the problem exists or how massive it is. It's not reported, not computed, not surfaced. The green 89% on the screen looks solid. Decision-makers can't account for what they don't know exists.</p></li>
 <li><p><strong>The culture problem</strong> (organizational): The organization doesn't ask. We don't reward quantifying uncertainty. We don't penalize ignoring it. The question "how confident are we?" isn't part of the discussion process. Uncertainty stays invisible because making it visible has no upside and many potential downsides (looking less confident, slowing things down, looking..... uncertain).</p></li>
 <li><p><strong>The action problem</strong> (methodological): Even when uncertainty is visible and the culture asks about it, people don't know what to do. How do you decide when the range is 77–95%? How do you reduce variance when you don't know which source dominates? The frameworks and practices are neither widely known nor well-established in modern AI.</p></li>
 </ol>
@@ -267,11 +266,9 @@ If this was obvious and practiced, the paper wouldn't exist. The fact that a lea
 
 <hr />
 
-<p><em>Next: <a href="./part-2-cost-of-ignorance.html">Part 2: The Cost of Ignorance</a> — Why ignoring uncertainty is expensive</em></p>
+<p>(See <strong><a href="./glossary.html">Glossary and Notation</a></strong> for key terms and notation used throughout this series.)</p>
 
-<hr />
-
-<p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code></p>
+<p><strong>Next: <a href="./part-2-cost-of-ignorance.html">Part 2: The Cost of Ignorance</a></strong> — Why ignoring uncertainty is expensive</p>
 
 <footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>

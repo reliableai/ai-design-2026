@@ -9,6 +9,23 @@ Organizational Blindness in AI Evaluations*
 
 ---
 
+**Why are the errors so large?** Because the problem is complex. Each evaluation requires many decisions—about data, judges, aggregation, selection, and reporting. Each decision significantly affects the outcome. And errors and uncertainties compound.
+
+The pipeline below shows how uncertainty compounds at each stage—and then gets hidden:
+
+```
+Variants ══► Data ══► Judges ══► Aggregation ══► Selection ══► Reporting ══► Decision
+   │           │         │            │              │              │
+   ±          ±±        ±±±         ±±±±          ±±±±±±        [hidden]       ?
+              │         │            │              │              │
+           +noise    +bias       collapses       inflates        hides
+                                 structure      estimates     uncertainty
+```
+
+*Each step adds uncertainty. Selection amplifies it. Reporting hides it.*
+
+---
+
 ## Executive Summary
 
 > **Better eval improves customer value even if you never touch the system.**
@@ -134,7 +151,4 @@ Reducing uncertainty doesn't just help you improve. It helps you *decide*—fast
 
 *Next: [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md) — Knowing where to improve*
 
----
-
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering` `Uncertainty`
 

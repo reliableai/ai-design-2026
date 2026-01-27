@@ -7,15 +7,37 @@ Organizational Blindness in AI Evaluations
 
 ---
 
-You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.
+> **Executive Summary**
+>
+> 1. **In agentic AI, evaluation is the bottleneck.** Agentic AI systems can iterate on development far faster than organizations can learn from them. The limiting factor is evaluation.
+>
+> 2. **Evaluation is hard because it is an experiment design problem, not a software testing problem.** Each evaluation embeds many consequential design decisions — about data, judges, aggregation, selection, and reporting — that can dramatically change the apparent outcome.
+>
+> 3. **Most organizations are neither equipped nor incentivized to manage agentic evaluation.** Tooling, methods, training, and reporting structures systematically hide uncertainty and overstate progress.
+>
+> 4. **This is primarily a leadership failure, not a technical one.** The questions executives ask — and the dev-heavy way teams are structured rather than eval-heavy — shape what teams feel able to report, leading to biased summaries that hide evaluation uncertainty.
+>
+> 5. **This is fixable — but not by mandates or "ground truth."** These failure modes are not inherent to AI. They require better evaluation practices, reporting standards, and decision discipline — not stricter dashboards, frozen benchmarks, or the illusion of a single correct answer.
 
-![](../figs/metric_meeting.png)
+---
 
-But how reliable is that number? What if the true accuracy were 10+ points away from what you're seeing on the slide? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?
+![](./images/image1.png)
+
+You have all been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green.
+
+Getting these metrics, numbers, and even the colors "right" are foundational to the success of a product. These numbers - and colors - are the final output of a complex process of decisions and actions.
+
+This output is very consequential. Not only does it determine ship/no-ship decisions, but it tells engineers where to focus their energy, where to improve. The metrics act like a loss profile and give us axes along which we need to improve our product.
+
+![](../figs/loss_profile.jpg)
+
+And as AI takes more of a leading role in development, getting the right metrics and the right measures is central to effective product improvement iterations - possibly even automating the entire process. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.
+
+![](./images/image3.png)
+
+As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: *how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room with me, know? Do we grasp what that means for the decision we're about to make?*
 
 This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both *underestimating* and *ignoring* the bias and uncertainty in those numbers.
-
-**[Glossary](./glossary.md)** — Key terms used throughout this series.
 
 ## The Series
 
@@ -79,4 +101,5 @@ The path forward. Addressing visibility (awareness, estimation, reporting), acti
 
 ---
 
-**Tags:** `AI` `Machine Learning` `Evaluation` `MLOps` `AI Engineering` `Quality Assurance`
+**[Glossary and Notation](./glossary.md)** — Key terms and notation used throughout this series.
+

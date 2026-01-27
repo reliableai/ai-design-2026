@@ -82,7 +82,7 @@
             padding-left: 1.6em;
         }
         li {
-            margin: 0.6em 0;
+            margin: 0.25em 0;
         }
         hr {
             border: none;
@@ -119,21 +119,38 @@
 <hr />
 <p><em>A five-part series on the hidden uncertainty in AI evaluation metrics</em></p>
 <hr />
-<p>You've been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green. The decision feels obvious.</p>
-<img src="../figs/metric_meeting.png" alt="Meeting room with Technical Accuracy 89% slide" />
-<p>But how reliable is that number? What if the true accuracy were 10+ points away from what you're seeing on the slide? What if the act of selecting the "best" system has systematically inflated your expectations? What if you're iterating toward a random target?</p>
+
+<blockquote>
+<p><strong>Executive Summary</strong></p>
+<ol>
+<li><strong>In agentic AI, evaluation is the bottleneck.</strong> Agentic AI systems can iterate on development far faster than organizations can learn from them. The limiting factor is evaluation.</li>
+<li><strong>Evaluation is hard because it is an experiment design problem, not a software testing problem.</strong> Each evaluation embeds many consequential design decisions — about data, judges, aggregation, selection, and reporting — that can dramatically change the apparent outcome.</li>
+<li><strong>Most organizations are neither equipped nor incentivized to manage agentic evaluation.</strong> Tooling, methods, training, and reporting structures systematically hide uncertainty and overstate progress.</li>
+<li><strong>This is primarily a leadership failure, not a technical one.</strong> The questions executives ask — and the dev-heavy way teams are structured rather than eval-heavy — shape what teams feel able to report, leading to biased summaries that hide evaluation uncertainty.</li>
+<li><strong>This is fixable — but not by mandates or "ground truth."</strong> These failure modes are not inherent to AI. They require better evaluation practices, reporting standards, and decision discipline — not stricter dashboards, frozen benchmarks, or the illusion of a single correct answer.</li>
+</ol>
+</blockquote>
+
+<hr />
+
+<img src="./images/image1.png" alt="Technical Accuracy 89% meeting slide" style="max-width: 40%; float: right; margin: 0 0 1em 1.5em;" />
+
+<p>You have all been in this room. A slide goes up. There's a metric—"Technical Accuracy", a number: 89%, and a color—green.</p>
+
+<p>Getting these metrics, numbers, and even the colors "right" are foundational to the success of a product. These numbers - and colors - are the final output of a complex process of decisions and actions.</p>
+
+<p>This output is very consequential. Not only does it determine ship/no-ship decisions, but it tells engineers where to focus their energy, where to improve. The metrics act like a loss profile and give us axes along which we need to improve our product.</p>
+
+<img src="../figs/loss_profile.jpg" alt="Loss profile optimization landscape" />
+
+<p>And as AI takes more of a leading role in development, getting the right metrics and the right measures is central to effective product improvement iterations - possibly even automating the entire process. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.</p>
+
+<img src="./images/image3.png" alt="AI-Human loop" />
+
+<p>As I sit in the room at a customers' site and listen to presentation after presentation and report after report, I can't help but wonder: <em>how reliable are these numbers? Do the team reporting on the results know? And do we, and the executives sitting in the room with me, know? Do we grasp what that means for the decision we're about to make?</em></p>
+
 <p>This series explores a structural problem in how organizations evaluate AI systems: we are building highly consequential systems, making decisions based on evaluation numbers, and systematically both <em>underestimating</em> and <em>ignoring</em> the bias and uncertainty in those numbers.</p>
 
-<p><strong><a href="./glossary.html">Glossary</a></strong> — Key terms used throughout this series.</p>
-<blockquote>
-<p><strong>Notation (used throughout)</strong></p>
-<ul>
-<li><p>Scores are in <strong>percentage points</strong> ("points").</p></li>
-<li><p><code>σ</code> = standard deviation of <strong>one-run measurement noise</strong> for a single system (random error).</p></li>
-<li><p><code>±h</code> = approximate <strong>95% confidence interval half-width</strong> (so CI width is <code>2h</code>).</p></li>
-<li><p>When comparing two systems with independent noise <code>σ</code>, the noise on the difference is <code>√2 · σ</code>.</p></li>
-</ul>
-</blockquote>
 <hr />
 <h2>The Series</h2>
 
@@ -180,7 +197,7 @@
 <p><em>"Any measurement, without knowledge of the uncertainty, is meaningless."</em><br />
 — Walter Lewin, MIT</p>
 <hr />
-<p><strong>Tags:</strong> <code>AI</code> <code>Machine Learning</code> <code>Evaluation</code> <code>MLOps</code> <code>AI Engineering</code> <code>Quality Assurance</code></p>
+<p><strong><a href="./glossary.html">Glossary and Notation</a></strong> — Key terms and notation used throughout this series.</p>
 <footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
 </footer>
