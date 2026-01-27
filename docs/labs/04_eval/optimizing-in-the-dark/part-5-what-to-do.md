@@ -3,7 +3,6 @@
 Part 5 of *Optimizing in the Dark:
 Organizational Blindness in AI Evaluations*
 
-*Practical solutions for visibility, action, and culture*
 
 ← [Part 4: Sources of Bias and Uncertainty](./part-4-sources-of-error.md) | [Series Index](./index.md)
 
@@ -21,14 +20,13 @@ The solutions must address all three. But first, let's be clear about what doesn
 
 ---
 
-## What Doesn't Work
+## Examples of non-solutions (or, ideas that make things worse)
 
 ### Mandates and Best Practices on AI Evaluation
 
 Every org on the planet is probably sending out best practices, guidelines and mandates on AI evaluation.
-I do too - with this series.
-
-A common mandate is "you shall have at least 100 ground truth examples", or "you shall use the standard rubric", or "you shall pass the evaluation checklist" (I do suggest a checklist, by the way).
+I do too - with this series :)
+A common mandate is "you must have at least 100 ground truth examples", or "you must use the standard rubric"  (I do suggest a checklist, by the way).
 
 Sending mandates and best practices is not wrong (except mandating ground truth, which is extremely risky as discussed later). Mandates are in many cases a good thing and a response to the fact that a large number of people are developing AI systems and don't necessarily know how to assess them properly.
 
@@ -189,7 +187,44 @@ Notice that if we eval at scale, we also greatly reduce the multiple hypotheses 
 
 ---
 
-## Solution 7: Build Observability
+## Solution 7: Define Business Assertions
+
+**The biggest problem in agentic deployments today is silent failure.** The system runs. It returns something. No errors. But it's not doing what you expected—and nobody notices until months later, if ever.
+
+Why? Because *nobody stated what they expected*.
+
+**Business Assertions** are explicit, quantifiable expectations about how your system should behave. They come from PMs, domain experts, and stakeholders—not just engineers. They represent your beliefs about what "working" looks like.
+
+Examples:
+- *"I expect 60-80% of incidents to return similar closed incidents"*
+- *"I expect half of support requests to be solvable by existing KB articles"*
+- *"The agent should call the search tool before the summarize tool in 90%+ of cases"*
+- *"Average execution path length should be 3-5 steps, not 15"*
+- *"Less than 5% of responses should trigger the fallback handler"*
+
+These are not just monitoring thresholds—they are **statements of belief about your system**. Writing them down forces clarity:
+
+- What do you actually expect this system to do?
+- What does "working correctly" look like, beyond "no errors"?
+- What would concern you if you saw it in production?
+
+**Why this matters:**
+
+1. **Makes the implicit explicit.** Most teams have unstated expectations. When reality deviates, there's no baseline to compare against.
+
+2. **Creates a contract between product and engineering.** The PM says "I expect X." Engineering instruments for X. When X doesn't happen, both sides learn something.
+
+3. **Turns silent failures into visible alerts.** If you expected 70% KB matches and you're seeing 30%, that's a signal—even though nothing "failed."
+
+4. **Informs your observability infrastructure.** You can't monitor what you haven't defined. Business assertions tell your tracing and analysis systems *what to watch for*.
+
+Start with 3-5 assertions. Review them weekly. Adjust as you learn. The goal isn't to be right—it's to be explicit about what you believe, so you can learn when reality differs.
+
+**Addresses:** Visibility (makes expectations explicit), Action (enables deviation detection), Culture (creates shared understanding of "working")
+
+---
+
+## Solution 8: Build Observability
 
 We can borrow lessons from software engineering and apply them to AI systems to understand where low quality and unexpected behaviors occur.
 
@@ -222,7 +257,7 @@ This layer doesn't directly improve your eval scores. But it gives you ongoing v
 
 ---
 
-## Solution 8: Use Worksheets as Thinking Tools
+## Solution 9: Use Worksheets as Thinking Tools
 
 ![](./images/image17.png)
 
@@ -242,7 +277,7 @@ This isn't about catching people out. It's about making the gaps visible—to yo
 
 ---
 
-## Solution 9: AI Methodology Assistants
+## Solution 10: AI Methodology Assistants
 
 A Center of Excellence is valuable: experts who can review evaluation methodology, ask hard questions, and catch blind spots. But a small team of experts cannot review hundreds of evaluations across a large organization. The expertise becomes a bottleneck.
 

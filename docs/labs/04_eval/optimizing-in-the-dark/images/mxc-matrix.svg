@@ -147,6 +147,10 @@
   <rect x="300" y="325" width="120" height="50" class="aggregate-bg"/>
   <rect x="420" y="325" width="120" height="50" class="aggregate-bg"/>
   <rect x="540" y="325" width="60" height="50" class="aggregate-bg"/>
+  <rect x="620" y="325" width="120" height="50" rx="4" class="aggregate-bg"/>
+
+  <!-- Grand total E[V] in bottom-right corner -->
+  <text x="680" y="355" text-anchor="middle" class="aggregate-label" font-size="13px" font-weight="600">E[V]</text>
 
   <!-- Aggregate distributions -->
   <path d="M200,365 Q225,335 250,350 Q275,358 280,365" fill="none" stroke="#319795" stroke-width="2"/>

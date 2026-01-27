@@ -185,7 +185,7 @@
 
 <h2>The M×C Matrix: What You're Actually Optimizing</h2>
 
-<p>You have <strong>M agents</strong> (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) and you are considering deploying them across <strong>C customers</strong> (Customer A, Customer B, Customer C, ...). Each cell in this matrix has a <em>value distribution</em>: V<sub>m,c</sub> - in other words, each of these cell is a random variable.</p>
+<p>You have <strong>M agents</strong> (Incident Auto-Resolution, Incident Summarization, Knowledge Base Deduplication, Document Classification, ...) and you are considering deploying them across <strong>C customers</strong> (Customer A, Customer B, Customer C, ...) - or C domains, or C regions - whatever. Each cell in this matrix has a <em>value distribution</em>: V<sub>m,c</sub> - in other words, <em>each of these cell is a random variable</em>.</p>
 
 <figure>
     <img src="./images/mxc-matrix.svg" alt="M×C Matrix showing value distributions across agents and customers" style="max-width: 100%; border: none; box-shadow: none;">
@@ -195,13 +195,14 @@
 <ul>
     <li><strong>Row totals</strong>: E[V<sub>m,*</sub>] = expected value of agent m across all customers, or, P(E[V<sub>m,*</sub>]>0) = probability that a customer will see a positive value from agent m.</li>
     <li><strong>Column totals</strong>: E[V<sub>*,c</sub>] = expected value for customer c across all agents, or, P(E[V<sub>*,c</sub>]>0) = probability that a customer will see a positive value from the agents.</li>
+    <li><strong>Overall total</strong>: E[V] across all customers and agents.</li>
 </ul>
 
-<p>Each cell is <em>unknown</em>. We have <em>beliefs</em> about it, with varying degrees of uncertainty. It is very common to be uncertain about these distributions - what is not acceptable is to be unaware that we have such uncertainty and avoid asking ourselves questions about it.</p>
+<p>Each cell is <em>unknown</em>. We have <em>beliefs</em> about it, with varying degrees of uncertainty. It is very common to be uncertain about these distributions.</p>
+
+<p>What is important is 1. to be aware of what we are talking about when we are discussing a metric (which cell in this figure?) and 2. be aware that we are talking about estimation of random variables (sorry to keep insisting on this....)</p>
 
 <hr>
-
-<h2>Uncertainty vs. Variability: The Critical Distinction</h2>
 
 <p>When you see distributions or "bars" around a value, you need to be sure you understand what they represent. And you want to make sure the presenter knows what they represent.</p>
 
@@ -239,14 +240,14 @@
     <li>Multiple judges with adjudication</li>
 </ul>
 
-<p><strong>Variability</strong> is about <em>reality</em>. It reflects the fact that different customers have different data quality, different languages, different processes. Variability across customers (the fact that E[V<sub>m,c1</sub>] ≠ E[V<sub>m,c2</sub>]) cannot be reduced via better measurement. It can only be addressed via:</p>
+<p><strong>Variability</strong> is about different target customers or domains. It reflects the fact that different deployments of the same agent will have different data quality, different languages, different processes. Variability across customers (the fact that E[V<sub>m,c1</sub>] ≠ E[V<sub>m,c2</sub>]) cannot be reduced via better measurement. It can only be addressed via:</p>
 <ul>
     <li>More adaptive agent implementations</li>
     <li>Selective deployment (only deploy where E[V] > 0)</li>
     <li>Better matching of agents to customer characteristics</li>
 </ul>
 
-<h3>This uncertainty is different</h3>
+<p><strong>This uncertainty is different</strong></p>
 
 <p>With measurement uncertainty, better evaluation narrows your range. You become more confident about the true E[V].</p>
 
@@ -260,7 +261,7 @@
 
 <hr>
 
-<h3>What can you do to address variability?</h3>
+<p><strong>What can you do to address variability?</strong></p>
 
 <ol>
     <li><strong>Improve the system:</strong> Make the agent more robust to different data distributions. This actually reduces the variance.</li>
@@ -268,11 +269,14 @@
     <li><strong>Set expectations:</strong> If you deploy broadly, communicate that results will vary. Some customers will see great results; some won't.</li>
 </ol>
 
-<p>The key point: this is not a measurement problem. It's a real-world variability problem. Recognizing the difference matters for deciding where to invest effort.</p>
+<p>The key point: this is not a measurement problem. It's a real-world variability problem. Recognizing the difference matters for deciding where to invest effort.
+So we will not be focusing on this variability.</p>
+
+<p>HOWEVER - remember that if you make changes and improve the agent for a customer, this does not mean other customers will see improvements - you may actually make things worse overall. It's obvious, but my experience is that this is part of the many obvious things that need to be said.</p>
 
 <hr>
 
-<p><strong>Next: <a href="./part-3-value-of-better-measurement.html">Part 3: Better "Evals" Beats Better Dev</a></strong> — The value of knowing what you're measuring</p>
+<p><em>Next: <a href="./part-3-value-of-better-measurement.html">Part 3: Better "Evals" Beats Better Dev</a> — The value of knowing what you're measuring</em></p>
 
 </body>
 </html>

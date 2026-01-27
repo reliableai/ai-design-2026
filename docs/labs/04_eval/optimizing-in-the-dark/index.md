@@ -1,6 +1,8 @@
 # Optimizing in the Dark:
 Organizational Blindness in AI Evaluations
 
+*(or, as a colleague suggests, "Obvious Things that Need to be Said")*
+
 ---
 
 *A five-part series on the hidden uncertainty in AI evaluation metrics*
@@ -29,7 +31,7 @@ Getting these metrics, numbers, and even the colors "right" are foundational to 
 
 This output is very consequential. Not only does it determine ship/no-ship decisions, but it tells engineers where to focus their energy, where to improve. The metrics act like a loss profile and give us axes along which we need to improve our product.
 
-![](../figs/loss_profile.jpg)
+![](../figs/loss_flat.png)
 
 And as AI takes more of a leading role in development, getting the right metrics and the right measures is central to effective product improvement iterations - possibly even automating the entire process. Conversely, if we get these wrong, we iterate in the wrong directions, we ship things that make our customers lose trust in us, we hold back great features that could help us win deals.
 
@@ -57,7 +59,7 @@ The critical distinction between uncertainty (reducible via better measurement) 
 
 The value of better measurement. Why better eval leads to better quality even without touching the system.
 
-### [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md)
+### [Part 3b: From Value to Scorecards](./part-3b-from-value-to-scorecard.md)
 
 Knowing where to improve. Breaking down value into scorecard dimensions, directed improvement, and discovering what matters empirically.
 

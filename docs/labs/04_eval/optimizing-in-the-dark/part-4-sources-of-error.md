@@ -3,13 +3,12 @@
 Part 4 of *Optimizing in the Dark:
 Organizational Blindness in AI Evaluations*
 
-*The technical deep dive into what makes evaluation unreliable*
 
-← [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md) | [Series Index](./index.md)
+← [Part 3b: From Value to Scorecards](./part-3b-from-value-to-scorecard.md) | [Series Index](./index.md)
 
 ---
 
-## Preliminary: Bias and Noise - Two Ways to Be Wrong
+# Preliminary: Bias and Noise - Two Ways to Be Wrong
 
 Before diving into sources of error, let's be precise about terminology.
 
@@ -17,15 +16,14 @@ Before diving into sources of error, let's be precise about terminology.
 
 **Noise** (or variance) is random error—your measurement fluctuates unpredictably. Like a bathroom scale that varies ±3 lbs depending on where you stand. Sometimes high, sometimes low, no pattern.
 
-In evaluation:
+<!-- In evaluation:
 - **Bias** means your eval consistently over- or under-estimates true performance. You might think your agent is at 85% when it's really at 70%. Every run of the eval tells you roughly the same (wrong) thing.
-- **Noise** means your eval gives different answers each time, even for the same system. Run it Monday: 78%. Run it Tuesday: 84%. Run it Wednesday: 71%. The system didn't change—your measurement did.
+- **Noise** means your eval gives different answers each time, even for the same system. Run it Monday: 78%. Run it Tuesday: 84%. Run it Wednesday: 71%. The system didn't change—your measurement did. -->
 
-**Why noise is just as dangerous as bias:**
+**Noise is just as dangerous as bias:**
 
 You might think "at least noise averages out." It doesn't—not when you're making decisions.
-
-The mean squared error of any estimate decomposes as:
+Part of the problem is that math is math: The mean squared error of any estimate decomposes as:
 
 > **MSE = Bias² + Variance**
 
@@ -37,13 +35,15 @@ Worse: noise creates *the illusion* of signal. When you compare System A vs Syst
 
 *In Parts 2 and 3, we discussed uncertainty in terms of E[V]—expected value. Here, we'll often use "accuracy" as a concrete example. The same principles apply to any metric you use to estimate E[V].*
 
-*Note on terminology: In Part 3, we distinguished "uncertainty" (reducible via better measurement) from "variability" (real-world differences across customers). In this Part, "variance" refers to the statistical term for random measurement error—one source of uncertainty that can be reduced. Cross-customer variability, by contrast, is real and cannot be measured away.*
+*Note on terminology: In Part 3, we distinguished "uncertainty" (reducible via better measurement) from "variability" (real-world differences across customers). In this Part, "variance" refers to the statistical term for random measurement error—one source of uncertainty that can be reduced. Cross-customer **variability**, by contrast, is real and cannot be measured away.*
 
 ---
 
-## Let's go through the sources of error one by one
+# The sources of error - one by one
 
-There are many sources of error in AI evaluation. Some contribute to bias, some to noise, some to both. Here's the landscape:
+There are many sources of error in AI evaluation. Some contribute to bias, some to noise, some to both. To understand why evaluation became so difficult in Software 3.0, it helps to see how we got here—see [The Evolution of Evals in Software](https://reliableai.github.io/ai-design-2026/labs/01_hello_world/history-of-evals.html) for the backstory.
+
+Here's the landscape:
 
 | Source | Contributes to | Key insight |
 |--------|---------------|-------------|
@@ -65,11 +65,9 @@ We'll walk through each in detail. The goal is not to memorize them, but to deve
 
 ## 1. Small Test Sets: The Baseline Uncertainty
 
-You run your evaluation on 100 test cases and get 82%. How confident should you be in that number?
+You run your evaluation on 100 test cases and get 82%. How confident should you be in that number? *Do you know? Do you think the people reporting on the eval know? Do you think the team listening to the presentation know?*
 
-First of all, ask yourself the question: *Do you know? Do you think the people reporting on the eval know? Do you think the team listening to the presentation know?*
-
-You may know. But my experience is that even among attendees of scientific conferences, most people don't know. I guarantee that the average listener of reports on AI eval in companies does not know.
+My experience is that even among attendees of scientific conferences, most people don't know. I guarantee that the average listener of reports on AI eval in companies does not know.
 
 The answer, by the way, is nuanced and somewhat depends on assumptions and on the "mean" accuracy, but a ballpark estimate is that with 100 data points at a mean accuracy of 82%, **the 95% confidence interval is roughly 16 points wide. The true accuracy could plausibly be anywhere from 74% to 90%.**
 
@@ -166,6 +164,8 @@ When you see a crisp green number, three context questions often unlock most of 
 - How many variants were tried and compared on this same dataset?
 - How noisy is one evaluation run (what is σ)?
 - How wide was the search (were variants meaningfully different, or minor edits)?
+
+Sadly, this is not a theoretical paranoia. It's real. You need to manage it.
 
 ---
 
@@ -425,7 +425,7 @@ This explains why 20-30 point swings are plausible even with deterministic judgi
 
 ---
 
-## And We Haven't Even Discussed...
+## We Are Just Scratching the Surface...
 
 ![](./images/image14.png)
 
@@ -439,11 +439,24 @@ This explains why 20-30 point swings are plausible even with deterministic judgi
 
 ---
 
-## The Bottom Line
+## Many Difficult Decisions - and Errors Compound
 
-Each of these sources adds variance. Each can introduce bias. And each is sufficient to flip your decisions—about what to ship, and about which direction to iterate.
+Every evaluation involves a chain of decisions—about variants, data, judges, aggregation, selection, and reporting. Each decision adds uncertainty. And the errors compound.
 
-If you are comparing two prompt variations: System A scores 79%, System B scores 85%. You pick B and move forward. But with run-to-run measurement noise on the order of σ ≈ 8 points per system, **System A might actually be better**. With a ~40-point-wide 95% interval on the difference, it's a randomizer. You just iterated in the wrong direction—and you have no way of knowing unless 4 months into production.
+```
+Variants ══► Data ══► Judges ══► Aggregation ══► Selection ══► Reporting ══► Decision
+   │           │         │            │              │              │
+   ±          ±±        ±±±         ±±±±          ±±±±±±        [hidden]       ?
+              │         │            │              │              │
+           +noise    +bias       collapses       inflates        hides
+                                 structure      estimates     uncertainty
+```
+
+*Each step adds uncertainty. Selection amplifies it. Reporting hides it.*
+
+By the time you see "85%" on a slide, the uncertainty has been amplified at each stage—and then hidden in reporting. The sources we discussed above don't operate in isolation. They stack.
+
+**What this means in practice:** You're comparing two prompt variations. System A scores 79%, System B scores 85%. You pick B and move forward. But with run-to-run measurement noise on the order of σ ≈ 8 points per system, **System A might actually be better**. With a ~40-point-wide 95% interval on the difference, it's a coin flip. You just iterated in the wrong direction—and you have no way of knowing until months into production.
 
 ![](./images/image13.png)
 

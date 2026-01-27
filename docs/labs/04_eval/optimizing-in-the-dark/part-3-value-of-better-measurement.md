@@ -9,23 +9,6 @@ Organizational Blindness in AI Evaluations*
 
 ---
 
-**Why are the errors so large?** Because the problem is complex. Each evaluation requires many decisions—about data, judges, aggregation, selection, and reporting. Each decision significantly affects the outcome. And errors and uncertainties compound.
-
-The pipeline below shows how uncertainty compounds at each stage—and then gets hidden:
-
-```
-Variants ══► Data ══► Judges ══► Aggregation ══► Selection ══► Reporting ══► Decision
-   │           │         │            │              │              │
-   ±          ±±        ±±±         ±±±±          ±±±±±±        [hidden]       ?
-              │         │            │              │              │
-           +noise    +bias       collapses       inflates        hides
-                                 structure      estimates     uncertainty
-```
-
-*Each step adds uncertainty. Selection amplifies it. Reporting hides it.*
-
----
-
 ## Executive Summary
 
 > **Better eval improves customer value even if you never touch the system.**
@@ -42,22 +25,24 @@ Variants ══► Data ══► Judges ══► Aggregation ══► Selecti
 
 You're pouring engineering effort into making your agents better. More prompt tuning. More fine-tuning. More RAG improvements. More guardrails.
 
-**Stop.**
+**STOP.** Do not work on dev before you have a good eval in place. 
 
-Ask yourself first—*when you change from Prompt 1 to Prompt 2, do you actually know which one is better?*
 
+Consider this: *when you change from Prompt 1 to Prompt 2, do you actually know which one is better?*
 Not "which one scored higher on your eval." Do you know which one is *actually* better? With enough confidence to ship it?
 
-Because taht is the minimum bar: you must be able to reliably detect *directional* improvement. If you can't confidently say "Prompt 2 is better than Prompt 1," then every iteration is a coin flip. You're not engineering. You're gambling.
-Ideally, you'd know the *absolute* value—how much is this system worth to customers? But at bare minimum, you need *relative* comparison. Without that, you cannot iterate. You're optimizing in the dark.
+Because that is the minimum bar: you must be able to reliably detect *directional*, meaningful improvement. If you can't confidently say "Prompt 2 is better than Prompt 1," then every iteration is a coin flip. You're not engineering. You are working at random hoping to get to a state where you can make a nice presentation to execs.
 
-There are two ways to improve quality:
+Ideally, you'd also know the *absolute* value—how much is this system worth to customers? But that is hard and may come over time. At bare minimum, you need *relative* comparison. Without that, you cannot iterate. You're optimizing in the dark.
+And when you make your relative comparisons - there too you need to be aware of the uncertainty - even if it means being aware that you are no clue about it.
+
+Now, there are two ways to improve quality and customer value:
 
 1. **Better agents** — improve the system itself
-2. **Better eval** — improve your knowledge of the system
+2. **Better "eval"** — improve your knowledge of the system
 
 Most companies focus exclusively on (1) and are not even aware that you can improve customer value just by having better evals. 
-This is the rookie mistake. Path 1 - better systems - is almost trivial with AI—*if* you have reliable evals. 
+Path 1 - better systems - is almost trivial with AI—*if* you have reliable evals. 
 But without reliable measurement, you don't even know if your dev cycles are going in the right direction.
 
 ---
@@ -149,6 +134,6 @@ Reducing uncertainty doesn't just help you improve. It helps you *decide*—fast
 
 ---
 
-*Next: [Part 3b: From Value to Scorecard](./part-3b-from-value-to-scorecard.md) — Knowing where to improve*
+*Next: [Part 3b: From Value to Scorecards](./part-3b-from-value-to-scorecard.md) — Knowing where to improve*
 
 

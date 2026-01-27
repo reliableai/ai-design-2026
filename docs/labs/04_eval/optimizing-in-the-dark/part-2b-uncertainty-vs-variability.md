@@ -29,12 +29,14 @@ And you can think about statistics such asL
 
 - **Row totals**: E[V<sub>m,*</sub>] = expected value of agent m across all customers, or, P(E[V<sub>m,*</sub>>0) = probability that a customer will see a positive value from agent m.
 - **Column totals**: E[V<sub>*,c</sub>] = expected value for customer c across all agents, or, P(E[V<sub>*,c</sub>>0) = probability that a customer will see a positive value from the agents.
+- **Overall total**: E[V] across all customers and agents.
 
 Each cell is *unknown*. We have *beliefs* about it, with varying degrees of uncertainty. 
-It is very common to be uncertain about these distributiosn - what is not acceptable is to be unaware that we have such uncertainty and avoind asking ourselves questions about it.
----
+It is very common to be uncertain about these distributions.
 
-## Uncertainty vs. Variability: The Critical Distinction
+What is important is 1. to be aware of what we are talking about when we are discussing a metric (which cell in this figure?) and 2. be aware that we are talking about estimation of random variables (sorry to keep insisting on this....)
+
+---
 
 When you see distributions or "bars" around a value, you need to be sure you understand what they represent. And you want to make sure the presenter knows what they represent.
 
@@ -122,6 +124,9 @@ If you evaluate on Customer C's data, you don't make the agent work better for C
 3. **Set expectations:** If you deploy broadly, communicate that results will vary. Some customers will see great results; some won't.
 
 The key point: this is not a measurement problem. It's a real-world variability problem. Recognizing the difference matters for deciding where to invest effort.
+So we will not be focusing on this variability.
+
+HOWEVER - remember that if you make changes and improve the agent for a customer, this does not mean other customers will see improvements - you may actually make things worse overall. It's obvious, but my experience is that this is part of the many obvious things that need to be said.
 
 ---
 

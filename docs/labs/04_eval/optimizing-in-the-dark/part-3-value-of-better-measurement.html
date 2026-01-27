@@ -186,6 +186,53 @@
             font-size: 0.9em;
             color: #a0aec0;
         }
+        /* Boxed supplement styling */
+        .supplement-box {
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 12px;
+            padding: 1.5em 2em;
+            margin: 2.5em 0;
+        }
+        .supplement-box .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-bottom: 1em;
+            padding-bottom: 0.8em;
+            border-bottom: 1px solid #cbd5e0;
+        }
+        .supplement-box .box-title {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #4a5568;
+            margin: 0;
+        }
+        .supplement-box .box-skip {
+            font-size: 0.9em;
+            color: #718096;
+        }
+        .supplement-box h3 {
+            color: #4a5568;
+            border-bottom: 1px dashed #cbd5e0;
+            padding-bottom: 0.3em;
+        }
+        .supplement-box table {
+            background: #fff;
+            font-size: 0.9em;
+        }
+        .supplement-box th {
+            background: #e2e8f0;
+        }
+        .supplement-box > *:last-child {
+            margin-bottom: 0;
+        }
+        .supplement-box hr {
+            border-top-color: #cbd5e0;
+            margin: 1.5em 0;
+        }
     </style>
 </head>
 <body>
@@ -196,32 +243,15 @@
 <p>← <a href="./part-2b-uncertainty-vs-variability.html">Part 2b: Uncertainty vs Variability</a> | <a href="./index.html">Series Index</a></p>
 <hr />
 
-<p><strong>Why are the errors so large?</strong> Because the problem is complex. Each evaluation requires many decisions—about data, judges, aggregation, selection, and reporting. Each decision significantly affects the outcome. And errors and uncertainties compound.</p>
-
-<p>The pipeline below shows how uncertainty compounds at each stage—and then gets hidden:</p>
-
-<pre style="font-family: 'DM Mono', monospace; font-size: 0.8em; background: #fff; padding: 1.5em; border-radius: 8px; overflow: visible; line-height: 1.5; border: 1px solid #e2e8f0;">
-Variants ══► Data ══► Judges ══► Aggregation ══► Selection ══► Reporting ══► Decision
-   │           │         │            │              │              │
-   ±          ±±        ±±±         ±±±±          ±±±±±±        [hidden]       ?
-              │         │            │              │              │
-           +noise    +bias       collapses       inflates        hides
-                                 structure      estimates     uncertainty
-</pre>
-
-<p><em>Each step adds uncertainty. Selection amplifies it. Reporting hides it.</em></p>
-
-<hr />
-
 <h2>Executive Summary</h2>
 
 <blockquote>
-<p><strong>Better eval improves customer value even if you never touch the system.</strong></p>
+<p style="font-size: 1.3em; color: #285e5e; margin-bottom: 0.5em;"><strong>Better eval improves customer value even if you never touch the system.</strong></p>
 <p>Through better deployment decisions alone—deploying what works, holding what's uncertain, avoiding what harms—you realize more value from the systems you already have.</p>
 </blockquote>
 
 <blockquote>
-<p><strong>If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way around.</strong></p>
+<p style="font-size: 1.3em; color: #285e5e; margin-bottom: 0.5em;"><strong>If you have a team of 10 people working on AI, put 8 on evals and 2 on engineering, not the other way around.</strong></p>
 <p>The 2 engineers can iterate fast—AI helps them write code, test variants, try new approaches. But without reliable measurement, the engineers have no idea if their iterations are improvements. They're spinning. With reliable measures, AI can likely do the improvement by itself.</p>
 </blockquote>
 
@@ -231,24 +261,27 @@ Variants ══► Data ══► Judges ══► Aggregation ══► Selecti
 
 <p>You're pouring engineering effort into making your agents better. More prompt tuning. More fine-tuning. More RAG improvements. More guardrails.</p>
 
-<p><strong>Stop.</strong></p>
+<p><strong>STOP.</strong> Do not work on dev before you have a good eval in place.</p>
 
-<p>Ask yourself first—<em>when you change from Prompt 1 to Prompt 2, do you actually know which one is better?</em></p>
+<p>Consider this: <em>when you change from Prompt 1 to Prompt 2, do you actually know which one is better?</em></p>
 
 <p>Not "which one scored higher on your eval." Do you know which one is <em>actually</em> better? With enough confidence to ship it?</p>
 
-<p>Because here's the minimum bar: you must be able to reliably detect <em>directional</em> improvement. If you can't confidently say "Prompt 2 is better than Prompt 1," then every iteration is a coin flip. You're not engineering. You're gambling.</p>
+<p>Because that is the minimum bar: you must be able to reliably detect <em>directional</em>, meaningful improvement. If you can't confidently say "Prompt 2 is better than Prompt 1," then every iteration is a coin flip. You're not engineering. You are working at random hoping to get to a state where you can make a nice presentation to execs.</p>
 
-<p>Ideally, you'd know the <em>absolute</em> value—how much is this system worth to customers? But at bare minimum, you need <em>relative</em> comparison. Without that, you cannot iterate. You're optimizing in the dark.</p>
+<p>Ideally, you'd also know the <em>absolute</em> value—how much is this system worth to customers? But that is hard and may come over time. At bare minimum, you need <em>relative</em> comparison. Without that, you cannot iterate. You're optimizing in the dark.
+And when you make your relative comparisons - there too you need to be aware of the uncertainty - even if it means being aware that you are no clue about it.</p>
 
-<p>There are two ways to improve quality:</p>
+<p>Now, there are two ways to improve quality and customer value:</p>
 
 <ol>
     <li><strong>Better agents</strong> — improve the system itself</li>
-    <li><strong>Better eval</strong> — improve your knowledge of the system</li>
+    <li><strong>Better "eval"</strong> — improve your knowledge of the system</li>
 </ol>
 
-<p>Most companies focus exclusively on (1) and are not even aware that you can improve customer value just by having better evals. This is the rookie mistake. Path 1 - better systems - is almost trivial with AI—<em>if</em> you have reliable evals. But without reliable measurement, you don't even know if your dev cycles are going in the right direction.</p>
+<p>Most companies focus exclusively on (1) and are not even aware that you can improve customer value just by having better evals.
+Path 1 - better systems - is almost trivial with AI—<em>if</em> you have reliable evals.
+But without reliable measurement, you don't even know if your dev cycles are going in the right direction.</p>
 
 <hr />
 
@@ -269,7 +302,12 @@ Variants ══► Data ══► Judges ══► Aggregation ══► Selecti
     <li><strong>Hold where uncertain until you know more</strong> — avoid premature decisions</li>
 </ol>
 
-<h3>A Worked Example</h3>
+<div class="supplement-box">
+
+<div class="box-header">
+    <p class="box-title">📐 Deep Dive: A Worked Example</p>
+    <span class="box-skip"><em>Optional.</em> <a href="#pipeline">Skip to the pipeline →</a></span>
+</div>
 
 <p>Suppose you have 10 agents and current eval quality. With your current measurements, you decide to deploy 8 of them.</p>
 
@@ -385,9 +423,11 @@ Variants ══► Data ══► Judges ══► Aggregation ══► Selecti
 
 <p>Reducing uncertainty doesn't just help you improve. It helps you <em>decide</em>—faster, with more confidence, and with fewer mistakes.</p>
 
+</div>
+
 <hr />
 
-<p><strong>Next: <a href="./part-3b-from-value-to-scorecard.html">Part 3b: From Value to Scorecard</a></strong> — Knowing where to improve</p>
+<p><strong>Next: <a href="./part-3b-from-value-to-scorecard.html">Part 3b: From Value to Scorecards</a></strong> — Knowing where to improve</p>
 
 <footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
