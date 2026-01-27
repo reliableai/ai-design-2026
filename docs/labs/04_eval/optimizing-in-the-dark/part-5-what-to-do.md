@@ -18,6 +18,8 @@ Recall the three facets of the problem we identified:
 
 The solutions must address all three. But first, let's be clear about what doesn't work.
 
+*A note: The company I work for, ServiceNow, handles eval well. But not every company has the luxury of teams that have been bred with agility in mind and the ability to adapt rapidly to a new paradigm. And even for us—this was not easy. At all. The practices in this section are achievable, but they require sustained effort and cultural change.*
+
 ---
 
 ## Examples of non-solutions (or, ideas that make things worse)
