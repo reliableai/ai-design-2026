@@ -1,69 +1,82 @@
 ## 5. Weekly Schedule (12 Weeks, 24 Lessons)
 
-Each week has **two 2-hour lessons** (L1 & L2).  
+Each week has **two 90-minute lessons**.
 The course has **three phases**:
 
-- **Phase 1 (Lessons 1–3):** Building a simple AI app (agents, tools, memory, MCP-style connectors, optional voice).  
-- **Phase 2 (Lessons 4–10):** Evaluation of AI systems (core theory + hands-on).  
+- **Phase 1 (Lessons 1–6):** Building & Evaluating AI Apps (agents, tools, memory, monitoring, quality estimation, iteration).
+- **Phase 2 (Lessons 7–10):** Complex AI Systems (councils of agents, complex systems, middleware, project structuring).
 - **Phase 3 (Lessons 11–24):** Project-driven work (reviews, meetings, presentations).
 
 ---
 
-### Week 1 – Bootstrapping an AI-Powered App
+### Week 1 – Hello World & Stateful Clients
 
-**Lesson 1 – Hello Software 3.0 + OpenRouter Chat Service**  
-**Lesson 2 – Tools & a Toy Agent Loop**
+**Lesson 1 – Hello World**
+Connecting to AI via API: chat, streaming, voice, and image.
 
-*(unchanged; see full syllabus for details)*
-
----
-
-### Week 2 – Memory & Starting Evaluation
-
-**Lesson 3 – Memory & MCP-Style Connectors (+ Optional Voice)**  
-**Lesson 4 – Evaluation Fundamentals**
+**Lesson 2 – Stateful Clients**
+Managing context and session memory, cost and latency tradeoffs.
 
 ---
 
-### Week 3 – Metrics & Golden Datasets I
+### Week 2 – Tools & Monitoring
 
-**Lesson 5 – Metrics & Rating Schemes**  
-**Lesson 6 – Golden Datasets I (Design & First Slice)**
+**Lesson 3 – Tools & The Agentic Loop**
+Tool calling, orchestration, AI controlling UX.
 
----
-
-### Week 4 – Golden Datasets II & LLM-as-Judge
-
-**Lesson 7 – Golden Datasets II (Refinement & Peer Review)**  
-**Lesson 8 – LLM-as-Judge & Evaluation Harness**
+**Lesson 4 – Monitoring & Business Assertions**
+Observability, runtime checks, evaluating executions.
 
 ---
 
-### Week 5 – Experimental Design, Error Analysis & Uncertainty
+### Week 3 – Quality Estimation & Iteration
 
-**Lesson 9 – Experimental Design & Ablations**  
-**Lesson 10 – Error Analysis & Uncertainty**
+**Lesson 5 – Quality & Performance Estimation**
+Metrics, golden datasets, LLM-as-judge, "Optimizing in the Dark" case study.
+
+**Lesson 6 – Iterating on Clients, Agents & Prompts**
+Systematic improvement cycles, experiment design, error analysis.
 
 ---
 
-### Week 6 – Architecture & Project Kick-off
+### Week 4 – Councils & Complex Systems
 
-**Lesson 11 – Architectures for AI Systems**  
-**Lesson 12 – Track Selection & Project Specification**  
-- Students choose **Track A** (class system) or **Track B** (capstone).  
-- Teams formed, responsibilities defined.  
-- **Project Spec v1** due.
+**Lesson 7 – Councils of Agents**
+Eliciting diversity of opinions, ensemble approaches, consensus mechanisms.
+
+**Lesson 8 – Building Complex Systems**
+Divide et impera, testability, separation of concerns, APIs vs interfaces.
+
+---
+
+### Week 5 – Middleware & Project Structuring
+
+**Lesson 9 – Middleware, Abstractions & Interfaces**
+MCP protocol, guardrails, long-term memory, privacy.
+
+**Lesson 10 – Structuring Complex Projects**
+Approaching and maintaining large AI systems, multi-version considerations.
+
+---
+
+### Week 6 – Frameworks & Project Kick-off
+
+**Lesson 11 – AI Frameworks**
+When and why to use frameworks; LangChain as a case study.
+
+**Lesson 12 – Project Specification**
+Track selection, requirements, team formation. **Project Spec v1** due.
 
 ---
 
 ### Week 7 – Midterm & First Project Review
 
-> From this week on, **all contact hours are project-focused**: exams, project reviews, project meetings, or presentations. No new theory lectures.
+> From this week on, **all contact hours are project-focused**: exams, project reviews, working sessions, and presentations.
 
-**Lesson 13 – Midterm Written Exam (Individual)**  
-- 90–120 minute written exam on material from Weeks 1–6:
-  - Software 3.0, agents, tools, memory, MCP, voice.
-  - Evaluation fundamentals: metrics, golden sets, LLM-as-judge, experiments, error analysis.
+**Lesson 13 – Midterm Written Exam (Individual)**
+- Written exam on material from Lessons 1–10:
+  - Phase 1: Hello world, stateful clients, tools, monitoring, quality estimation, iteration.
+  - Phase 2: Councils of agents, complex systems, middleware, project structuring.
 
 **Lesson 14 – Project Review Meeting #1 (Teams)**  
 - Per-team review (Track A & B mixed):

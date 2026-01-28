@@ -52,22 +52,19 @@
       It is organized into three phases:
     </p>
 
-    <h3>Phase 1: Building AI-Powered Apps (Lessons 1-6)</h3>
+    <h3>Phase 1: Building & Evaluating AI Apps (Lessons 1-6)</h3>
     <p>
-      Hands-on introduction to building AI applications. Covers LLM API calls,
+      Hands-on introduction to building and evaluating AI applications. Covers LLM API calls,
       <a href="labs/03_ai-api/agentic_loop.html">the agentic loop</a>,
-      <a href="labs/03_ai-api/ai_tools_integration.html">from service to agent-oriented architectures</a>,
       <a href="labs/03_ai-api/context_memory.html">context and memory</a>,
-      <a href="labs/03_ai-api/mcp_tutorial.html">MCP protocol</a>, and design for reliability
-      (<a href="labs/03_ai-api/testing_observability.html">testing</a>,
-      <a href="labs/03_ai-api/safety_guardrails.html">safety</a>,
-      <a href="labs/03_ai-api/autonomy_slider.html">autonomy</a>).
+      monitoring and observability, quality estimation, and systematic iteration.
     </p>
 
-    <h3>Phase 2: Evaluation of AI Systems (Lessons 7-10)</h3>
+    <h3>Phase 2: Complex AI Systems (Lessons 7-10)</h3>
     <p>
-      Rigorous evaluation methodologies: metrics and rating schemes, golden datasets,
-      LLM-as-judge, experimental design, and error analysis.
+      Scaling up to multi-agent architectures: councils of agents, building complex systems,
+      <a href="labs/03_ai-api/mcp_tutorial.html">middleware and protocols (MCP)</a>,
+      <a href="labs/03_ai-api/safety_guardrails.html">guardrails</a>, privacy, and project structuring.
     </p>
 
     <h3>Phase 3: Project-Driven Work (Lessons 11-24)</h3>
@@ -89,21 +86,21 @@
       <tbody>
         <!-- Phase 1 -->
         <tr class="week-header">
-          <td colspan="3"><span class="phase phase-1">Phase 1</span> Building AI-Powered Apps</td>
+          <td colspan="3"><span class="phase phase-1">Phase 1</span> Building & Evaluating AI Apps</td>
         </tr>
         <tr>
           <td rowspan="2"><strong>1</strong></td>
           <td>L1</td>
           <td>
-            <div class="lesson-title"><a href="labs/01_hello_world/hello_world_3.0.html">Hello Software 3.0</a></div>
-            <div class="lesson-desc">Chat, streaming, voice, and image APIs; intro to testing AI systems</div>
+            <div class="lesson-title"><a href="labs/01_hello_world/hello_world_3.0.html">Hello World</a></div>
+            <div class="lesson-desc">Connecting to AI via API: chat, streaming, voice, and image</div>
           </td>
         </tr>
         <tr>
           <td>L2</td>
           <td>
-            <div class="lesson-title"><a href="labs/02_standalone_agents/stateless_stateful_agents.html">Stateless & Stateful Agents</a></div>
-            <div class="lesson-desc">Conversation history, cost and latency tradeoffs, memory systems</div>
+            <div class="lesson-title"><a href="labs/02_standalone_agents/stateless_stateful_agents.html">Stateful Clients</a></div>
+            <div class="lesson-desc">Managing context and session memory, cost and latency tradeoffs</div>
           </td>
         </tr>
         <tr>
@@ -111,64 +108,64 @@
           <td>L3</td>
           <td>
             <div class="lesson-title">Tools & The Agentic Loop</div>
-            <div class="lesson-desc">Tool calling, <a href="labs/03_ai-api/agentic_loop.html">middleware and orchestration</a></div>
+            <div class="lesson-desc">Tool calling, <a href="labs/03_ai-api/agentic_loop.html">orchestration</a>, AI controlling UX</div>
           </td>
         </tr>
         <tr>
           <td>L4</td>
           <td>
-            <div class="lesson-title"><a href="labs/03_ai-api/ai_tools_integration.html">Agent-Oriented Architecture</a></div>
-            <div class="lesson-desc">From services to agents, system design patterns</div>
+            <div class="lesson-title">Monitoring & Business Assertions</div>
+            <div class="lesson-desc"><a href="labs/03_ai-api/testing_observability.html">Observability</a>, runtime checks, evaluating executions</div>
           </td>
         </tr>
         <tr>
           <td rowspan="2"><strong>3</strong></td>
           <td>L5</td>
           <td>
-            <div class="lesson-title">Memory & MCP</div>
-            <div class="lesson-desc"><a href="labs/03_ai-api/context_memory.html">Context management</a>, <a href="labs/03_ai-api/mcp_tutorial.html">MCP protocol</a></div>
+            <div class="lesson-title"><a href="labs/04_eval/optimizing-in-the-dark/index.html">Quality & Performance Estimation</a></div>
+            <div class="lesson-desc">Metrics, golden datasets, LLM-as-judge, "Optimizing in the Dark"</div>
           </td>
         </tr>
         <tr>
           <td>L6</td>
           <td>
-            <div class="lesson-title">Testing, Reliability and Observability</div>
-            <div class="lesson-desc"><a href="labs/03_ai-api/testing_observability.html">Testing & observability</a>, <a href="labs/03_ai-api/safety_guardrails.html">safety</a>, <a href="labs/03_ai-api/autonomy_slider.html">autonomy</a></div>
+            <div class="lesson-title">Iterating on Clients, Agents & Prompts</div>
+            <div class="lesson-desc">Systematic improvement cycles, experiment design, error analysis</div>
           </td>
         </tr>
 
         <!-- Phase 2 -->
         <tr class="week-header">
-          <td colspan="3"><span class="phase phase-2">Phase 2</span> Evaluation of AI Systems</td>
+          <td colspan="3"><span class="phase phase-2">Phase 2</span> Complex AI Systems</td>
         </tr>
         <tr>
           <td rowspan="2"><strong>4</strong></td>
           <td>L7</td>
           <td>
-            <div class="lesson-title">Metrics, Golden Datasets & LLM-as-Judge</div>
-            <div class="lesson-desc">Defining success, rating scales, golden datasets, automated evaluation</div>
+            <div class="lesson-title">Councils of Agents</div>
+            <div class="lesson-desc">Eliciting diversity of opinions, ensemble approaches, consensus mechanisms</div>
           </td>
         </tr>
         <tr>
           <td>L8</td>
           <td>
-            <div class="lesson-title">Experiment Design</div>
-            <div class="lesson-desc">Experimental methodology, uncertainty quantification, error analysis</div>
+            <div class="lesson-title">Building Complex Systems</div>
+            <div class="lesson-desc">Divide et impera, testability, separation of concerns, APIs vs interfaces</div>
           </td>
         </tr>
         <tr>
           <td rowspan="2"><strong>5</strong></td>
           <td>L9</td>
           <td>
-            <div class="lesson-title"><a href="labs/04_eval/optimizing-in-the-dark/index.html">Optimizing in the Dark</a></div>
-            <div class="lesson-desc">A case study in evaluation pitfalls and human judgment</div>
+            <div class="lesson-title">Middleware, Abstractions & Interfaces</div>
+            <div class="lesson-desc"><a href="labs/03_ai-api/mcp_tutorial.html">MCP protocol</a>, <a href="labs/03_ai-api/safety_guardrails.html">guardrails</a>, long-term memory, privacy</div>
           </td>
         </tr>
         <tr>
           <td>L10</td>
           <td>
-            <div class="lesson-title"><a href="labs/10_lab_eval_session/index.html">Putting It All Together</a></div>
-            <div class="lesson-desc">Hands-on evaluation lab: build and evaluate a blog-ification agent</div>
+            <div class="lesson-title">Structuring Complex Projects</div>
+            <div class="lesson-desc">Approaching and maintaining large AI systems, multi-version considerations</div>
           </td>
         </tr>
 
