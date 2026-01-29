@@ -188,7 +188,7 @@ th {
 }
 
 tr:hover {
-  background-color: #f4f5f7;
+  background-color: #e9f2ff;
 }
 
 /* Phase Labels */
@@ -377,7 +377,7 @@ tr:hover {
   border-radius: 4px;
   padding: 1.25rem;
   border: 1px solid var(--border);
-  border-left: 4px solid var(--border);
+  border-left: 6px solid var(--border);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -450,11 +450,13 @@ tr:hover {
 
 .objectives-box h2 {
   margin-top: 0;
-  font-size: 1.5rem;
-  color: #172b4d;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0052cc;
   margin-bottom: 0.5rem;
   border-bottom: none;
   padding-bottom: 0;
+  letter-spacing: -0.02em;
 }
 
 .objectives-box > p {
@@ -501,8 +503,9 @@ tr:hover {
 }
 
 .objectives-box ol li strong {
-  color: #0052cc;
-  font-weight: 600;
+  color: #003d99;
+  font-weight: 700;
+  font-size: 1.1em;
 }
 
 /* Footer */
