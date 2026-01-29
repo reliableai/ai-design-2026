@@ -111,6 +111,41 @@
             font-size: 0.9em;
             color: #a0aec0;
         }
+        .aside-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #d97706;
+            border-radius: 0 12px 12px 0;
+            padding: 1.2em 1.5em;
+            margin: 2em 0;
+            font-size: 0.92em;
+        }
+        .aside-box h4 {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #92400e;
+            margin: 0 0 0.8em 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .aside-box p {
+            margin: 0.8em 0;
+            color: #78350f;
+        }
+        .aside-box ul {
+            margin: 0.6em 0;
+            padding-left: 1.4em;
+            color: #78350f;
+        }
+        .aside-box li {
+            margin: 0.3em 0;
+        }
+        .aside-box .attribution {
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 1em;
+            color: #a16207;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +166,18 @@
 <li><strong>This is fixable — but not by mandates or "ground truth."</strong> These failure modes are not inherent to AI. They require better evaluation practices, reporting standards, and decision discipline — not stricter dashboards, frozen benchmarks, or the illusion of a single correct answer.</li>
 </ol>
 </blockquote>
+
+<div class="aside-box">
+    <h4>What Happens When Eval Goes Wrong</h4>
+    <p>The measurement uncertainty described here becomes organizational damage through a predictable cascade:</p>
+    <ul>
+        <li><strong>Week 2:</strong> First consequential failure from untested edge cases causes stakeholder trust cliff.</li>
+        <li><strong>Week 4:</strong> Teams discover in production what should have been found in evaluation, requiring costly architectural rework.</li>
+        <li><strong>Week 12:</strong> Pilot purgatory — systems stuck in post-production validation loops because evaluation frameworks never measured what production demands.</li>
+    </ul>
+    <p>The pattern repeats: agentic AI pilots that "succeed" in curated evaluation fail within weeks of production deployment. This isn't unpredictable chaos; it's a systematic failure with recognizable timelines.</p>
+    <p class="attribution">— From a conversation with Filip Deryckere</p>
+</div>
 
 <hr />
 
