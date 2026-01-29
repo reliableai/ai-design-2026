@@ -5,7 +5,7 @@ The course has **four phases**:
 
 - **Phase 1 (Lessons 1–3):** Building AI Agents (API basics, memory, tools).
 - **Phase 2 (Lessons 4–6):** Iterating Towards Success (monitoring, estimation, iteration).
-- **Phase 3 (Lessons 7–11):** Building Manageable Complex Systems at Scale (councils, system design, middleware, frameworks).
+- **Phase 3 (Lessons 7–11):** Building Effective, Manageable Complex Systems. At Scale. (councils, system design, middleware, frameworks).
 - **Phase 4 (Lessons 12–24):** Putting Ideas at Work in a Capstone Project (spec, midterm, reviews, presentations).
 
 ---
@@ -48,7 +48,7 @@ Systematic improvement cycles, experiment design, error analysis.
 
 ---
 
-## Phase 3: Building Manageable Complex Systems at Scale
+## Phase 3: Building Effective, Manageable Complex Systems. At Scale.
 
 ### Week 4 – Councils & Complex Systems
 
