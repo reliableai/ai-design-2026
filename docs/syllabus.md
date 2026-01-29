@@ -1,13 +1,16 @@
 ## 5. Weekly Schedule (12 Weeks, 24 Lessons)
 
 Each week has **two 90-minute lessons**.
-The course has **three phases**:
+The course has **four phases**:
 
-- **Phase 1 (Lessons 1–6):** Building & Evaluating AI Apps (agents, tools, memory, monitoring, quality estimation, iteration).
-- **Phase 2 (Lessons 7–10):** Complex AI Systems (councils of agents, complex systems, middleware, project structuring).
-- **Phase 3 (Lessons 11–24):** Project-driven work (reviews, meetings, presentations).
+- **Phase 1 (Lessons 1–3):** Building AI Agents (API basics, memory, tools).
+- **Phase 2 (Lessons 4–6):** Iterating Towards Success (monitoring, estimation, iteration).
+- **Phase 3 (Lessons 7–11):** Building Manageable Complex Systems at Scale (councils, system design, middleware, frameworks).
+- **Phase 4 (Lessons 12–24):** Putting Ideas at Work in a Capstone Project (spec, midterm, reviews, presentations).
 
 ---
+
+## Phase 1: Building AI Agents
 
 ### Week 1 – Hello World & Stateful Clients
 
@@ -19,10 +22,16 @@ Managing context and session memory, cost and latency tradeoffs.
 
 ---
 
-### Week 2 – Tools & Monitoring
+### Week 2 – Tools & The Agentic Loop
 
 **Lesson 3 – Tools & The Agentic Loop**
 Tool calling, orchestration, AI controlling UX.
+
+---
+
+## Phase 2: Iterating Towards Success
+
+### Week 2 (continued) – Monitoring
 
 **Lesson 4 – Monitoring & Business Assertions**
 Observability, runtime checks, evaluating executions.
@@ -38,6 +47,8 @@ Metrics, golden datasets, LLM-as-judge, "Optimizing in the Dark" case study.
 Systematic improvement cycles, experiment design, error analysis.
 
 ---
+
+## Phase 3: Building Manageable Complex Systems at Scale
 
 ### Week 4 – Councils & Complex Systems
 
@@ -59,10 +70,16 @@ Approaching and maintaining large AI systems, multi-version considerations.
 
 ---
 
-### Week 6 – Frameworks & Project Kick-off
+### Week 6 – Frameworks
 
 **Lesson 11 – AI Frameworks**
 When and why to use frameworks; LangChain as a case study.
+
+---
+
+## Phase 4: Putting Ideas at Work in a Capstone Project
+
+### Week 6 (continued) – Project Kick-off
 
 **Lesson 12 – Project Specification**
 Track selection, requirements, team formation. **Project Spec v1** due.
@@ -74,9 +91,10 @@ Track selection, requirements, team formation. **Project Spec v1** due.
 > From this week on, **all contact hours are project-focused**: exams, project reviews, working sessions, and presentations.
 
 **Lesson 13 – Midterm Written Exam (Individual)**
-- Written exam on material from Lessons 1–10:
-  - Phase 1: Hello world, stateful clients, tools, monitoring, quality estimation, iteration.
-  - Phase 2: Councils of agents, complex systems, middleware, project structuring.
+- Written exam on material from Lessons 1–11:
+  - Phase 1: Hello world, stateful clients, tools.
+  - Phase 2: Monitoring, quality estimation, iteration.
+  - Phase 3: Councils of agents, complex systems, middleware, frameworks.
 
 **Lesson 14 – Project Review Meeting #1 (Teams)**  
 - Per-team review (Track A & B mixed):

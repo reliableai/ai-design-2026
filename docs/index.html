@@ -32,45 +32,49 @@
       and learn rigorous evaluation methodologies essential for deploying AI systems in production.
     </p>
 
-    <h2>Learning Objectives</h2>
-    <p>By the end of this course, you will be able to:</p>
-    <ul>
-      <li>Design and implement AI-powered applications using agents, tools, and memory systems</li>
-      <li>Understand and apply MCP-style connectors for system integration</li>
-      <li>Design comprehensive evaluation frameworks for AI systems</li>
-      <li>Create and refine golden datasets for testing</li>
-      <li>Implement LLM-as-judge evaluation approaches</li>
-      <li>Conduct rigorous experimental design and ablation studies</li>
-      <li>Perform error analysis and quantify uncertainty in AI system outputs</li>
-      <li>Architect scalable AI systems with appropriate safety guardrails</li>
-      <li>Communicate technical design decisions and evaluation results effectively</li>
-    </ul>
+    <div class="objectives-box">
+      <h2>Learning Objectives</h2>
+      <p>By the end of this course, you will:</p>
+      <ol>
+        <li><strong>Build effective, reliable, maintainable AI systems at scale</strong> — solving complex problems by decomposing them in a principled, manageable way.</li>
+        <li><strong>Use AI to build AI.</strong> Leverage AI for development, evaluation, and system management. Understand what this unlocks and where the limits are.</li>
+        <li><strong>Iterate towards success — rather than optimizing in the dark.</strong> Master the science of monitoring, analysis, and estimation: measure business quality, detect failures, and quantify uncertainty before your users do.</li>
+        <li><strong>Master the key conceptual abstractions and middleware</strong> we need to brave this new world. Take lessons from software engineering past, but do so critically — understand what concepts we need and how to use them to guide development.</li>
+        <li><strong>Separate signal from hype.</strong> Critically review emerging practices and proposed standards, learning what to use and where.</li>
+        <li><strong>Think in systems.</strong> Understand which engineering principles carry forward and which new abstractions are essential for the AI-native era.</li>
+      </ol>
+    </div>
 
     <h2>Course Structure</h2>
     <p>
       The course spans 12 weeks with two 90-minute lessons per week (24 lessons total).
-      It is organized into three phases:
+      It is organized into four phases:
     </p>
 
-    <h3>Phase 1: Building & Evaluating AI Apps (Lessons 1-6)</h3>
+    <h3>Phase 1: Building AI Agents (Lessons 1-3)</h3>
     <p>
-      Hands-on introduction to building and evaluating AI applications. Covers LLM API calls,
-      <a href="labs/03_ai-api/agentic_loop.html">the agentic loop</a>,
+      Hands-on introduction to building AI applications. Covers LLM API calls,
       <a href="labs/03_ai-api/context_memory.html">context and memory</a>,
-      monitoring and observability, quality estimation, and systematic iteration.
+      <a href="labs/03_ai-api/agentic_loop.html">the agentic loop</a>, and tool integration.
     </p>
 
-    <h3>Phase 2: Complex AI Systems (Lessons 7-10)</h3>
+    <h3>Phase 2: Iterating Towards Success (Lessons 4-6)</h3>
     <p>
-      Scaling up to multi-agent architectures: councils of agents, building complex systems,
+      Master the science of monitoring, analysis, and estimation. Learn to measure business quality,
+      detect failures, quantify uncertainty, and iterate systematically.
+    </p>
+
+    <h3>Phase 3: Building Manageable Complex Systems at Scale (Lessons 7-11)</h3>
+    <p>
+      Scale up to multi-agent architectures: councils of agents, system design principles,
       <a href="labs/03_ai-api/mcp_tutorial.html">middleware and protocols (MCP)</a>,
-      <a href="labs/03_ai-api/safety_guardrails.html">guardrails</a>, privacy, and project structuring.
+      <a href="labs/03_ai-api/safety_guardrails.html">guardrails</a>, and frameworks.
     </p>
 
-    <h3>Phase 3: Project-Driven Work (Lessons 11-24)</h3>
+    <h3>Phase 4: Putting Ideas at Work in a Capstone Project (Lessons 12-24)</h3>
     <p>
-      Apply everything in a substantial project. Includes architecture deep dive,
-      project specification, midterm exam, reviews, working sessions, and final presentations.
+      Apply everything in a substantial project. Includes project specification, midterm exam,
+      reviews, working sessions, and final presentations.
     </p>
 
     <h2>Weekly Schedule</h2>
@@ -86,7 +90,7 @@
       <tbody>
         <!-- Phase 1 -->
         <tr class="week-header">
-          <td colspan="3"><span class="phase phase-1">Phase 1</span> Building & Evaluating AI Apps</td>
+          <td colspan="3"><span class="phase phase-1">Phase 1</span> Building AI Agents</td>
         </tr>
         <tr>
           <td rowspan="2"><strong>1</strong></td>
@@ -104,14 +108,20 @@
           </td>
         </tr>
         <tr>
-          <td rowspan="2"><strong>2</strong></td>
+          <td><strong>2</strong></td>
           <td>L3</td>
           <td>
             <div class="lesson-title">Tools & The Agentic Loop</div>
             <div class="lesson-desc">Tool calling, <a href="labs/03_ai-api/agentic_loop.html">orchestration</a>, AI controlling UX</div>
           </td>
         </tr>
+
+        <!-- Phase 2 -->
+        <tr class="week-header">
+          <td colspan="3"><span class="phase phase-2">Phase 2</span> Iterating Towards Success</td>
+        </tr>
         <tr>
+          <td><strong>2</strong></td>
           <td>L4</td>
           <td>
             <div class="lesson-title">Monitoring & Business Assertions</div>
@@ -134,9 +144,9 @@
           </td>
         </tr>
 
-        <!-- Phase 2 -->
+        <!-- Phase 3 -->
         <tr class="week-header">
-          <td colspan="3"><span class="phase phase-2">Phase 2</span> Complex AI Systems</td>
+          <td colspan="3"><span class="phase phase-3">Phase 3</span> Building Manageable Complex Systems at Scale</td>
         </tr>
         <tr>
           <td rowspan="2"><strong>4</strong></td>
@@ -168,20 +178,21 @@
             <div class="lesson-desc">Approaching and maintaining large AI systems, multi-version considerations</div>
           </td>
         </tr>
-
-        <!-- Phase 3 -->
-        <tr class="week-header">
-          <td colspan="3"><span class="phase phase-3">Phase 3</span> Project-Driven Work</td>
-        </tr>
         <tr>
-          <td rowspan="2"><strong>6</strong></td>
+          <td><strong>6</strong></td>
           <td>L11</td>
           <td>
             <div class="lesson-title">AI Frameworks</div>
             <div class="lesson-desc">When and why to use frameworks; LangChain as a case study</div>
           </td>
         </tr>
+
+        <!-- Phase 4 -->
+        <tr class="week-header">
+          <td colspan="3"><span class="phase phase-4">Phase 4</span> Putting Ideas at Work in a Capstone Project</td>
+        </tr>
         <tr>
+          <td><strong>6</strong></td>
           <td>L12</td>
           <td>
             <div class="lesson-title">Project Specification</div>
@@ -193,7 +204,7 @@
           <td>L13</td>
           <td>
             <div class="lesson-title">Midterm Exam</div>
-            <div class="lesson-desc">Individual written exam (Lessons 1-10)</div>
+            <div class="lesson-desc">Individual written exam (Lessons 1-11)</div>
           </td>
         </tr>
         <tr>

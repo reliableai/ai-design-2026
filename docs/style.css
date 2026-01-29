@@ -208,6 +208,11 @@ tr:hover {
   color: #6ee7b7;
 }
 
+.phase-4 {
+  background-color: #581c87;
+  color: #e9d5ff;
+}
+
 /* Cards */
 .card {
   background-color: var(--bg);
@@ -327,6 +332,80 @@ tr:hover {
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
 .mb-3 { margin-bottom: 1.5rem; }
+
+/* Learning Objectives Hero Box */
+.objectives-box {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1e3a8a 50%, #312e81 100%);
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  margin: 2rem 0 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.objectives-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+}
+
+.objectives-box h2 {
+  margin-top: 0;
+  font-size: 1.75rem;
+  color: #f0f9ff;
+  margin-bottom: 0.5rem;
+}
+
+.objectives-box > p {
+  color: #93c5fd;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.objectives-box ol {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: objectives;
+}
+
+.objectives-box ol li {
+  counter-increment: objectives;
+  position: relative;
+  padding-left: 3.5rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.objectives-box ol li::before {
+  content: counter(objectives);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+}
+
+.objectives-box ol li strong {
+  color: #f0f9ff;
+  font-weight: 600;
+}
+
+.objectives-box ol li {
+  color: #cbd5e1;
+}
 
 /* Footer */
 footer {
