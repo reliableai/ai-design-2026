@@ -1,0 +1,84 @@
+/* Dark Warm - Cozy, dark browns and oranges */
+:root {
+  --primary: #fb923c;
+  --primary-dark: #f97316;
+  --text: #fef3c7;
+  --text-light: #fcd34d;
+  --bg: #1c1410;
+  --bg-alt: #2a1f18;
+  --border: #44362a;
+  --accent: #fb923c;
+  --success: #a3e635;
+  --warning: #fbbf24;
+}
+
+body {
+  font-family: "Source Sans Pro", -apple-system, sans-serif;
+  background: linear-gradient(180deg, #1c1410 0%, #231a14 100%);
+  color: var(--text);
+}
+
+h1, h2, h3, h4 {
+  color: #fffbeb;
+  font-weight: 600;
+}
+
+.objectives-box {
+  background: linear-gradient(135deg, #2a1f18 0%, #3d2d20 50%, #4a3728 100%);
+  border: 1px solid #6b4c35;
+}
+
+.objectives-box::before {
+  background: linear-gradient(90deg, #ea580c, #fb923c, #fdba74);
+}
+
+.objectives-box h2 { color: #fffbeb; }
+.objectives-box > p { color: #fcd34d; }
+.objectives-box ol li { color: #fef3c7; }
+.objectives-box ol li strong { color: #fffbeb; }
+
+.objectives-box ol li::before {
+  background: linear-gradient(135deg, #ea580c, #fb923c);
+}
+
+.phases-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.phase-card { background: #1c1410; }
+.phase-card.phase-1 { border-left-color: #fb923c; }
+.phase-card.phase-2 { border-left-color: #fbbf24; }
+.phase-card.phase-3 { border-left-color: #a3e635; }
+.phase-card.phase-4 { border-left-color: #f87171; }
+
+.phase-card h3 { color: #fffbeb; }
+.phase-card .phase-lessons, .phase-card p { color: #d9c7a7; }
+
+.phase-card.phase-1 .phase-number { color: #fb923c; }
+.phase-card.phase-2 .phase-number { color: #fbbf24; }
+.phase-card.phase-3 .phase-number { color: #a3e635; }
+.phase-card.phase-4 .phase-number { color: #f87171; }
+
+header {
+  background: #2a1f18;
+  border-bottom: 1px solid #44362a;
+}
+nav a { color: #d9c7a7; }
+nav a:hover { background: #3d2d20; color: #fffbeb; }
+nav a.active { background: #c2410c; color: #fff; }
+
+.announcement {
+  background: #3d2d20;
+  border: 1px solid #6b4c35;
+}
+
+th { background: var(--bg-alt); color: #fef3c7; }
+tr:hover { background: #2a1f18; }
+td { border-color: #44362a; }
+
+.btn { background: #c2410c; }
+.btn:hover { background: #9a3412; }
+
+a { color: #fb923c; }
+a:hover { color: #fdba74; }

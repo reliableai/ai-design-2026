@@ -1,0 +1,81 @@
+/* Dark Forest - Deep greens, earthy, natural */
+:root {
+  --primary: #4ade80;
+  --primary-dark: #22c55e;
+  --text: #d1fae5;
+  --text-light: #86efac;
+  --bg: #0a1f0f;
+  --bg-alt: #132a17;
+  --border: #1e4026;
+  --accent: #4ade80;
+  --success: #4ade80;
+  --warning: #fbbf24;
+}
+
+body {
+  font-family: "Fira Sans", -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1, h2, h3, h4 { color: #ecfdf5; }
+
+.objectives-box {
+  background: linear-gradient(135deg, #132a17 0%, #1a4024 50%, #1e5631 100%);
+  border: 1px solid #2d6a3d;
+}
+
+.objectives-box::before {
+  background: linear-gradient(90deg, #22c55e, #4ade80, #86efac);
+}
+
+.objectives-box h2 { color: #ecfdf5; }
+.objectives-box > p { color: #86efac; }
+.objectives-box ol li { color: #bbf7d0; }
+.objectives-box ol li strong { color: #ecfdf5; }
+
+.objectives-box ol li::before {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.phases-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.phase-card { background: #0d1a10; }
+.phase-card.phase-1 { border-left-color: #4ade80; }
+.phase-card.phase-2 { border-left-color: #facc15; }
+.phase-card.phase-3 { border-left-color: #2dd4bf; }
+.phase-card.phase-4 { border-left-color: #fb923c; }
+
+.phase-card h3 { color: #ecfdf5; }
+.phase-card .phase-lessons, .phase-card p { color: #86efac; }
+
+.phase-card.phase-1 .phase-number { color: #4ade80; }
+.phase-card.phase-2 .phase-number { color: #facc15; }
+.phase-card.phase-3 .phase-number { color: #2dd4bf; }
+.phase-card.phase-4 .phase-number { color: #fb923c; }
+
+header {
+  background: #132a17;
+  border-bottom: 1px solid #1e4026;
+}
+nav a { color: #86efac; }
+nav a:hover { background: #1a4024; color: #ecfdf5; }
+nav a.active { background: #16a34a; }
+
+.announcement {
+  background: #1a4024;
+  border: 1px solid #2d6a3d;
+}
+
+th { background: var(--bg-alt); color: #d1fae5; }
+tr:hover { background: #132a17; }
+td { border-color: #1e4026; }
+
+.btn { background: #16a34a; }
+.btn:hover { background: #15803d; }
+
+a { color: #4ade80; }
+a:hover { color: #86efac; }

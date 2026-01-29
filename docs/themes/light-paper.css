@@ -1,0 +1,94 @@
+/* Light Paper - Warm, cream tones, book-like */
+:root {
+  --primary: #b45309;
+  --primary-dark: #92400e;
+  --text: #44403c;
+  --text-light: #78716c;
+  --bg: #fefdfb;
+  --bg-alt: #f5f0e8;
+  --border: #e7e0d5;
+  --accent: #b45309;
+  --success: #65a30d;
+  --warning: #ca8a04;
+}
+
+body {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  background: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4c4a8' fill-opacity='0.1'%3E%3Cpath d='M0 0h100v100H0z'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--text);
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Palatino Linotype", serif;
+  font-weight: normal;
+  color: #292524;
+}
+
+h1 { font-size: 2.2rem; }
+h2 {
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.objectives-box {
+  background: linear-gradient(135deg, #fef7ed 0%, #fef3e2 100%);
+  border: 1px solid #e9d5b8;
+  border-radius: 2px;
+  box-shadow: 2px 2px 8px rgba(120, 100, 70, 0.1);
+}
+
+.objectives-box::before {
+  background: linear-gradient(90deg, #b45309, #d97706, #b45309);
+  height: 2px;
+}
+
+.objectives-box ol li::before {
+  background: #b45309;
+  font-family: "Palatino Linotype", serif;
+}
+
+.phases-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.phase-card {
+  background: var(--bg);
+  border-radius: 2px;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+}
+.phase-card.phase-1 { border-left-color: #b45309; }
+.phase-card.phase-2 { border-left-color: #ca8a04; }
+.phase-card.phase-3 { border-left-color: #65a30d; }
+.phase-card.phase-4 { border-left-color: #9a3412; }
+
+.phase-card.phase-1 .phase-number { color: #b45309; }
+.phase-card.phase-2 .phase-number { color: #a16207; }
+.phase-card.phase-3 .phase-number { color: #4d7c0f; }
+.phase-card.phase-4 .phase-number { color: #9a3412; }
+
+header {
+  background: #44403c;
+  border-bottom: 3px solid #b45309;
+}
+nav a { color: #d6d3d1; }
+nav a:hover { background: #57534e; color: #fafaf9; }
+nav a.active { background: #b45309; }
+
+.announcement {
+  background: #fefce8;
+  border: 1px solid #e9d5a0;
+  border-left: 3px solid #ca8a04;
+}
+
+th { background: var(--bg-alt); font-weight: 600; }
+tr:hover { background: #faf5ed; }
+
+.btn {
+  background: var(--primary);
+  border-radius: 2px;
+}

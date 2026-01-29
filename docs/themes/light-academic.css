@@ -1,0 +1,66 @@
+/* Light Academic - Clean, minimal, serif accents */
+:root {
+  --primary: #8b0000;
+  --primary-dark: #6b0000;
+  --text: #2c2c2c;
+  --text-light: #666666;
+  --bg: #fafaf8;
+  --bg-alt: #f0efe9;
+  --border: #d4d3cd;
+  --accent: #8b0000;
+  --success: #2e7d32;
+  --warning: #c77700;
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1, h2, h3, h4 {
+  font-family: "Georgia", serif;
+  font-weight: normal;
+  letter-spacing: -0.02em;
+}
+
+.objectives-box {
+  background: linear-gradient(135deg, #f5f0e6 0%, #ebe5d6 100%);
+  border: 1px solid #c9c2b0;
+}
+
+.objectives-box::before {
+  background: linear-gradient(90deg, #8b0000, #c41e3a, #8b4513);
+}
+
+.phases-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.phase-card { background: var(--bg); }
+.phase-card.phase-1 { border-left-color: #8b0000; }
+.phase-card.phase-2 { border-left-color: #c77700; }
+.phase-card.phase-3 { border-left-color: #2e7d32; }
+.phase-card.phase-4 { border-left-color: #4a4a8a; }
+
+.phase-card.phase-1 .phase-number { color: #8b0000; }
+.phase-card.phase-2 .phase-number { color: #c77700; }
+.phase-card.phase-3 .phase-number { color: #2e7d32; }
+.phase-card.phase-4 .phase-number { color: #4a4a8a; }
+
+header { background: #3c3c3c; }
+nav a { color: #e0e0e0; }
+nav a:hover { background: #555; color: #fff; }
+nav a.active { background: var(--primary); }
+
+.announcement {
+  background: #fff8e7;
+  border: 1px solid #e6d5a8;
+}
+
+th { background: var(--bg-alt); }
+tr:hover { background: #f5f4f0; }
+
+.btn { background: var(--primary); }
+.btn:hover { background: var(--primary-dark); }

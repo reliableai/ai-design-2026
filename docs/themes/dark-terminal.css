@@ -1,0 +1,122 @@
+/* Dark Terminal - Hacker aesthetic, monospace, minimal */
+:root {
+  --primary: #00ff00;
+  --primary-dark: #00cc00;
+  --text: #00ff00;
+  --text-light: #00cc00;
+  --bg: #0a0a0a;
+  --bg-alt: #111111;
+  --border: #1a1a1a;
+  --accent: #00ff00;
+  --success: #00ff00;
+  --warning: #ffff00;
+}
+
+body {
+  font-family: "Fira Code", "SF Mono", "Consolas", monospace;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Fira Code", monospace;
+  font-weight: 400;
+  color: #00ff00;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+h1::before { content: "# "; opacity: 0.5; }
+h2::before { content: "## "; opacity: 0.5; }
+h3::before { content: "### "; opacity: 0.5; }
+
+.objectives-box {
+  background: var(--bg);
+  border: 1px solid #00ff00;
+  border-radius: 0;
+}
+
+.objectives-box::before {
+  background: #00ff00;
+  height: 2px;
+}
+
+.objectives-box h2 { color: #00ff00; }
+.objectives-box > p { color: #00cc00; }
+.objectives-box ol li { color: #00ff00; }
+.objectives-box ol li strong { color: #ffffff; }
+
+.objectives-box ol li::before {
+  background: transparent;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  font-family: "Fira Code", monospace;
+}
+
+.phases-box {
+  background: var(--bg);
+  border: 1px solid #333;
+  border-radius: 0;
+}
+
+.phase-card {
+  background: var(--bg-alt);
+  border-radius: 0;
+  border: 1px solid #333;
+}
+.phase-card.phase-1 { border-left-color: #00ff00; }
+.phase-card.phase-2 { border-left-color: #ffff00; }
+.phase-card.phase-3 { border-left-color: #00ffff; }
+.phase-card.phase-4 { border-left-color: #ff00ff; }
+
+.phase-card h3 { color: #ffffff; }
+.phase-card .phase-lessons { color: #888; }
+.phase-card p { color: #00cc00; }
+
+.phase-card.phase-1 .phase-number { color: #00ff00; }
+.phase-card.phase-2 .phase-number { color: #ffff00; }
+.phase-card.phase-3 .phase-number { color: #00ffff; }
+.phase-card.phase-4 .phase-number { color: #ff00ff; }
+
+header {
+  background: var(--bg);
+  border-bottom: 1px solid #333;
+}
+header h1::before { content: "> "; }
+nav a {
+  color: #00cc00;
+  font-family: "Fira Code", monospace;
+  text-transform: lowercase;
+}
+nav a:hover { background: #1a1a1a; color: #00ff00; }
+nav a.active { background: transparent; color: #00ff00; text-decoration: underline; }
+
+.announcement {
+  background: var(--bg);
+  border: 1px solid #ffff00;
+  color: #ffff00;
+}
+
+table { border: 1px solid #333; }
+th {
+  background: #111;
+  color: #00ff00;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+td { border-color: #222; }
+tr:hover { background: #1a1a1a; }
+
+.btn {
+  background: transparent;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+.btn:hover { background: #00ff00; color: #000; }
+
+a { color: #00ffff; }
+a:hover { color: #00ffff; text-decoration: underline; }

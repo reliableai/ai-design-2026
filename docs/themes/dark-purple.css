@@ -1,0 +1,81 @@
+/* Dark Purple - Midnight, elegant, deep purples */
+:root {
+  --primary: #a78bfa;
+  --primary-dark: #8b5cf6;
+  --text: #e9d5ff;
+  --text-light: #c4b5fd;
+  --bg: #0f0a1a;
+  --bg-alt: #1a1229;
+  --border: #3b2d5c;
+  --accent: #a78bfa;
+  --success: #4ade80;
+  --warning: #fbbf24;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #0f0a1a 0%, #1a1229 100%);
+  color: var(--text);
+}
+
+h1, h2, h3, h4 { color: #f5f3ff; }
+
+.objectives-box {
+  background: linear-gradient(135deg, #1e1433 0%, #2d1f4e 50%, #3b2d5c 100%);
+  border: 1px solid #4c1d95;
+}
+
+.objectives-box::before {
+  background: linear-gradient(90deg, #8b5cf6, #a855f7, #d946ef);
+}
+
+.objectives-box h2 { color: #f5f3ff; }
+.objectives-box > p { color: #c4b5fd; }
+.objectives-box ol li { color: #ddd6fe; }
+.objectives-box ol li strong { color: #f5f3ff; }
+
+.objectives-box ol li::before {
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+}
+
+.phases-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.phase-card { background: #130d20; }
+.phase-card.phase-1 { border-left-color: #8b5cf6; }
+.phase-card.phase-2 { border-left-color: #f472b6; }
+.phase-card.phase-3 { border-left-color: #4ade80; }
+.phase-card.phase-4 { border-left-color: #38bdf8; }
+
+.phase-card h3 { color: #f5f3ff; }
+.phase-card .phase-lessons, .phase-card p { color: #c4b5fd; }
+
+.phase-card.phase-1 .phase-number { color: #a78bfa; }
+.phase-card.phase-2 .phase-number { color: #f472b6; }
+.phase-card.phase-3 .phase-number { color: #4ade80; }
+.phase-card.phase-4 .phase-number { color: #38bdf8; }
+
+header {
+  background: #1a1229;
+  border-bottom: 1px solid #3b2d5c;
+}
+nav a { color: #c4b5fd; }
+nav a:hover { background: #2d1f4e; color: #f5f3ff; }
+nav a.active { background: #7c3aed; }
+
+.announcement {
+  background: #2d1f4e;
+  border: 1px solid #4c1d95;
+}
+
+th { background: var(--bg-alt); color: #e9d5ff; }
+tr:hover { background: #1e1433; }
+td { border-color: #3b2d5c; }
+
+.btn { background: #7c3aed; }
+.btn:hover { background: #6d28d9; }
+
+a { color: #a78bfa; }
+a:hover { color: #c4b5fd; }
