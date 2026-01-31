@@ -518,6 +518,73 @@ footer {
   margin-top: 3rem;
 }
 
+/* Feedback Teaser */
+.feedback-teaser {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+/* Quick Feedback Form */
+.quick-feedback {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.quick-feedback h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.quick-feedback p {
+  margin: 0 0 1rem;
+  color: var(--text-light);
+  max-width: 640px;
+}
+
+.quick-feedback textarea {
+  width: 100%;
+  max-width: 640px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
+.quick-feedback textarea::placeholder {
+  color: var(--text-light);
+}
+
+.quick-feedback textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.quick-feedback button {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quick-feedback button:hover {
+  background: var(--primary-dark);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   header {
