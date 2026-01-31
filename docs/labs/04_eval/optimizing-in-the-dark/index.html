@@ -499,6 +499,60 @@
             margin: 2rem auto;
             max-width: 500px;
         }
+
+        /* Quick Feedback */
+        .quick-feedback {
+            margin-top: 3rem;
+            padding: 1.5rem 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .quick-feedback h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+        .quick-feedback p {
+            margin: 0 0 1rem;
+            color: var(--text-muted);
+            max-width: 640px;
+        }
+        .quick-feedback textarea {
+            width: 100%;
+            max-width: 640px;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            resize: vertical;
+        }
+        .quick-feedback textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .quick-feedback textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .quick-feedback button {
+            margin-top: 0.75rem;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .quick-feedback button:hover {
+            background: var(--primary);
+            color: var(--bg);
+        }
     </style>
 </head>
 <body>
@@ -654,6 +708,25 @@
     <div class="glossary-link">
         <strong><a href="./glossary.html">Glossary and Notation</a></strong> — Key terms used throughout this series.
     </div>
+
+    <section id="feedback" class="quick-feedback">
+        <h3>Have 20 seconds?</h3>
+        <p>
+            What's the <em>one thing</em> you'd change about AI evaluation or reporting
+            to make it <strong>reliable and actionable</strong>?
+        </p>
+        <form action="https://formsubmit.co/fabio.casati+ai_eval_feedback@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="AI Eval Feedback">
+            <input type="hidden" name="_captcha" value="false">
+            <textarea
+                name="feedback"
+                rows="4"
+                placeholder="One sentence is perfect."
+                required></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
 
     <footer>
         Content by Fabio Casati (Content reflects only my personal views and opinions) · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
