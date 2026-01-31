@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Capstone playbook for shipping an AI system with evaluation and ops.">
+  <title>Industry Edition — Capstone</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="navbar">
+        <a class="brand" href="index.html" aria-label="Home">
+          <div class="brand-badge" aria-hidden="true"></div>
+          <div style="min-width:0">
+            <div class="brand-title">Designing Large Scale AI Systems</div>
+            <div class="brand-sub">Industry Edition</div>
+          </div>
+        </a>
+        <button class="mobile-toggle" data-toggle="nav" aria-label="Menu">
+          <span aria-hidden="true">☰</span><span>Menu</span>
+        </button>
+        <nav class="navlinks" data-navlinks aria-label="Primary navigation">
+          <a href="index.html">Overview</a>
+          <a href="schedule.html">Schedule</a>
+          <a href="capstone.html">Capstone</a>
+          <a href="deliverables.html">Deliverables</a>
+          <a href="logistics.html">Logistics</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+<section class="hero">
+  <div class="container">
+    <h1 class="h1">Capstone (Production Sprint)</h1>
+    <p class="lede">Build something real — and make it measurable, operable, and safe to ship.</p>
+    <div class="pills">
+      <span class="pill">Teams: 1–4 (recommended 2–3)</span>
+      <span class="pill">Weeks: 6–12</span>
+      <span class="pill">Deliverables > grades</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Choose a track</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>Track A — Shared system</h3>
+        <ul>
+          <li>Well-scoped problem with baseline components</li>
+          <li>Faster start; better cross-team comparisons</li>
+          <li>Great for mixed-experience cohorts</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Track B — Bring your own use case</h3>
+        <ul>
+          <li>Build for a real team/customer workflow</li>
+          <li>Requires a data boundary and risk review up front</li>
+          <li>Best when you want immediate internal impact</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Minimum requirements</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>System</h3>
+        <ul>
+          <li>A functional AI application with a clear user journey</li>
+          <li>Integration of agents, tools, and/or memory (if appropriate)</li>
+          <li>Error handling and safe fallbacks (timeouts, tool failures, bad inputs)</li>
+          <li>Basic observability (structured logs + key metrics)</li>
+          <li>Safety considerations and guardrails for actions and data</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Evaluation</h3>
+        <ul>
+          <li><b>Golden dataset</b> with coverage rationale and labels/rubrics</li>
+          <li><b>Scorecard</b> with 3–6 quality dimensions tied to product outcomes</li>
+          <li><b>Evaluation harness</b> runnable locally and in CI</li>
+          <li>At least one <b>ablation/comparison</b> (model/prompt/retrieval/tool strategy)</li>
+          <li>Systematic <b>error taxonomy</b> with examples</li>
+          <li>Uncertainty notes (confidence intervals or clearly stated limitations)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Review cadence</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>When</th><th>Review</th><th>What we check</th><th>Artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Week 6</td>
+            <td>Capstone kickoff</td>
+            <td>Scope, success criteria, data boundary, risk register v0</td>
+            <td>Spec v1</td>
+          </tr>
+          <tr>
+            <td>Week 7</td>
+            <td>Readiness review</td>
+            <td>Architecture sanity, evaluation validity, measurable ship criteria</td>
+            <td>Architecture diagram + eval plan</td>
+          </tr>
+          <tr>
+            <td>Week 9</td>
+            <td>Mid-project demo</td>
+            <td>Working end-to-end path, early eval results, top risks</td>
+            <td>Demo + results snapshot</td>
+          </tr>
+          <tr>
+            <td>Week 10</td>
+            <td>Hardening clinic</td>
+            <td>Fallbacks, guardrails, logging/tracing, cost/latency budgets</td>
+            <td>Runbook draft</td>
+          </tr>
+          <tr>
+            <td>Week 12</td>
+            <td>Final demo + retro</td>
+            <td>Evidence of improvement, operability, and honest limitations</td>
+            <td>Final report + artifact pack</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small" style="margin-top:12px">
+      For a complete checklist of artifacts and “done” criteria, see <a href="deliverables.html">Deliverables</a>.
+    </p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div>
+          <span>© 2026 Designing Large Scale AI Systems — Industry Edition</span>
+          <span class="badge"><span class="dot" aria-hidden="true"></span><span>Drop-in HTML pack</span></span>
+        </div>
+        <div>
+          <a href="https://reliableai.github.io/ai-design-2026/" target="_blank" rel="noopener">Original course site</a>
+          <span>·</span>
+          <a href="https://reliableai.github.io/ai-design-2026/labs/04_eval/optimizing-in-the-dark/index.html" target="_blank" rel="noopener">Optimizing in the Dark</a>
+        </div>
+      </div>
+      <div class="small" style="margin-top:10px">
+        Tip: replace placeholders like <kbd>[Company]</kbd>, <kbd>[Dates]</kbd>, and <kbd>[Links]</kbd> to tailor this to your cohort.
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

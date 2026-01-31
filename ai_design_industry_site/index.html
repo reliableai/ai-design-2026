@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Industry edition overview for Designing Large Scale AI Systems.">
+  <title>Industry Edition — Overview</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="navbar">
+        <a class="brand" href="index.html" aria-label="Home">
+          <div class="brand-badge" aria-hidden="true"></div>
+          <div style="min-width:0">
+            <div class="brand-title">Designing Large Scale AI Systems</div>
+            <div class="brand-sub">Industry Edition</div>
+          </div>
+        </a>
+        <button class="mobile-toggle" data-toggle="nav" aria-label="Menu">
+          <span aria-hidden="true">☰</span><span>Menu</span>
+        </button>
+        <nav class="navlinks" data-navlinks aria-label="Primary navigation">
+          <a href="index.html">Overview</a>
+          <a href="schedule.html">Schedule</a>
+          <a href="capstone.html">Capstone</a>
+          <a href="deliverables.html">Deliverables</a>
+          <a href="logistics.html">Logistics</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="badge" style="margin-bottom:14px">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Production-first training for practitioners</span>
+        </div>
+        <h1 class="h1">Designing Large Scale AI Systems<br>for Production Teams</h1>
+        <p class="lede">
+          A hands-on program for engineers, product builders, and technical leaders who need AI systems that
+          <b>ship</b>, <b>stay reliable</b>, and <b>improve with evidence</b>.
+        </p>
+
+        <div class="pills" aria-label="Key themes">
+          <span class="pill">Agents & tools</span>
+          <span class="pill">Evals-first iteration</span>
+          <span class="pill">Observability & guardrails</span>
+          <span class="pill">Cost/latency budgets</span>
+          <span class="pill">Production readiness</span>
+        </div>
+
+        <hr class="sep">
+
+        <div class="callout">
+          <p>
+            Recommended reading for teams and leaders:
+            <a href="labs/04_eval/optimizing-in-the-dark/index.html">Optimizing in the Dark</a>
+            (why AI projects stall without rigorous evaluation).
+          </p>
+        </div>
+      </div>
+
+      <aside class="panel hero-card">
+        <h2 style="margin:0 0 10px; font-size:18px">Cohort details</h2>
+        <div class="kv">
+          <div class="kv-row"><b>Organization</b><span>[Company / Team]</span></div>
+          <div class="kv-row"><b>Dates</b><span>[Start] – [End]</span></div>
+          <div class="kv-row"><b>Format</b><span>[Live cohort · workshop · hybrid]</span></div>
+          <div class="kv-row"><b>Cadence</b><span>2 × 90-min/week <div class="mono">or compress into modules</div></span></div>
+          <div class="kv-row"><b>Time zone</b><span>[e.g., Europe/Zurich]</span></div>
+          <div class="kv-row"><b>Support channel</b><span>[Slack/Teams link]</span></div>
+        </div>
+        <hr class="sep">
+        <div class="small">
+          This pack is intentionally vendor-neutral. It works with OpenAI, OpenRouter, Azure OpenAI, internal model gateways, etc.
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Who this is for</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>Great fit</h3>
+        <ul>
+          <li>Software engineers building AI features into existing products</li>
+          <li>ML / applied AI engineers responsible for quality, evaluation, and deployment</li>
+          <li>Tech leads & architects making system and vendor decisions</li>
+          <li>PMs & designers who own requirements, UX, and ship/no-ship decisions</li>
+          <li>Security/privacy partners supporting AI rollouts</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Not the focus</h3>
+        <ul>
+          <li>Training large models from scratch</li>
+          <li>Pure prompt-writing without instrumentation or evaluation</li>
+          <li>Research-only content without production constraints</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>What you’ll take back to work</h2>
+    <p>
+      The goal is not a demo — it’s a small production-ready system plus the artifacts that make it safe to ship and easy to improve.
+    </p>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>System</h3>
+        <ul>
+          <li>Working AI feature (agent/tool/memory where appropriate)</li>
+          <li>Clear UX + failure modes + safe fallbacks</li>
+          <li>Integration patterns that don’t turn into “prompt soup”</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Measurement & operations</h3>
+        <ul>
+          <li>Golden dataset + scorecard (multiple quality dimensions)</li>
+          <li>Evaluation harness runnable locally and in CI</li>
+          <li>Observability: logs/metrics/traces + runtime “business assertions”</li>
+          <li>Runbook: rollout/rollback, monitoring, and incident response</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top:12px">
+      See <a href="capstone.html">Capstone</a> for the full artifact checklist and review cadence.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>How the program is organized</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>Module 1 — Agentic primitives</h3>
+        <ul>
+          <li>LLM APIs, streaming UX, memory economics</li>
+          <li>Tool calling and the agent loop</li>
+          <li>When agents are the wrong tool</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Module 2 — Evals-first iteration</h3>
+        <ul>
+          <li>Golden datasets and rating rubrics</li>
+          <li>LLM-as-judge and uncertainty</li>
+          <li>Error taxonomies and iteration discipline</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Module 3 — Scaling complexity safely</h3>
+        <ul>
+          <li>Decomposition, councils/ensembles, interfaces</li>
+          <li>Middleware & connectors (incl. MCP-style)</li>
+          <li>Framework decisions without hype</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Module 4 — Capstone sprint</h3>
+        <ul>
+          <li>Build → evaluate → harden → present</li>
+          <li>Design clinics and reviews</li>
+          <li>Retro + productionization roadmap</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top:12px">
+      Jump to <a href="schedule.html">Schedule</a> for the full session-by-session plan.
+    </p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div>
+          <span>© 2026 Designing Large Scale AI Systems — Industry Edition</span>
+          <span class="badge"><span class="dot" aria-hidden="true"></span><span>Drop-in HTML pack</span></span>
+        </div>
+        <div>
+          <a href="https://reliableai.github.io/ai-design-2026/" target="_blank" rel="noopener">Original course site</a>
+          <span>·</span>
+          <a href="https://reliableai.github.io/ai-design-2026/labs/04_eval/optimizing-in-the-dark/index.html" target="_blank" rel="noopener">Optimizing in the Dark</a>
+        </div>
+      </div>
+      <div class="small" style="margin-top:10px">
+        Tip: replace placeholders like <kbd>[Company]</kbd>, <kbd>[Dates]</kbd>, and <kbd>[Links]</kbd> to tailor this to your cohort.
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

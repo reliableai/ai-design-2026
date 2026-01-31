@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Completion criteria and deliverables for an industry cohort.">
+  <title>Industry Edition — Deliverables</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="navbar">
+        <a class="brand" href="index.html" aria-label="Home">
+          <div class="brand-badge" aria-hidden="true"></div>
+          <div style="min-width:0">
+            <div class="brand-title">Designing Large Scale AI Systems</div>
+            <div class="brand-sub">Industry Edition</div>
+          </div>
+        </a>
+        <button class="mobile-toggle" data-toggle="nav" aria-label="Menu">
+          <span aria-hidden="true">☰</span><span>Menu</span>
+        </button>
+        <nav class="navlinks" data-navlinks aria-label="Primary navigation">
+          <a href="index.html">Overview</a>
+          <a href="schedule.html">Schedule</a>
+          <a href="capstone.html">Capstone</a>
+          <a href="deliverables.html">Deliverables</a>
+          <a href="logistics.html">Logistics</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+<section class="hero">
+  <div class="container">
+    <h1 class="h1">Deliverables (Completion Criteria)</h1>
+    <p class="lede">Industry edition replaces grades with artifacts you can reuse in production.</p>
+    <div class="pills">
+      <span class="pill">Evals runnable in CI</span>
+      <span class="pill">Ops-ready runbook</span>
+      <span class="pill">Evidence over vibes</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Completion checklist</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>Required artifacts</h3>
+        <ul>
+          <li><b>Architecture</b>: diagram + component responsibilities + interfaces</li>
+          <li><b>Decision log</b>: make-vs-buy notes, model/provider choices, tradeoffs</li>
+          <li><b>Golden dataset</b>: examples, labels, coverage rationale, known gaps</li>
+          <li><b>Scorecard</b>: 3–6 quality dimensions with clear rubrics</li>
+          <li><b>Evaluation harness</b>: reproducible runs, versioned configs, CI-friendly</li>
+          <li><b>Error taxonomy</b>: top failure modes with examples and frequency</li>
+          <li><b>Observability</b>: logs/metrics/traces, dashboards, alert thresholds</li>
+          <li><b>Guardrails</b>: runtime assertions, tool constraints, safe-mode behavior</li>
+          <li><b>Runbook</b>: rollout/rollback, incident response, escalation path</li>
+          <li><b>Final report</b>: results + uncertainty notes + what to ship vs not</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Recommended add-ons</h3>
+        <ul>
+          <li>Prompt/model versioning policy (semver-like) and changelog</li>
+          <li>Cost budget monitoring + cache strategy (where relevant)</li>
+          <li>Human-in-the-loop or review workflows for high-risk actions</li>
+          <li>Red-teaming checklist for safety and prompt injection risks</li>
+          <li>Postmortem template and a “next 30 days” roadmap</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>“Good” looks like this</h2>
+    <div class="grid2">
+      <div class="panel card">
+        <h3>Evaluation</h3>
+        <ul>
+          <li>Your scorecard tracks multiple dimensions, not one number</li>
+          <li>Your golden dataset is documented: what it covers and what it misses</li>
+          <li>Runs are reproducible (same inputs ⇒ same outputs within expected variance)</li>
+          <li>Experiments include at least one ablation/comparison with a clear hypothesis</li>
+        </ul>
+      </div>
+      <div class="panel card">
+        <h3>Operations</h3>
+        <ul>
+          <li>You can explain failure modes and show how the system fails safely</li>
+          <li>Logs are structured and traceable end-to-end</li>
+          <li>There is an explicit rollback and safe-mode plan</li>
+          <li>Cost/latency budgets are monitored and enforced (where feasible)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top:12px">
+      Need a template pack (spec, scorecard, runbook)? Add internal links here or bundle your org’s standard docs.
+    </p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div>
+          <span>© 2026 Designing Large Scale AI Systems — Industry Edition</span>
+          <span class="badge"><span class="dot" aria-hidden="true"></span><span>Drop-in HTML pack</span></span>
+        </div>
+        <div>
+          <a href="https://reliableai.github.io/ai-design-2026/" target="_blank" rel="noopener">Original course site</a>
+          <span>·</span>
+          <a href="https://reliableai.github.io/ai-design-2026/labs/04_eval/optimizing-in-the-dark/index.html" target="_blank" rel="noopener">Optimizing in the Dark</a>
+        </div>
+      </div>
+      <div class="small" style="margin-top:10px">
+        Tip: replace placeholders like <kbd>[Company]</kbd>, <kbd>[Dates]</kbd>, and <kbd>[Links]</kbd> to tailor this to your cohort.
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

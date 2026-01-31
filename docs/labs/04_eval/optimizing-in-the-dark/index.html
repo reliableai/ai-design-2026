@@ -146,6 +146,48 @@
             margin-top: 1em;
             color: #a16207;
         }
+
+        /* --- Course CTA (inline) --- */
+        .course-cta{
+            border:1px solid rgba(0,0,0,.12);
+            border-radius:14px;
+            padding:14px 18px;
+            margin:24px 0;
+            background:rgba(0,0,0,.02);
+        }
+        .course-cta h3{
+            margin:0 0 6px;
+            font-size:1.1rem;
+        }
+        .course-cta > p{ margin:4px 0; line-height:1.4; font-size:0.95rem; }
+        .cta-grid{
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            margin-top:10px;
+        }
+        .cta-card{
+            border:1px solid rgba(0,0,0,.10);
+            border-radius:10px;
+            padding:10px 14px;
+            background:#fff;
+            display:flex;
+            flex-wrap:wrap;
+            align-items:baseline;
+            gap:4px 12px;
+        }
+        .cta-card h4{
+            margin:0;
+            font-size:0.95rem;
+            font-weight:500;
+        }
+        .cta-link{ margin:0; font-size:0.95rem; }
+        .cta-footnote{
+            margin-top:10px;
+            font-size:.9rem;
+            opacity:.85;
+        }
+
     </style>
 </head>
 <body>
@@ -163,21 +205,9 @@
 <li><strong>Evaluation is hard because it is an experiment design problem, not a software testing problem.</strong> Each evaluation embeds many consequential design decisions — about data, judges, aggregation, selection, and reporting — that can dramatically change the apparent outcome.</li>
 <li><strong>Most organizations are neither equipped nor incentivized to manage agentic evaluation.</strong> Tooling, methods, training, and reporting structures systematically hide uncertainty and overstate progress.</li>
 <li><strong>This is primarily a leadership failure, not a technical one.</strong> The questions executives ask — and the dev-heavy way teams are structured rather than eval-heavy — shape what teams feel able to report, leading to biased summaries that hide evaluation uncertainty.</li>
-<li><strong>This is fixable — but not by mandates or "ground truth."</strong> These failure modes are not inherent to AI. They require better evaluation practices, reporting standards, and decision discipline — not stricter dashboards, frozen benchmarks, or the illusion of a single correct answer.</li>
+<li><strong>This is fixable</strong> — failure modes are not inherent to AI. They require better evaluation practices, reporting standards, and decision discipline — not stricter mandates, frozen benchmarks, or the illusion that ground truth solves anything.</li>
 </ol>
 </blockquote>
-
-<div class="aside-box">
-    <h4>What Happens When Eval Goes Wrong</h4>
-    <p>The measurement uncertainty described here becomes organizational damage through a predictable cascade:</p>
-    <ul>
-        <li><strong>Week 2:</strong> First consequential failure from untested edge cases causes stakeholder trust cliff.</li>
-        <li><strong>Week 4:</strong> Teams discover in production what should have been found in evaluation, requiring costly architectural rework.</li>
-        <li><strong>Week 12:</strong> Pilot purgatory — systems stuck in post-production validation loops because evaluation frameworks never measured what production demands.</li>
-    </ul>
-    <p>The pattern repeats: agentic AI pilots that "succeed" in curated evaluation fail within weeks of production deployment. This isn't unpredictable chaos; it's a systematic failure with recognizable timelines.</p>
-    <p class="attribution">— From a conversation with Filip Deryckere</p>
-</div>
 
 <hr />
 
@@ -241,6 +271,33 @@
 <li><strong>Product managers</strong> interpreting and reporting quality numbers</li>
 <li><strong>Executives</strong> who see scorecards and need to know what questions to ask</li>
 </ul>
+
+<!-- ===== Course CTA (inline) ===== -->
+<section class="course-cta" aria-label="Course call to action">
+  <h3>Want a hands-on playbook for this?</h3>
+  <p>
+    I teach two <strong>100% free, in-person</strong> (with remote options)
+    complementary practitioner courses:
+  </p>
+
+  <div class="cta-grid">
+    <div class="cta-card">
+      <h4>Designing and shipping AI systems →</h4>
+      <p class="cta-link"><a href="https://reliableai.github.io/ai-design-2026/"><strong>Designing Large Scale AI Systems</strong></a></p>
+    </div>
+    <div class="cta-card">
+      <h4>Data/knowledge health, hallucinations, RAG failures →</h4>
+      <p class="cta-link"><a href="https://reliableai.github.io/knowledge_management_2026/"><strong>Knowledge Management for AI Systems</strong></a></p>
+    </div>
+  </div>
+
+  <p class="cta-footnote">
+    Classes and materials become available as the courses start in <strong>mid-February</strong>.<br />
+    Contact me for <strong>free remote attendance options</strong> (LinkedIn · X).
+  </p>
+</section>
+<!-- ===== /Course CTA ===== -->
+
 <hr />
 <p><em>"Any measurement, without knowledge of the uncertainty, is meaningless."</em><br />
 — Walter Lewin, MIT</p>
@@ -249,5 +306,6 @@
 <footer>
     Content by Fabio Casati · <a href="https://www.linkedin.com/in/sphoebs/">LinkedIn</a> · <a href="https://x.com/sphoebs">X</a>
 </footer>
+
 </body>
 </html>

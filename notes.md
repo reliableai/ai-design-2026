@@ -2,18 +2,16 @@ I want to structure my lectures as follows
 
 # Learning objectives
 
-Learn how to develop Effective, Reliable, Maintainable AI systems and how to do so at scale, solving complex problems by decomposing them in a principled, maangeable way
+Build effective, reliable, maintainable AI systems at scale. Solve complex problems by decomposing them in a principled way. Ship a reliable AI feature into an existing product.
 
-Use AI to build AI. Leverage AI for development, evaluation, and system management. Understand what this unlocks and where the limits are.                       
-Iterate towards success - rather than optimizing in the dark. Master the science of monitoring, analysis, and estimation: measure business quality, detect failures, and quantify uncertainty before your users do. 
+Use AI to build AI. Leverage AI for development, evaluation, and system management. Understand what this unlocks and where the limits are.
 
-Understand the key conceptual abstractions and middleware we need to brave this new world. Take lessons from the software engineering past (the old pre-2026 world), but do so critically. Understand what are the key concepts we need, and how to conquer them, use them successfully to guide our development. 
+Iterate towards success — rather than optimizing in the dark. Master the science of monitoring, analysis, and estimation. Stand up an evaluation harness you can run in CI.
 
+Master the key conceptual abstractions. Build observability, cost controls, and incident-ready guardrails. Take lessons from software engineering past, but do so critically.
 
-In the process, we will review critically the emerging practices and proposed standards learning what and how to use where.
-
-
-Think in systems. Understand which engineering principles carry forward and which new abstractions are essential for the AI-native era.  
+Separate signal from hype. Critically review emerging practices and proposed standards, learning what to use and where.
+Think in systems. Understand which engineering principles carry forward and which new abstractions are essential. Know when not to use agents (and what to do instead).
 
 
 

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Industry edition schedule with ship-by outcomes.">
+  <title>Industry Edition — Schedule</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="navbar">
+        <a class="brand" href="index.html" aria-label="Home">
+          <div class="brand-badge" aria-hidden="true"></div>
+          <div style="min-width:0">
+            <div class="brand-title">Designing Large Scale AI Systems</div>
+            <div class="brand-sub">Industry Edition</div>
+          </div>
+        </a>
+        <button class="mobile-toggle" data-toggle="nav" aria-label="Menu">
+          <span aria-hidden="true">☰</span><span>Menu</span>
+        </button>
+        <nav class="navlinks" data-navlinks aria-label="Primary navigation">
+          <a href="index.html">Overview</a>
+          <a href="schedule.html">Schedule</a>
+          <a href="capstone.html">Capstone</a>
+          <a href="deliverables.html">Deliverables</a>
+          <a href="logistics.html">Logistics</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+<section class="hero">
+  <div class="container">
+    <h1 class="h1">Schedule</h1>
+    <p class="lede">A practitioner-friendly schedule with explicit “ship-by” outcomes each week.</p>
+    <div class="pills">
+      <span class="pill">12 weeks · 24 sessions</span>
+      <span class="pill">compressible into modules</span>
+      <span class="pill">capstone runs weeks 6–12</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="callout">
+      <p><b>Tip:</b> If you’re running a shorter cohort, combine adjacent sessions (e.g., S1+S2, S5+S6, S9+S10) and keep the ship-by outcomes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Session plan</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Week</th><th>Session</th><th>Topic</th><th>Ship-by (end of week)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>S1</td>
+            <td><a href="labs/01_hello_world/hello_world_3.0.html">Hello World</a> — connecting to AI via API (chat/streaming/voice/image)</td>
+            <td>Baseline client + logging + first cost/latency measurements</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>S2</td>
+            <td><a href="labs/02_standalone_agents/stateless_stateful_agents.html">Stateful Clients</a> — context & session memory, cost/latency tradeoffs</td>
+            <td>Memory strategy + explicit cost/latency budgets</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>S3</td>
+            <td>Tools & the Agentic Loop — tool calling, orchestration, AI controlling UX</td>
+            <td>Tool prototype + safe tool boundary rules</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>S4</td>
+            <td>Monitoring & Business Assertions — observability, runtime checks, evaluating executions</td>
+            <td>First scorecard draft + runtime “assertions”</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>S5</td>
+            <td><a href="labs/04_eval/optimizing-in-the-dark/index.html">Quality & Performance Estimation</a> — metrics, golden datasets, LLM-as-judge, uncertainty</td>
+            <td>Golden dataset v0 + evaluation harness skeleton</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>S6</td>
+            <td>Iterating on Clients, Agents & Prompts — experiment design, error analysis</td>
+            <td>Error taxonomy v0 + prioritized experiment backlog</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>S7</td>
+            <td>Councils of Agents — eliciting diversity, ensemble and consensus mechanisms</td>
+            <td>One ensemble/consensus experiment (even if it fails)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>S8</td>
+            <td>Building Complex Systems — decomposition, separation of concerns, APIs vs interfaces</td>
+            <td>Decomposition diagram + interface boundaries</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>S9</td>
+            <td>Middleware, Abstractions & Interfaces — <a href="labs/03_ai-api/mcp_tutorial.html">MCP-style connectors</a>, privacy, guardrails</td>
+            <td>Connector/tool spec + contract tests for tools</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>S10</td>
+            <td>Structuring Complex Projects — versioning prompts/configs/evals</td>
+            <td>Regression plan for prompts + evaluation versioning</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>S11</td>
+            <td>AI Frameworks — when/why to use frameworks (LangChain as a case study)</td>
+            <td>Make-vs-buy decision record + migration plan (if adopting)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>S12</td>
+            <td>Capstone kickoff — scope, risks, and milestones</td>
+            <td>Capstone spec v1 + evaluation plan v1</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>S13</td>
+            <td><b>Readiness review</b> — design & evaluation readiness</td>
+            <td>Risk register + ship criteria + success metrics</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>S14</td>
+            <td>Capstone review #1 — architecture and eval validity</td>
+            <td>Architecture diagram + golden dataset plan</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>S15</td>
+            <td>Working session — implementation</td>
+            <td>End-to-end “happy path” in a realistic environment</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>S16</td>
+            <td>Working session — evaluation</td>
+            <td>First full evaluation run + results summary</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>S17</td>
+            <td>Mid-project demo — what works, what breaks, what’s next</td>
+            <td>Demo + updated risks + next iteration plan</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>S18</td>
+            <td>Design clinic — architecture / eval / safety breakouts</td>
+            <td>Close top 3 production risks (plan + owners)</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>S19</td>
+            <td>Integration & hardening — fallbacks, guardrails, tracing</td>
+            <td>Safe mode + tool safeguards + core monitoring dashboards</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>S20</td>
+            <td>Final evaluation runs — ablations and comparative experiments</td>
+            <td>Reproducible results package + confidence/uncertainty notes</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>S21</td>
+            <td>Results review — narrative and tradeoffs</td>
+            <td>Report draft + “what we’d ship vs not ship” summary</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>S22</td>
+            <td>Presentation rehearsal — executive-ready readout</td>
+            <td>Slides + demo script + Q&A prep</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>S23</td>
+            <td>Final demos</td>
+            <td>Live demo + scorecard + rollout/rollback plan</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>S24</td>
+            <td>Retrospective</td>
+            <td>Postmortem + next-30-days productionization plan</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small" style="margin-top:12px">Want the artifact checklist? Go to <a href="deliverables.html">Deliverables</a>.</p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div>
+          <span>© 2026 Designing Large Scale AI Systems — Industry Edition</span>
+          <span class="badge"><span class="dot" aria-hidden="true"></span><span>Drop-in HTML pack</span></span>
+        </div>
+        <div>
+          <a href="https://reliableai.github.io/ai-design-2026/" target="_blank" rel="noopener">Original course site</a>
+          <span>·</span>
+          <a href="https://reliableai.github.io/ai-design-2026/labs/04_eval/optimizing-in-the-dark/index.html" target="_blank" rel="noopener">Optimizing in the Dark</a>
+        </div>
+      </div>
+      <div class="small" style="margin-top:10px">
+        Tip: replace placeholders like <kbd>[Company]</kbd>, <kbd>[Dates]</kbd>, and <kbd>[Links]</kbd> to tailor this to your cohort.
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>
