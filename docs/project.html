@@ -31,24 +31,31 @@
         <h3>Track A: Class System</h3>
         <p>
           Work on a shared class project with a well-defined scope and requirements.
-          This option provides more structure and allows for peer comparison.
+          We work together in class: reviews, working sessions, design clinics, and rehearsals.
         </p>
         <ul>
-          <li>Pre-defined problem space</li>
-          <li>Shared baseline components</li>
-          <li>Focus on evaluation and optimization</li>
+          <li>Teams of 1–2 students</li>
+          <li>Pre-defined problem space with shared baseline</li>
+          <li>In-class reviews and working sessions (Weeks 7–11)</li>
+          <li>Exam: <strong>presentation + discussion</strong></li>
         </ul>
       </div>
       <div class="card">
-        <h3>Track B: Capstone</h3>
+        <h3>Track B: Capstone (Individual)</h3>
         <p>
-          Propose your own project idea. This option offers more freedom but requires
-          a strong problem statement and feasibility assessment.
+          Propose your own project idea. The instructor approves the scope,
+          then you work independently. Track B projects are <strong>individual only</strong>.
         </p>
         <ul>
-          <li>Custom problem definition</li>
+          <li>Custom problem definition, must be approved by instructor</li>
           <li>Full system design responsibility</li>
-          <li>Must be approved by instructor</li>
+          <li>Independent work — no in-class reviews</li>
+          <li>Exam: <strong>presentation + detailed discussion</strong> of your design decisions, evaluation, and results</li>
+        </ul>
+        <h4>Example projects from previous students</h4>
+        <ul>
+          <li><a href="https://github.com/wamuumu/ai-workflows">AI-Workflows</a> — evaluation framework for AI-powered workflow generation, comparing monolithic, incremental, and bottom-up strategies</li>
+          <li><a href="https://github.com/sbrentan/tool-calling-optimization">Tool Calling Optimization</a> — measuring LLM tool-calling accuracy across retrieval methods (MCP, clustering, RAG, adaptive RAG)</li>
         </ul>
       </div>
     </div>
@@ -75,62 +82,35 @@
 
     <h2>Deliverables</h2>
 
-    <h3>Week 6: Project Specification v1</h3>
+    <h3>Both tracks: Exam</h3>
+    <p>The exam for both tracks is a <strong>presentation followed by a discussion</strong>. You present your system, design choices, evaluation, and results, then answer questions.</p>
+
+    <h3>Both tracks: Final deliverables</h3>
     <ul>
-      <li>Problem statement and motivation</li>
-      <li>High-level architecture sketch</li>
-      <li>Initial evaluation plan</li>
-      <li>Team composition and responsibilities</li>
+      <li><strong>Presentation + discussion</strong> — system demo, design choices and alternatives, evaluation results, limitations</li>
+      <li><strong>Report</strong> — problem statement, architecture, experiments, results, error analysis, lessons learned</li>
+      <li><strong>Code repository</strong> — documented source, README with setup instructions, evaluation scripts, golden dataset</li>
     </ul>
 
-    <h3>Week 7: Project Review #1</h3>
+    <h3>Track A: In-class milestones</h3>
     <ul>
-      <li>Refined problem statement and scope</li>
-      <li>Detailed architecture diagram</li>
-      <li>Golden dataset status and plan</li>
-      <li>Milestone plan for Weeks 8-10</li>
+      <li><strong>Week 6:</strong> Project spec v1 — problem statement, architecture sketch, evaluation plan, team formation</li>
+      <li><strong>Week 7:</strong> Review #1 — refined scope, detailed architecture, golden dataset status</li>
+      <li><strong>Weeks 8–10:</strong> Working sessions — implementation, evaluation runs, design clinics</li>
+      <li><strong>Week 9:</strong> Mid-project presentation (10–12 min internal demo)</li>
+      <li><strong>Week 11:</strong> Results review and presentation rehearsal</li>
+      <li><strong>Week 12:</strong> Final presentation + discussion (graded)</li>
     </ul>
 
-    <h3>Week 9: Mid-Project Presentation</h3>
+    <h3>Track B: Independent milestones</h3>
     <ul>
-      <li>10-12 minute presentation</li>
-      <li>Live or recorded demo of current system</li>
-      <li>Architecture overview</li>
-      <li>Early evaluation results</li>
-      <li>Open risks and unknowns</li>
+      <li><strong>Week 6:</strong> Scope proposal — submit problem statement and high-level plan for instructor approval</li>
+      <li><strong>Weeks 7–11:</strong> Independent work</li>
+      <li><strong>Exam session:</strong> Presentation + detailed discussion (graded)</li>
     </ul>
 
-    <h3>Week 12: Final Deliverables</h3>
-
-    <h4>Final Presentation (Graded)</h4>
-    <ul>
-      <li>System demo</li>
-      <li>Design choices and alternatives considered</li>
-      <li>Evaluation framework and main results</li>
-      <li>Limitations and future work</li>
-      <li>Q&A session</li>
-    </ul>
-
-    <h4>Final Report</h4>
-    <ul>
-      <li>Introduction and motivation</li>
-      <li>System architecture and design decisions</li>
-      <li>Implementation details</li>
-      <li>Evaluation methodology</li>
-      <li>Results and analysis</li>
-      <li>Error taxonomy with examples</li>
-      <li>Conclusions and lessons learned</li>
-    </ul>
-
-    <h4>Code Repository</h4>
-    <ul>
-      <li>Clean, documented source code</li>
-      <li>README with setup instructions</li>
-      <li>Evaluation scripts and golden dataset</li>
-      <li>Results and logs from evaluation runs</li>
-    </ul>
-
-    <h2>Timeline</h2>
+    <h2>Timeline (Track A)</h2>
+    <p>Track B students submit their scope proposal in Week 6 and work independently until the exam.</p>
     <table>
       <thead>
         <tr>
@@ -178,29 +158,45 @@
       </tbody>
     </table>
 
-    <h2>Team Formation</h2>
+    <h2>Team Formation (Track A only)</h2>
     <div class="card">
-      <h3>Guidelines</h3>
       <ul>
-        <li>Teams of 1-2 students</li>
-        <li>Both team members must contribute equally</li>
+        <li>Teams of 1–2 students</li>
+        <li>Both team members must contribute equally and be able to present any part</li>
         <li>Define clear responsibilities early</li>
-        <li>Track A and Track B teams can be mixed in review sessions</li>
       </ul>
-
-      <h3>Responsibilities</h3>
       <p>For 2-person teams, consider dividing work along these lines:</p>
       <ul>
         <li><strong>System Lead:</strong> Architecture, implementation, integration</li>
         <li><strong>Evaluation Lead:</strong> Golden dataset, metrics, experiments, analysis</li>
       </ul>
-      <p class="text-muted text-small">Both members should understand the full system and be able to present any part.</p>
+      <p class="text-muted text-small">Track B is individual — no teams.</p>
     </div>
 
-    <h2>Grading Rubric</h2>
-    <p>
-      For detailed grading criteria, see the <a href="grading/grading.md">full grading rubric</a>.
-    </p>
+    <h2>Grading Rubric (0–30)</h2>
+    <p>Both tracks use the same rubric. Each dimension is scored 0–10.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension (0–10 each)</th>
+          <th>What we look for</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Design & Prototypes</strong></td>
+          <td>Clear goals, meaningful design alternatives, working prototype(s) that reflect the design choices</td>
+        </tr>
+        <tr>
+          <td><strong>Experiments & Analysis</strong></td>
+          <td>Experiments comparing variants, appropriate metrics, honest analysis of results and failures, reflection on limitations</td>
+        </tr>
+        <tr>
+          <td><strong>Communication</strong></td>
+          <td>Well-structured presentation and report, clear explanation of choices and lessons learned, good Q&A</td>
+        </tr>
+      </tbody>
+    </table>
 
     <h2>Resources</h2>
     <div class="card">

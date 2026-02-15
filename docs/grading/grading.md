@@ -2,6 +2,11 @@
 
 Each project is graded on **three equally weighted dimensions** (0–10 each).
 
+This rubric applies to **both Track A (Class System) and Track B (Capstone)**. The exam for both tracks is a **presentation followed by a discussion**.
+
+- **Track A**: teams of 1–2, in-class reviews and working sessions during Weeks 6–12
+- **Track B**: individual only, instructor approves scope, then independent work until the exam
+
 ---
 
 ## 1. Design & Prototypes (0–10)

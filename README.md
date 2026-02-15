@@ -1,110 +1,105 @@
-# AI Design — University of Trento
+# Designing Large Scale AI Systems — University of Trento, Spring 2026
 
-This repository hosts materials and code for the AI Design course at the University of Trento. It is intended for enrolled students and contains everything needed to follow along: slides, labs, assignments, project templates, and supporting code.
-
-> Note: Some details are placeholders and will be completed once confirmed (course code, semester, syllabus link, and instructor contacts).
-
-## Course Info
-
-- Course: AI Design (official title/code: TBD)
-- University: University of Trento — Department/School: TBD
-- Semester/Year: TBD
-- Primary language: English
-- Instructors: TBD (name, email)
-- Syllabus: TBD (link)
-
-## Scope and Audience
-
-- Audience: Students taking AI Design at UniTN
-- Contents: lectures, labs, assignments, starter code, projects, readings/resources
-- Contributions: PRs from students are welcome (see Contributing)
+Course materials for building AI-powered software systems using LLMs as components.
 
 ## Quick Start
 
-Prerequisites
+### 1. Install uv (one-time)
 
-- Python 3.12+ (see `pyproject.toml`)
-- uv (fast Python package/dependency manager by Astral)
-
-Install uv (one-time):
+[uv](https://docs.astral.sh/uv/) is a fast Python package manager. Install it:
 
 ```bash
+# macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-# restart your shell to add uv to PATH if needed
 ```
 
-Set up the environment and run a quick check:
+Restart your terminal after installing so `uv` is on your PATH.
+
+### 2. Clone and install
 
 ```bash
-# Create/refresh a virtualenv and install project deps
+git clone https://github.com/reliableai/ai-design-2026.git
+cd ai-design-2026
 uv sync
-
-# Run the sample entry point
-uv run python main.py
 ```
 
-## API Keys Setup
+This creates a virtual environment and installs all dependencies. You don't need to activate it — `uv run` handles that.
 
-This course uses OpenAI and OpenRouter APIs. Set up your keys once:
+### 3. Set up API keys
 
 ```bash
-# Copy the template
 cp .env.example .env
-
-# Edit .env and add your keys
-# OPENAI_API_KEY=sk-...
-# OPENROUTER_API_KEY=sk-or-...
 ```
 
-The `.env` file is git-ignored and will not be committed. All lab scripts automatically load keys from this file.
+Edit `.env` and add your keys:
+
+```
+OPENAI_API_KEY=sk-...
+OPENROUTER_API_KEY=sk-or-...
+```
 
 Get your keys:
-- OpenAI: https://platform.openai.com/api-keys
-- OpenRouter: https://openrouter.ai/keys
+- **OpenAI**: https://platform.openai.com/api-keys (required for voice and image labs)
+- **OpenRouter**: https://openrouter.ai/keys (cheaper alternative for text-only labs)
 
-## Repository Structure (planned)
+The `.env` file is git-ignored and will never be committed.
 
-```
-lectures/       # Slides and lecture notes
-labs/           # Hands-on exercises and notebooks
-assignments/    # Homework specs and starter kits
-projects/       # Course project templates/guides
-resources/      # Readings, datasets pointers, references
-scripts/        # Utility scripts (setup, validation, etc.)
+### 4. Verify it works
+
+```bash
+uv run python docs/labs/01_hello_world/1_chat.py
 ```
 
-This structure will be populated incrementally as materials are released.
+You should see an LLM response and a timing line. If so, you're ready.
 
-## Contributing
+### macOS note: voice lab
 
-- Students may open issues and submit PRs for fixes and improvements.
-- Keep PRs focused and include a brief description and testing notes.
-- For larger changes (e.g., new examples), open an issue first to discuss.
-- Code of Conduct: TBD (we can adopt Contributor Covenant if desired).
-  
-By submitting a contribution, you agree to license your contribution under CC BY-NC-SA 4.0.
+The voice lab (`3_voice.py`) needs PortAudio for microphone access:
+
+```bash
+brew install portaudio
+```
+
+macOS will also prompt you to grant microphone permission to your terminal on first run.
+
+## Running labs
+
+Each lab is a set of Python scripts you run directly:
+
+```bash
+uv run python docs/labs/01_hello_world/1_chat.py       # Chat completion
+uv run python docs/labs/01_hello_world/2_streaming.py   # Streaming
+uv run python docs/labs/01_hello_world/3_voice.py       # Voice pipeline
+uv run python docs/labs/01_hello_world/4_image.py       # Image generation
+```
+
+Some labs also have Jupyter notebooks for interactive demos:
+
+```bash
+uv run jupyter lab docs/labs/01_hello_world/lesson1_demo.ipynb
+```
+
+## Running tests
+
+```bash
+uv run pytest tests/ -v -m "not slow"     # Skip expensive tests (image generation)
+uv run pytest tests/ -v                    # Run everything
+```
+
+## Repository Structure
+
+```
+docs/
+├── index.html                    # Course website
+├── labs/
+│   ├── 01_hello_world/           # L1: API calls — chat, streaming, voice, image
+│   ├── 02_standalone_agents/     # L2: Stateless → stateful → memory-optimized agents
+│   ├── 03_ai-api/                # L3: Tool calling, MCP
+│   └── 04_eval/                  # L5: Evaluation and "Optimizing in the Dark"
+└── style.css
+tests/                            # Test suites for labs
+```
 
 ## License
 
-All contents of this repository (code and course materials) are licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0).
-
-- Attribution required.
-- Noncommercial use only.
-- Share-alike: derivatives must use CC BY-NC-SA 4.0 (or a compatible license).
-
-See `LICENSE` for the full legal text.
-
-## Logistics (links TBD)
-
-- Course website/LMS (Moodle/other): TBD
-- Communication channel (Slack/Teams): TBD
-- Submission workflow: TBD (e.g., via LMS; selected tasks via PRs)
-
-## Maintainers
-
-- Instructor(s): TBD
-- Teaching Assistants: TBD
-
----
-
-Questions or changes? Open an issue or PR.
+CC BY-NC-SA 4.0. See `LICENSE`.

@@ -347,25 +347,22 @@ revised_prompt = response.data[0].revised_prompt</code></pre>
         <div class="section-number">05 / TESTING AI SYSTEMS</div>
         <h2>How do you test this?</h2>
 
-        <p>Traditional software testing relies on deterministic behavior: same input → same output. AI systems break this assumption.</p>
+        <p>In traditional software, testing is straightforward: <code>sort([3,1,2])</code> must return <code>[1,2,3]</code>. There is exactly one correct answer. Same input, same output, every time.</p>
 
-        <h3>The problem with exact matching</h3>
+        <p>Now try testing the prompt you just ran in Section 1:</p>
 
-        <p>Consider testing a simple math question:</p>
+        <pre><code class="language-python">def test_explanation():
+    response = ask_llm("Explain Software 3.0 in one sentence.")
+    assert response == ???  # What goes here?</code></pre>
 
-        <pre><code class="language-python">def test_math():
-    response = ask_llm("What is 2+2?")
-    assert response == "4"  # This WILL fail</code></pre>
-
-        <p>The model might respond:</p>
+        <p>Run it three times. You might get:</p>
         <ul>
-            <li>"4"</li>
-            <li>"The answer is 4."</li>
-            <li>"2 + 2 = 4"</li>
-            <li>"Four."</li>
+            <li><em>"Software 3.0 is a paradigm where programs are written in natural language prompts rather than code."</em></li>
+            <li><em>"It refers to the shift from explicit programming to instructing AI models with plain English."</em></li>
+            <li><em>"Software 3.0 describes systems where behavior is specified through natural language rather than trained on data."</em></li>
         </ul>
 
-        <p>All correct, but the test fails. Run it twice, get different results.</p>
+        <p>All three are correct. All three are different. No <code>assert</code> catches this — and unlike a formatting issue you could parse around, these are <strong>genuinely different valid answers</strong>. The problem isn't surface-level variation. It's that for any non-trivial question, "correct" is a spectrum, not a point.</p>
 
         <h3>What we CAN test</h3>
 
