@@ -25,7 +25,7 @@
 ## 2. Key Demonstrations
 
 ### Demo 1: The Forgetting (5 min)
-Run `stateless_agent.py`:
+Run `1_stateless_agent.py`:
 ```
 You: My name is Alice.
 Assistant: Nice to meet you, Alice!
@@ -36,7 +36,7 @@ Assistant: I don't have that information...
 **Point:** Each turn is independent. The model literally cannot remember.
 
 ### Demo 2: The Remembering (5 min)
-Run `stateful_agent.py` with the same conversation.
+Run `2_stateful_agent.py` with the same conversation.
 ```
 You: My name is Alice.
 You: What's my name?
@@ -45,7 +45,7 @@ Assistant: Your name is Alice!
 **Point:** History enables continuity—but at what cost?
 
 ### Demo 3: Watch It Grow (10 min)
-Modify `stateful_agent.py` to print:
+Modify `2_stateful_agent.py` to print:
 ```python
 print(f"Input tokens: {response.usage.prompt_tokens}")
 print(f"Output tokens: {response.usage.completion_tokens}")
@@ -61,7 +61,7 @@ Have a 15-turn conversation. Track the numbers.
 Draw a quick graph on the board. Ask: "Is this linear?"
 
 ### Demo 4: Memory in Action (15 min)
-Run `agent_w_memory.py`:
+Run `3_agent_with_memory.py`:
 1. Have a 10-turn conversation establishing facts
 2. Continue until memory summary is triggered
 3. Show the debug output with memory contents
@@ -153,9 +153,9 @@ A: No. It depends on your application. A quick Q&A bot might use 2-3 turns. A co
 
 ## 7. Materials Checklist
 
-- [ ] `stateless_agent.py` — working, API key configured
-- [ ] `stateful_agent.py` — modified to print token counts  
-- [ ] `agent_w_memory.py` — all three SUMMARY_STYLE options ready
+- [ ] `1_stateless_agent.py` — working, API key configured
+- [ ] `2_stateful_agent.py` — modified to print token counts  
+- [ ] `3_agent_with_memory.py` — all three SUMMARY_STYLE options ready
 - [ ] Whiteboard/slides for cost growth diagram
 - [ ] `chat-completions-vs-responses-api.md` — as reference material
 

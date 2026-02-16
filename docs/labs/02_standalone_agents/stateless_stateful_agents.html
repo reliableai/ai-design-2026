@@ -890,7 +890,7 @@ response2 = client.responses.create(
         <h3>Exercises</h3>
 
         <ol>
-            <li><strong>Measure growth:</strong> Modify <code>stateful_agent.py</code> to print token counts on each turn (check <code>response.usage</code>). Have a 20-turn conversation. Plot input tokens vs turn number. Is it linear? Quadratic?</li>
+            <li><strong>Measure growth:</strong> Modify <code>2_stateful_agent.py</code> to print token counts on each turn (check <code>response.usage</code>). Have a 20-turn conversation. Plot input tokens vs turn number. Is it linear? Quadratic?</li>
             
             <li><strong>Window experiment:</strong> Use the memory agent with window sizes of 2, 6, and 12. Have a conversation where early information matters (e.g., "My name is Alice" then 15 turns later "What's my name?"). When does it fail?</li>
             
@@ -923,6 +923,7 @@ response2 = client.responses.create(
 
         <h3>Code for this lesson</h3>
         <ul>
+            <li><a href="lesson2_demo.ipynb"><code>lesson2_demo.ipynb</code></a> — single notebook demo for class walkthrough</li>
             <li><code>docs/labs/02_standalone_agents/1_stateless_agent.py</code> — no memory baseline</li>
             <li><code>docs/labs/02_standalone_agents/2_stateful_agent.py</code> — full history</li>
             <li><code>docs/labs/02_standalone_agents/3_agent_with_memory.py</code> — window + summary (short-term)</li>
