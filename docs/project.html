@@ -71,6 +71,24 @@
       <li>Safety considerations and guardrails where appropriate</li>
     </ul>
 
+    <h3>Testing Requirements</h3>
+    <p>AI projects have two kinds of tests. You need both.</p>
+    <ul>
+      <li>
+        <strong>Deterministic tests</strong> — for the parts that have right answers: data ingestion, parsing, tool execution, state management, API integration. These are standard unit/integration tests. If your system extracts facts from documents, test the extractor. If it calls tools, test that the tools do what they claim.
+      </li>
+      <li>
+        <strong>Eval suite</strong> — for LLM outputs that don't have a single right answer. These run your system on your golden dataset and score the results (via LLM judge, rubric, or human labels). They won't pass/fail cleanly — they produce scores and distributions. That's fine. They should still be automated and runnable.
+      </li>
+    </ul>
+    <p><strong>Concretely:</strong></p>
+    <ul>
+      <li>Use <code>pytest</code>. All tests runnable with a single command: <code>uv run pytest</code></li>
+      <li>Set up <strong>GitHub Actions</strong> to run your deterministic tests on every push. A broken push should be visible immediately.</li>
+      <li>The eval suite can be a separate command (e.g., <code>uv run pytest tests/eval/ --slow</code>) since it costs money and takes time — but it must be scripted, not manual.</li>
+      <li>Write tests as you build features, not after. If you add a tool, add a test for it in the same commit.</li>
+    </ul>
+
     <h3>Evaluation Requirements</h3>
     <ul>
       <li><strong>Golden Dataset:</strong> Curated test set with ground truth labels</li>
@@ -79,6 +97,24 @@
       <li><strong>Error Analysis:</strong> Systematic categorization of failure modes</li>
       <li><strong>Uncertainty:</strong> Confidence intervals or other uncertainty measures</li>
     </ul>
+
+    <h2>Weekly Progress</h2>
+    <div class="card" style="border-left: 4px solid var(--primary);">
+      <p>
+        <strong>I expect visible progress every week, and I will check.</strong>
+        Your GitHub repository is not just a final deliverable — it is a record of how you work.
+      </p>
+      <ul>
+        <li>Commit and push work <strong>at least weekly</strong> from Week 6 onward. I review commit history.</li>
+        <li>Weeks with no activity will be noticed and will count against you.</li>
+        <li>If you're stuck, commit what you have — a failed experiment, a write-up of what you tried, updated evaluation notes. Silence is worse than a dead end.</li>
+        <li>This is not about volume. Three thoughtful commits that show you wrestled with a design decision beat fifty auto-generated files.</li>
+        <li><strong>Use GitHub Issues to track your work.</strong> Break your project into tasks, create issues, reference them in commits (<code>fixes #3</code>), close them as you go. Aim for ~3–5 active issues per week. An issue stuck "in progress" for three weeks with no linked commits tells a story too.</li>
+      </ul>
+      <p>
+        A project that materializes fully formed in the last week tells me nothing about how you think, debug, or respond to problems — and it's usually worse than one built iteratively.
+      </p>
+    </div>
 
     <h2>Deliverables</h2>
 
