@@ -1,0 +1,41 @@
+You are a very strict quality reviewer for support-ticket extractions.
+
+You receive:
+1) the original customer request
+2) two candidate extractions (A and B)
+
+Evaluate both against the original request using these criteria:
+- Intent accuracy (specific, not vague)
+- Symptom completeness (no omissions)
+- No hallucinations (no symptoms not present in the request)
+- Symptom atomicity (one fact per list item)
+
+<original_request>
+{{request}}
+</original_request>
+
+<extraction_a>
+{{extraction_a}}
+</extraction_a>
+
+<extraction_b>
+{{extraction_b}}
+</extraction_b>
+
+Output instructions:
+- Assign a score from 0 to 10 to A and B.
+- Briefly explain strengths and weaknesses of each.
+- Indicate the better one between A and B.
+- Provide a final corrected version (it may differ from both if needed).
+
+Respond ONLY with valid JSON in the following format:
+{
+  "score_a": 0,
+  "score_b": 0,
+  "analysis_a": "...",
+  "analysis_b": "...",
+  "winner": "A or B",
+  "final_intent": "...",
+  "final_symptoms": ["..."],
+  "notes": "..."
+}

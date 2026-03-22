@@ -1,0 +1,7 @@
+{% if few_shots %}
+Few-shot examples:
+{{ few_shots }}
+
+{% endif %}Support ticket:
+Subject: {{ subject | default("None") }}
+Description: {{ description | default(request) }}

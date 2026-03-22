@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<!--
+  Content by Fabio Casati
+  https://www.linkedin.com/in/sphoebs/
+  https://x.com/sphoebs
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L3: Review &amp; Judge Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../lecture-style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <style>
+        .example-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 0.75rem 0;
+        }
+        .example-card .meta {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .example-card .text {
+            font-style: italic;
+            line-height: 1.6;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .stat-box .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.25);
+            border-radius: 4px;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.8rem;
+            margin: 0.15rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .challenge-box {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+        .challenge-box h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">L3: Review &amp; Judge</div>
+    <ul>
+        <li><a href="#critique">Critique</a></li>
+        <li><a href="#feedback-loop">Feedback Loop</a></li>
+        <li><a href="#datasets">Datasets</a></li>
+        <li><a href="#bitext">Bitext</a></li>
+        <li><a href="#tobi-bueck">Tobi-Bueck</a></li>
+        <li><a href="#cfpb">CFPB</a></li>
+        <li><a href="#twitter">Twitter</a></li>
+        <li><a href="#usage">Usage</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <div class="title-section" id="critique">
+        <h1>Review &amp; Judge</h1>
+        <p class="subtitle">From single-shot prompts to self-critique, feedback loops, and systematic evaluation</p>
+        <p style="margin-top: 1rem;"><a href="https://classroom.github.com/a/5OF77ZDV" target="_blank" style="font-weight: 600;">Accept GitHub Classroom Assignment &rarr;</a></p>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- IN-PROMPT CRITIQUE -->
+    <!-- ================================================================ -->
+    <section>
+        <h2>The critique &amp; review pattern</h2>
+
+        <p>A single-shot prompt gives you one attempt. If the model misses a fact, hallucinates a detail, or misformats the output &mdash; that's what you get. The <strong>critique and review</strong> pattern asks the model to check its own work before delivering a final answer.</p>
+
+        <p>The idea is simple: instead of <em>answer once</em>, do <em>answer &rarr; critique &rarr; revise</em> &mdash; all within a single prompt.</p>
+
+        <h3>Example: self-critique in one prompt</h3>
+
+        <pre><code class="language-text">You are a knowledgeable and rigorous assistant.
+
+&lt;task&gt;
+{{QUESTION}}
+&lt;/task&gt;
+
+&lt;process&gt;
+1. Draft your answer.
+2. Adopt the role of a strict peer reviewer. Check for:
+   - Factual accuracy
+   - Internal consistency
+   - Edge cases and exceptions
+   - Clarity for the intended audience
+3. Revise once based on the critique.
+&lt;/process&gt;
+
+Respond ONLY with a valid JSON object, no markdown, no preamble:
+{
+  "answer": "&lt;your initial answer here&gt;",
+  "critical_review": "&lt;your critique here&gt;",
+  "answer_v2": "&lt;your revised answer here&gt;"
+}</code></pre>
+
+        <h3>Why this works</h3>
+        <ul>
+            <li><strong>Forces deliberation.</strong> The model must produce an explicit critique before revising. This surfaces errors the model &ldquo;knows about&rdquo; but wouldn't catch in a single pass.</li>
+            <li><strong>Transparent reasoning.</strong> You get the draft, the critique, <em>and</em> the revision &mdash; so you can inspect what changed and why.</li>
+            <li><strong>Cheap to add.</strong> It's just prompt text. No extra API calls, no infrastructure. One call, three outputs.</li>
+        </ul>
+
+        <h3>Limitations</h3>
+        <ul>
+            <li><strong>Same model, same blind spots.</strong> The &ldquo;reviewer&rdquo; is the same model that made the error. It can catch surface-level mistakes (formatting, obvious contradictions) but it tends to miss the same conceptual errors twice.</li>
+            <li><strong>Token cost.</strong> You pay for the draft + critique + revision, roughly 2&ndash;3&times; the tokens of a single answer.</li>
+            <li><strong>Single iteration.</strong> The prompt says &ldquo;revise once.&rdquo; What if the revision introduced new problems? You'd need another round &mdash; but you can't loop inside a single prompt.</li>
+        </ul>
+
+        <div class="challenge-box">
+            <h4>The core tension</h4>
+            <p>In-prompt self-critique is better than nothing, but it's <strong>bounded by the model's own reasoning in a single forward pass</strong>. The model can't go back and re-read its draft with fresh eyes. It can't run the output through a different evaluator. It can't try three approaches and pick the best. For that, you need an external loop.</p>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- FEEDBACK LOOP -->
+    <!-- ================================================================ -->
+    <section id="feedback-loop">
+        <h2>From in-prompt critique to feedback loops</h2>
+
+        <p>What if, instead of asking the model to critique itself in one shot, you <strong>run the critique as a separate LLM call</strong> &mdash; and then feed the critique back as input for revision?</p>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span style="background: var(--accent); color: var(--bg); padding: 0.4rem 0.8rem; border-radius: 6px;">Prompt</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(125, 211, 252, 0.15); border: 1px solid rgba(125, 211, 252, 0.3); padding: 0.4rem 0.8rem; border-radius: 6px;">LLM: generate</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.4rem 0.8rem; border-radius: 6px;">LLM: judge</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(74, 222, 128, 0.15); border: 1px solid rgba(74, 222, 128, 0.3); padding: 0.4rem 0.8rem; border-radius: 6px;">LLM: revise</span>
+                <span style="color: var(--text-muted);">&circlearrowleft; repeat</span>
+            </div>
+        </div>
+
+        <p>This is fundamentally different from in-prompt self-critique:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>In-prompt critique</th>
+                    <th>External feedback loop</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Calls</strong></td>
+                    <td>1 LLM call</td>
+                    <td>2&ndash;N calls per iteration</td>
+                </tr>
+                <tr>
+                    <td><strong>Reviewer</strong></td>
+                    <td>Same model, same context</td>
+                    <td>Can be a different model or prompt</td>
+                </tr>
+                <tr>
+                    <td><strong>Iterations</strong></td>
+                    <td>Fixed (usually 1)</td>
+                    <td>Loop until quality threshold met</td>
+                </tr>
+                <tr>
+                    <td><strong>Visibility</strong></td>
+                    <td>All in one response</td>
+                    <td>Each step is a separate, inspectable artifact</td>
+                </tr>
+                <tr>
+                    <td><strong>Flexibility</strong></td>
+                    <td>Locked to one approach</td>
+                    <td>Can try multiple variations, pick the best</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Example: the review-and-revise prompt</h3>
+
+        <p>This is <strong>not</strong> a judge that scores an output. It's the second call in a two-call loop: it receives an original task and a first attempt, then critically reviews it and produces an improved version.</p>
+
+        <p><strong>Call 1</strong> &mdash; generate the first attempt (any prompt you like):</p>
+
+        <pre><code class="language-text">You are a support-ticket triage assistant.
+
+Given the customer request below, extract:
+- intent: the customer's primary goal (short verb phrase)
+- symptoms: list of concrete, observable problems
+
+Respond in JSON with keys "intent" and "symptoms".
+
+Customer request:
+{{request}}</code></pre>
+
+        <p><strong>Call 2</strong> &mdash; review and revise (a separate LLM call that receives the output of Call 1):</p>
+
+        <pre><code class="language-text">You are a strict quality reviewer for support-ticket extractions.
+
+Below is a customer support request and an extraction produced by
+another system. Your job is to critically review the extraction
+and produce a corrected version.
+
+&lt;original_request&gt;
+{{request}}
+&lt;/original_request&gt;
+
+&lt;extraction_to_review&gt;
+{{extraction}}
+&lt;/extraction_to_review&gt;
+
+Review the extraction against the original request:
+1. Is the intent accurate? Is it specific enough, or too vague?
+2. Are all symptoms from the request captured? Any missed?
+3. Are any symptoms hallucinated (not actually in the request)?
+4. Is each symptom atomic (one fact per item)?
+
+Then produce a corrected extraction.
+
+Respond ONLY with a valid JSON object:
+{
+  "review": "your critique of the original extraction",
+  "corrected_intent": "the revised intent",
+  "corrected_symptoms": ["revised", "symptom", "list"]
+}</code></pre>
+
+        <div class="challenge-box">
+            <h4>What makes this different from in-prompt self-critique?</h4>
+            <ul style="margin: 0.5rem 0 0 1.2rem;">
+                <li><strong>Fresh context.</strong> The reviewer starts from scratch &mdash; it doesn't carry forward the reasoning that led to the original mistakes.</li>
+                <li><strong>Different instructions.</strong> Call 1 says &ldquo;extract.&rdquo; Call 2 says &ldquo;find what's wrong and fix it.&rdquo; Different task framing = different failure modes.</li>
+                <li><strong>Chainable.</strong> You can feed the corrected output back into the same review prompt for another round, or pass it to a <em>different</em> reviewer with stricter criteria. The loop is external, so you control when to stop.</li>
+                <li><strong>Observable.</strong> Each call is a separate API request with its own input/output. You can log, compare, and debug each step independently.</li>
+            </ul>
+        </div>
+
+        <p>This two-call pattern is the simplest feedback loop. The lab extends it further: instead of reviewing individual outputs, we run the extraction over <strong>hundreds of items</strong>, judge them all, and use the aggregate failure patterns to improve the <em>prompt itself</em>.</p>
+
+        <h3>The extract &rarr; judge &rarr; improve loop</h3>
+
+        <p>For the rest of this lab, we apply this pattern to <strong>information extraction from support tickets</strong>. The loop works like this:</p>
+
+        <ol>
+            <li><strong>Extract</strong> &mdash; run a prompt template on a batch of support requests. The LLM produces structured JSON (intent + symptoms) for each request.</li>
+            <li><strong>Judge</strong> &mdash; a separate LLM call (the &ldquo;judge prompt&rdquo;) rates each extraction for completeness, accuracy, and format. This is the external critic.</li>
+            <li><strong>Analyze</strong> &mdash; look at failure patterns. What kinds of requests does the prompt struggle with? What errors keep recurring?</li>
+            <li><strong>Improve</strong> &mdash; feed the failures and a best-practices catalog to another LLM call that generates prompt variations &mdash; each trying a different technique to fix the identified issues.</li>
+            <li><strong>Re-test</strong> &mdash; run each variation on the same data, judge again, and pick the winner.</li>
+        </ol>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span style="background: var(--accent); color: var(--bg); padding: 0.3rem 0.7rem; border-radius: 6px;">extract</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.3rem 0.7rem; border-radius: 6px;">judge</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); padding: 0.3rem 0.7rem; border-radius: 6px;">analyze</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(74, 222, 128, 0.15); border: 1px solid rgba(74, 222, 128, 0.3); padding: 0.3rem 0.7rem; border-radius: 6px;">improve</span>
+                <span>&rarr;</span>
+                <span style="background: rgba(251, 146, 60, 0.15); border: 1px solid rgba(251, 146, 60, 0.3); padding: 0.3rem 0.7rem; border-radius: 6px;">re-test</span>
+                <span style="color: var(--text-muted);">&circlearrowleft;</span>
+            </div>
+        </div>
+
+        <h3>Key insight: the judge is a separate prompt</h3>
+
+        <p>The judge doesn't see the extraction prompt's instructions &mdash; it sees the <em>original request</em> and the <em>extracted output</em>, and rates whether the output faithfully captures what the request says. This separation is what makes the feedback loop powerful: the critic has a different perspective than the generator.</p>
+
+        <p>This also means you can swap judges: use an LLM-as-judge for open-ended quality, or compare against ground-truth labels when they exist. Both tell you something different about your prompt's performance.</p>
+
+        <h3>Why run this at scale?</h3>
+
+        <p>One example tells you nothing. Ten examples might mislead you. When you run the loop over <strong>hundreds of items</strong>, failure patterns emerge that you'd never spot from a few samples: the prompt consistently mishandles ambiguous requests, or drops symptoms from long texts, or hallucinates intents for short inputs. That's what motivates the datasets below.</p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- DATASETS OVERVIEW -->
+    <!-- ================================================================ -->
+    <section id="datasets">
+        <h2>Datasets</h2>
+
+        <p>The same extraction prompt behaves very differently across these datasets &mdash; that's what motivates prompt adaptation and the auto-improvement loop. As text gets messier, longer, and more domain-specific, extraction quality drops &mdash; unless the prompt adapts.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Dataset</th>
+                    <th>Size</th>
+                    <th>Avg text length</th>
+                    <th>Text style</th>
+                    <th>Difficulty</th>
+                    <th>License</th>
+                    <th>Labels</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#bitext">Bitext</a></td>
+                    <td>26,872</td>
+                    <td>~45 chars</td>
+                    <td>Short, 1-2 sentences</td>
+                    <td><span style="color: var(--success);">Easy</span></td>
+                    <td>Apache 2.0</td>
+                    <td>27 intents, 11 categories</td>
+                </tr>
+                <tr>
+                    <td><a href="#tobi-bueck">Tobi-Bueck</a></td>
+                    <td>61,765</td>
+                    <td>~470 chars</td>
+                    <td>Email w/ subject + body</td>
+                    <td><span style="color: var(--warning);">Medium</span></td>
+                    <td>Free / HuggingFace</td>
+                    <td>Priority, type, department</td>
+                </tr>
+                <tr>
+                    <td><a href="#cfpb">CFPB</a></td>
+                    <td>3.7M</td>
+                    <td>~1,060 chars</td>
+                    <td>Real narratives, PII-redacted</td>
+                    <td><span style="color: var(--danger);">Hard</span></td>
+                    <td>US Gov public domain</td>
+                    <td>Product, issue, sub-issue</td>
+                </tr>
+                <tr>
+                    <td><a href="#twitter">Twitter</a></td>
+                    <td>~3M</td>
+                    <td>~140 chars</td>
+                    <td>Tweets, informal, noisy</td>
+                    <td><span style="color: var(--danger);">Hardest</span></td>
+                    <td>CC0</td>
+                    <td>None</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- BITEXT -->
+    <!-- ================================================================ -->
+    <section id="bitext">
+        <h2>1. Bitext Customer Support</h2>
+
+        <p>26,872 short customer requests generated with realistic language variations &mdash; typos, slang, abbreviations, and different phrasings of the same intent. Each row is labeled with one of <strong>27 intents</strong> across <strong>11 categories</strong>.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="number">26,872</div>
+                <div class="label">total rows</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">27</div>
+                <div class="label">intent types</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">11</div>
+                <div class="label">categories</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">~45</div>
+                <div class="label">avg chars / text</div>
+            </div>
+        </div>
+
+        <h3>Categories</h3>
+        <p>
+            <span class="tag">ACCOUNT</span>
+            <span class="tag">CANCEL</span>
+            <span class="tag">CONTACT</span>
+            <span class="tag">DELIVERY</span>
+            <span class="tag">FEEDBACK</span>
+            <span class="tag">INVOICE</span>
+            <span class="tag">ORDER</span>
+            <span class="tag">PAYMENT</span>
+            <span class="tag">REFUND</span>
+            <span class="tag">SHIPPING</span>
+            <span class="tag">SUBSCRIPTION</span>
+        </p>
+
+        <h3>Intent distribution (full dataset &mdash; 26,872 rows)</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Nearly perfectly balanced: ~950&ndash;1,000 examples per intent.</p>
+        <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">check_invoice</span><div style="height: 18px; width: 100%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">1000</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">complaint</span><div style="height: 18px; width: 100%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">1000</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">contact_customer_svc</span><div style="height: 18px; width: 100%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">1000</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">edit_account</span><div style="height: 18px; width: 100%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">1000</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">switch_account</span><div style="height: 18px; width: 100%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">1000</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">check_payment_methods</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">contact_human_agent</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">delivery_period</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">get_invoice</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">newsletter_subscription</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">payment_issue</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">registration_problems</span><div style="height: 18px; width: 99.9%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">999</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">cancel_order</span><div style="height: 18px; width: 99.8%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">998</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">place_order</span><div style="height: 18px; width: 99.8%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">998</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">track_refund</span><div style="height: 18px; width: 99.8%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">998</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">change_order</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">check_refund_policy</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">create_account</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">get_refund</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">review</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">set_up_shipping_addr</span><div style="height: 18px; width: 99.7%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">997</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">delete_account</span><div style="height: 18px; width: 99.5%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">995</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">delivery_options</span><div style="height: 18px; width: 99.5%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">995</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">recover_password</span><div style="height: 18px; width: 99.5%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">995</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">track_order</span><div style="height: 18px; width: 99.5%; background: var(--accent); border-radius: 3px; opacity: 0.85;"></div><span style="min-width: 40px; color: var(--text-muted);">995</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">change_shipping_addr</span><div style="height: 18px; width: 97.3%; background: var(--accent); border-radius: 3px; opacity: 0.7;"></div><span style="min-width: 40px; color: var(--text-muted);">973</span></div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 190px; text-align: right; color: var(--text-secondary);">check_cancellation_fee</span><div style="height: 18px; width: 95.0%; background: var(--accent); border-radius: 3px; opacity: 0.6;"></div><span style="min-width: 40px; color: var(--text-muted);">950</span></div>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.75rem;">The dataset is nearly perfectly balanced. This is by design &mdash; it makes it a clean baseline for measuring extraction accuracy without worrying about class imbalance.</p>
+
+        <h3>Why it's useful</h3>
+        <ul>
+            <li><strong>Ground truth:</strong> Every row has a labeled intent + category, so you can measure extraction accuracy against known labels.</li>
+            <li><strong>Language variation:</strong> Same intents expressed with typos (<em>"assistancde"</em>), profanity (<em>"a fucking product"</em>), slang (<em>"od ya deliver"</em>), and formal phrasing.</li>
+            <li><strong>Template placeholders:</strong> Uses <code>{{Order Number}}</code>, <code>{{Delivery Country}}</code>, etc. &mdash; the model must extract intent without real entity values.</li>
+            <li><strong>Baseline dataset:</strong> Short, clean, labeled &mdash; if your prompt can't nail this one, something is fundamentally wrong.</li>
+        </ul>
+
+        <h3>Sample content</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">One example per category:</p>
+
+        <div class="example-card">
+            <p class="meta">intent: cancel_order &middot; category: ORDER</p>
+            <p class="text">need help with canceling order {{Order Number}}</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: change_order &middot; category: ORDER</p>
+            <p class="text">I want to switch an article of purchase {{Order Number}}</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: recover_password &middot; category: ACCOUNT</p>
+            <p class="text">I want to retrieve my user PIN, how to do it?</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: check_cancellation_fee &middot; category: CANCEL</p>
+            <p class="text">withrdawal penalty</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: contact_customer_service &middot; category: CONTACT</p>
+            <p class="text">tell me at what time i can reach customer support</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: delivery_options &middot; category: DELIVERY</p>
+            <p class="text">od ya deliver to {{Delivery Country}}</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: complaint &middot; category: FEEDBACK</p>
+            <p class="text">assistance filing a claim against your organization</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: check_invoice &middot; category: INVOICE</p>
+            <p class="text">checking invoice #37777</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: check_payment_methods &middot; category: PAYMENT</p>
+            <p class="text">can I check the available payment options ?</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: get_refund &middot; category: REFUND</p>
+            <p class="text">when wil i get a rebate</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: set_up_shipping_address &middot; category: SHIPPING</p>
+            <p class="text">i have an error setting up my shipping address</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">intent: newsletter_subscription &middot; category: SUBSCRIPTION</p>
+            <p class="text">can ya help me to cancel the company newsletter subscription</p>
+        </div>
+
+        <h3>Schema</h3>
+        <pre><code class="language-json">{
+  "id": "bitext_0042",
+  "source": "bitext",
+  "text": "need help with canceling order {{Order Number}}",
+  "ground_truth_intent": "cancel_order",
+  "category": "ORDER"
+}</code></pre>
+
+        <h3>Download</h3>
+        <pre><code class="language-python">from datasets import load_dataset
+ds = load_dataset("bitext/Bitext-customer-support-llm-chatbot-training-dataset", split="train")</code></pre>
+        <p>Browse: <a href="https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset" target="_blank">HuggingFace</a> &middot; <a href="https://www.kaggle.com/datasets/bitext/bitext-gen-ai-chatbot-customer-support-dataset" target="_blank">Kaggle</a></p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- TOBI-BUECK -->
+    <!-- ================================================================ -->
+    <section id="tobi-bueck">
+        <h2>2. Tobi-Bueck Multilingual Support Tickets</h2>
+
+        <p>61,765 email-style support tickets with subject line, body, department, priority, and ticket type. Multilingual (we filter to English). Synthetic but realistic &mdash; the kind of emails that land in a shared support inbox.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="number">61,765</div>
+                <div class="label">total rows</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">5</div>
+                <div class="label">ticket types</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">5</div>
+                <div class="label">priority levels</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">~470</div>
+                <div class="label">avg chars / text</div>
+            </div>
+        </div>
+
+        <h3>Ticket types &amp; priorities</h3>
+        <p>
+            Types:
+            <span class="tag">Incident</span>
+            <span class="tag">Problem</span>
+            <span class="tag">Request</span>
+            <span class="tag">Change</span>
+            &nbsp;&nbsp;Priorities:
+            <span class="tag">critical</span>
+            <span class="tag">high</span>
+            <span class="tag">medium</span>
+            <span class="tag">low</span>
+            <span class="tag">very_low</span>
+        </p>
+
+        <h3>Why it's useful</h3>
+        <ul>
+            <li><strong>Multi-paragraph:</strong> Symptoms are buried in polite preamble, signatures, and context. The model must separate signal from noise.</li>
+            <li><strong>Subject + body structure:</strong> The subject often summarizes the issue, but the body contains the details. Prompts must handle both.</li>
+            <li><strong>Diverse domains:</strong> IT infrastructure, software integrations, data analytics, hardware &mdash; the model needs to handle domain-specific jargon.</li>
+            <li><strong>Validation metadata:</strong> Priority and ticket type serve as proxy labels for judging extraction quality.</li>
+        </ul>
+
+        <div class="challenge-box">
+            <h4>Extraction challenge</h4>
+            <p>Many tickets open with "Dear Customer Support, I am writing to report&hellip;" before getting to the actual problem. A naive prompt will waste tokens on preamble. The subject line often contains the key information in compressed form.</p>
+        </div>
+
+        <h3>Sample content</h3>
+
+        <div class="example-card">
+            <p class="meta">priority: high &middot; type: Incident</p>
+            <p class="text"><strong>Subject: None</strong><br>Customer Support reports intermittent service outages affecting multiple users. Recent deployment appears to have caused connectivity issues. Restarting the server and applying updates resolved the problem. Further investigation is required to identify the root cause and implement a solution.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">priority: medium &middot; type: Problem</p>
+            <p class="text"><strong>Subject: Report on Integration Snag Between Monday.com and SAP ERP</strong><br>I am contacting you to report an integration failure between Monday.com and SAP ERP. It might be due to a mismatch in the API versions. I have already tried to resolve the issue by restarting the systems, reviewing logs, and confirming credentials, yet the problem still exists.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">priority: medium &middot; type: Request</p>
+            <p class="text"><strong>Subject: Query on Gaming Product Digital Promotion Tactics</strong><br>Could you furnish more information on digital strategies for promoting gaming products? Thank you!</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">priority: medium &middot; type: Incident</p>
+            <p class="text"><strong>Subject: Assistance Needed for Audio Latency Issues with ASUS Xonar AE on MacBook Air</strong><br>Experiencing audio latency issues with devices, including ASUS Xonar AE on MacBook Air, affecting project calls.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">priority: low &middot; type: Change</p>
+            <p class="text"><strong>Subject: Request for Integration Google Keep and ClickUp</strong><br>I would like to request an integration between Google Keep and ClickUp. This integration would enhance the efficiency of project management and note-taking. It would allow users to manage Google Keep notes directly within ClickUp, streamline workflows and increase productivity.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">priority: low &middot; type: Incident</p>
+            <p class="text"><strong>Subject: Challenge with Login on Mobile Application</strong><br>I am encountering a login problem in the mobile app which I think is a result of the latest update. I've attempted to restart the app and clear the cache, but the issue remains unresolved.</p>
+        </div>
+
+        <h3>Schema</h3>
+        <pre><code class="language-json">{
+  "id": "tbueck_0123",
+  "source": "tobi_bueck",
+  "text": "Subject: Report on Integration Snag...\n\nI am contacting you to report...",
+  "department": null,
+  "priority": "medium",
+  "ticket_type": "Problem"
+}</code></pre>
+
+        <h3>Download</h3>
+        <pre><code class="language-python">from datasets import load_dataset
+ds = load_dataset("Tobi-Bueck/customer-support-tickets", split="train")</code></pre>
+        <p>Browse: <a href="https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets" target="_blank">HuggingFace</a> &middot; <a href="https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets" target="_blank">Kaggle</a></p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- CFPB -->
+    <!-- ================================================================ -->
+    <section id="cfpb">
+        <h2>3. CFPB Consumer Complaints</h2>
+
+        <p>3.7 million <strong>real</strong> consumer complaints submitted to the US Consumer Financial Protection Bureau. These are actual people writing about actual problems with actual financial institutions. PII is redacted with <code>XXXX</code>. This is the hardest dataset with labels.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="number">3.7M</div>
+                <div class="label">complaints with narratives</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">14+</div>
+                <div class="label">product categories</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">~1,060</div>
+                <div class="label">avg chars / text</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">29,861</div>
+                <div class="label">max chars (longest)</div>
+            </div>
+        </div>
+
+        <h3>Product categories</h3>
+        <p>
+            <span class="tag">Mortgage</span>
+            <span class="tag">Credit card or prepaid card</span>
+            <span class="tag">Debt collection</span>
+            <span class="tag">Checking or savings account</span>
+            <span class="tag">Credit reporting</span>
+            <span class="tag">Vehicle loan or lease</span>
+            <span class="tag">Money transfer / virtual currency</span>
+            <span class="tag">Student loan</span>
+            <span class="tag">Payday loan</span>
+            <span class="tag">Personal loan</span>
+        </p>
+
+        <h3>Why it's useful</h3>
+        <ul>
+            <li><strong>Real data:</strong> Not synthetic. People ramble, express frustration, mix multiple issues, provide irrelevant context, and make grammatical errors.</li>
+            <li><strong>PII redaction noise:</strong> Names, dates, account numbers are replaced with <code>XXXX</code>. The model must extract meaning despite missing entities.</li>
+            <li><strong>Multi-issue complaints:</strong> Many narratives describe 2-3 interrelated problems. Testing whether your prompt handles multi-intent extraction.</li>
+            <li><strong>Long text:</strong> Average ~1,000 chars, some up to 30,000. Stress-tests prompt instructions when the input is very long.</li>
+            <li><strong>Domain-specific vocabulary:</strong> Financial terms (lien release, charge-off, escrow, FDCPA) that a generic prompt won't understand well.</li>
+        </ul>
+
+        <div class="challenge-box">
+            <h4>Extraction challenges</h4>
+            <ul style="margin: 0.5rem 0 0 1.2rem;">
+                <li><code>XXXX</code> redaction makes it hard to tell dates from names from account numbers</li>
+                <li>Complaints often embed forwarded emails, legal citations, or timeline narratives</li>
+                <li>Emotional language ("I am EXTREMELY frustrated") mixes with factual claims</li>
+                <li>Some complaints are near-incomprehensible due to poor grammar or stream-of-consciousness writing</li>
+            </ul>
+        </div>
+
+        <h3>Sample content</h3>
+
+        <div class="example-card">
+            <p class="meta">product: Credit card or prepaid card &middot; issue: Problem with a purchase shown on your statement</p>
+            <p class="text">My card was stolen and used I notify the credit card company as soon as I realized what it happened and we started the process it's been a back-and-forth but I have sent the filled out paperwork to them multiple times at this point in each time they come up with a different excuse why they can't help they have a legal obligation to investigate and remove the fraudulent charges from my account&hellip;</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">product: Debt collection &middot; issue: Attempts to collect debt not owed</p>
+            <p class="text">Contacting credit bureaus with outdated information. The account is too old to be on file at least 10 years old!!. Jefferson Capital just wants me to contact them so they can try and collect on a ten year debit that all three credit bureaus removed last year from my file last year only for Jefferson Capital to try this stunt after the new year. No record of no payment EVER.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">product: Vehicle loan or lease &middot; issue: Problems at the end of the loan or lease</p>
+            <p class="text">I refinanced my loan in XXXX with a different company, the car is now paid off and they are still maintaining a lien in North Dakota. I contacted them to get a lien release, and they informed me XXXX XXXX (who took over the loan) would have to request the lien release. I contacted XXXX XXXX, and they informed I would have to contact Westlake Financial to get the lien release.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">product: Checking or savings account &middot; issue: Managing an account</p>
+            <p class="text">I have tried several communication with Citibank to add my spouse as co-signer or joint account holder but Citibank has failed to do the same. After multiple communications over the customer service phone call, I have been told that the application for adding my spouse has been rejected. Considering, I live in the state of XXXX XXXX where Citibank branches do not exist the paperwork has to be sent by mail&hellip;</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">product: Money transfer / virtual currency &middot; issue: Unauthorized transactions</p>
+            <p class="text">On XXXX XXXX I mistakenly sent {$40.00} to the wrong person. I was trying to send money on cash app to my grand daughter but it went to a person with her name. I have requested a refund 3 times but am being ignored. Cash app will not reimburse the funds once the transaction completes.</p>
+        </div>
+        <div class="example-card">
+            <p class="meta">product: Mortgage &middot; issue: Trouble during payment process</p>
+            <p class="text">From : XXXX XXXX XXXX XXXX : XXXXXXXXXXXX XXXX Sent : Tuesday, XXXX XXXX, XXXX XXXX PM To : 'XXXX, XXXX (CFPB)' ; XXXXXXXXXXXX ; XXXXXXXXXXXX&hellip;</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Note: some complaints are copy-pasted email threads &mdash; heavily redacted, very noisy.</p>
+        </div>
+
+        <h3>Schema</h3>
+        <pre><code class="language-json">{
+  "id": "cfpb_0099",
+  "source": "cfpb",
+  "text": "My card was stolen and used I notify the credit card company...",
+  "product": "Credit card or prepaid card",
+  "issue": "Problem with a purchase shown on your statement",
+  "sub_issue": "Card was charged for something you did not purchase with the card"
+}</code></pre>
+
+        <h3>Download</h3>
+        <p>Direct CSV download from the US government:</p>
+        <p><a href="https://www.consumerfinance.gov/data-research/consumer-complaints/" target="_blank">consumerfinance.gov/data-research/consumer-complaints/</a></p>
+        <p>Or use the lab download script:</p>
+        <pre><code class="language-bash">cd labs/03_review_and_judge
+uv run python download_datasets.py</code></pre>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- TWITTER -->
+    <!-- ================================================================ -->
+    <section id="twitter">
+        <h2>4. Twitter Customer Support</h2>
+
+        <p>1.5 million inbound customer tweets (from a total of ~3M including brand responses) directed at support accounts for Apple, Amazon, Uber, Delta, Spotify, Xbox, and dozens more. No labels at all.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="number">1.54M</div>
+                <div class="label">inbound customer tweets</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">~140</div>
+                <div class="label">avg chars / tweet</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">0</div>
+                <div class="label">labels</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">dozens</div>
+                <div class="label">brands</div>
+            </div>
+        </div>
+
+        <h3>Why it's useful</h3>
+        <ul>
+            <li><strong>Hardest extraction challenge:</strong> Tweets are short, informal, full of abbreviations, typos, and emotional language.</li>
+            <li><strong>Missing context:</strong> Customers assume the brand knows what product/service they mean. The model has to infer from minimal cues.</li>
+            <li><strong>No labels:</strong> Pure unsupervised extraction &mdash; you can only judge quality, not compare to ground truth.</li>
+            <li><strong>Real-world noise:</strong> @mentions, hashtags, URLs, emojis, ALL CAPS for emphasis.</li>
+        </ul>
+
+        <div class="challenge-box">
+            <h4>Extraction challenges</h4>
+            <ul style="margin: 0.5rem 0 0 1.2rem;">
+                <li>Extremely short &mdash; sometimes just "this is broken. fix it." with no other context</li>
+                <li>Multi-turn conversations where the first tweet references a previous interaction</li>
+                <li>Sarcasm, irony, and venting that aren't actual symptom descriptions</li>
+                <li>@mentions and hashtags mixed into the text</li>
+            </ul>
+        </div>
+
+        <h3>Sample content</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Real tweets from the dataset:</p>
+
+        <div class="example-card">
+            <p class="text">@AppleSupport I purchased an in app upgrade and it's taken the money but the upgrade hasn't been applied. Contacted the developer but no reply.</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@AppleSupport 3D Touch stopped working here also. iPhone X, iOS 11.2</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@AppleSupport Hi!! I have all my photo library uploaded on cloud but when I try to open or send my pics, it says that th&hellip;</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@ArgosHelpers absoloute liars told twice a refund is issued yet i call they say its not true they cant give a refund.</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@AmericanAir Door is closing. Fingers crossed they don't give my plane to another flight again.</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@Uber_Support Yesterday i have sent DM with my linked email address. But issue not resolved.</p>
+        </div>
+        <div class="example-card">
+            <p class="text">@XboxSupport so my friend is aloud this. And I can't have this! Like wtf https://t.co/tMeStPOU4h</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Note: many tweets include links, images, or references to previous conversations &mdash; context the model doesn't have.</p>
+        </div>
+
+        <h3>Download</h3>
+        <p>Requires a <a href="https://www.kaggle.com/settings" target="_blank">Kaggle API token</a>. Three options:</p>
+
+        <p><strong>Option A: environment variable</strong> (recommended)</p>
+        <pre><code class="language-bash"># Go to https://www.kaggle.com/settings &rarr; API &rarr; copy your token
+# Add to your .env file:
+KAGGLE_API_TOKEN="your_token_here"</code></pre>
+
+        <p><strong>Option B: token file</strong></p>
+        <pre><code class="language-bash"># Save your token to:
+echo "your_token_here" > ~/.kaggle/access_token
+chmod 600 ~/.kaggle/access_token</code></pre>
+
+        <p><strong>Option C: legacy credentials file</strong> (username + key)</p>
+        <pre><code class="language-bash"># From https://www.kaggle.com/settings &rarr; "Create Legacy API Key"
+# It downloads a kaggle.json file. Then:
+mkdir -p ~/.kaggle
+mv ~/Downloads/kaggle.json ~/.kaggle/kaggle.json
+chmod 600 ~/.kaggle/kaggle.json</code></pre>
+
+        <p>Then run the download script (it loads <code>.env</code> automatically):</p>
+        <pre><code class="language-bash">cd labs/03_review_and_judge
+uv run python download_datasets.py</code></pre>
+        <p>Or download manually: <a href="https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter" target="_blank">kaggle.com/datasets/thoughtvector/customer-support-on-twitter</a></p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Note: the license is <strong>CC-BY-NC-SA-4.0</strong> (non-commercial, share-alike). Fine for academic use.</p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- USAGE -->
+    <!-- ================================================================ -->
+    <section id="usage">
+        <h2>Using the Datasets</h2>
+
+        <h3>Download all datasets</h3>
+        <pre><code class="language-bash">cd labs/03_review_and_judge
+uv run python download_datasets.py</code></pre>
+
+        <p>This creates a <code>datasets/</code> folder. Each dataset gets its own subfolder with the full data and a <code>sample.json</code> (500 rows):</p>
+
+        <pre><code class="language-bash">datasets/
+├── bitext_customer_support/
+│   ├── full.parquet       # 26,872 rows
+│   └── sample.json        # 500 rows
+├── tobi_bueck_tickets/
+│   ├── full.parquet       # 61,765 rows
+│   └── sample.json        # 500 rows
+├── cfpb_complaints/
+│   ├── complaints.csv.zip # ~1.6 GB full dump
+│   └── sample.json        # 500 rows
+└── twitter_customer_support/  # if Kaggle credentials are set
+    ├── *.csv
+    └── sample.json        # 500 rows</code></pre>
+
+        <h3>Uniform schema</h3>
+        <p>Every <code>sample.json</code> has the same core fields:</p>
+        <pre><code class="language-json">{
+  "id": "bitext_0042",
+  "source": "bitext",
+  "text": "the actual customer request text..."
+}</code></pre>
+        <p>The <code>text</code> field is what you feed to the extraction prompt. Additional fields vary by dataset:</p>
+        <table>
+            <thead>
+                <tr><th>Dataset</th><th>Extra fields</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Bitext</td><td><code>ground_truth_intent</code>, <code>category</code></td></tr>
+                <tr><td>Tobi-Bueck</td><td><code>department</code>, <code>priority</code>, <code>ticket_type</code></td></tr>
+                <tr><td>CFPB</td><td><code>product</code>, <code>issue</code>, <code>sub_issue</code></td></tr>
+                <tr><td>Twitter</td><td>(none &mdash; text only)</td></tr>
+            </tbody>
+        </table>
+
+        <h3>The teaching angle</h3>
+        <p>Run the same extraction prompt across all four datasets. Watch the judge scores drop as difficulty increases:</p>
+        <ol>
+            <li><strong>Bitext</strong> &mdash; scores should be high (4-5). If not, the prompt has fundamental issues.</li>
+            <li><strong>Tobi-Bueck</strong> &mdash; scores drop because of verbose text and domain jargon.</li>
+            <li><strong>CFPB</strong> &mdash; scores drop further due to real-world noise, multi-issue complaints, and PII redaction.</li>
+            <li><strong>Twitter</strong> &mdash; the most challenging: informal, short, no context, no labels to validate against.</li>
+        </ol>
+        <p>Then use the auto-improvement loop to adapt the prompt for each dataset &mdash; and see how the optimal prompt differs across domains.</p>
+    </section>
+
+</main>
+
+<script>hljs.highlightAll();</script>
+</body>
+</html>

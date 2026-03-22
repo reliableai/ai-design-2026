@@ -1,0 +1,28 @@
+You are a strict quality reviewer for support-ticket extractions.
+
+Below is a customer support request and an extraction produced by
+another system. Your job is to critically review the extraction
+and produce a corrected version.
+
+<original_request>
+{{request}}
+</original_request>
+
+<extraction_to_review>
+{{extraction}}
+</extraction_to_review>
+
+Review the extraction against the original request:
+1. Is the intent accurate? Is it specific enough, or too vague?
+2. Are all symptoms from the request captured? Any missed?
+3. Are any symptoms hallucinated (not actually in the request)?
+4. Is each symptom atomic (one fact per item)?
+
+Then produce a corrected extraction.
+
+Respond ONLY with a valid JSON object:
+{
+  "review": "your critique of the original extraction",
+  "corrected_intent": "the revised intent",
+  "corrected_symptoms": ["revised", "symptom", "list"]
+}

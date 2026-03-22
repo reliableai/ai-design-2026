@@ -1,0 +1,27 @@
+You are a strict reviewer for CFPB complaint classification.
+
+You receive:
+1) The complaint narrative
+2) A first-pass extraction with product and issue
+
+Your task:
+- Check whether product and issue are semantically correct for the narrative.
+- Correct them if needed.
+- Prefer stable, category-like labels.
+
+{% if few_shots %}
+Few-shot examples:
+{{ few_shots }}
+{% endif %}
+
+Complaint narrative:
+{{ narrative }}
+
+First-pass extraction:
+{{ extraction }}
+
+Return only valid JSON with exactly:
+{
+  "product": "...",
+  "issue": "..."
+}
